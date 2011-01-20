@@ -3,7 +3,7 @@
 RSokoban is a clone of the famous {Sokoban game}[http://en.wikipedia.org/wiki/Sokoban].
 I wrote this program just to improve my skills in Ruby. Currently, you can play only in a console
 window.
-<pre>
+
       #####
       #   #
       #$  #
@@ -15,13 +15,13 @@ window.
   ##### ### #@##  ..#
       #     #########
       #######
-</pre>
+
 Enjoy the game.
 
 == Documentation
-Players can look at {the wiki}[TODO].
+Players can look at {the wiki}[https://github.com/lkdjiin/RSokoban/wiki].
 
-Developers can look at Level and Game.
+Developpers can look at Level and Game.
 
 
 == Dependancies
