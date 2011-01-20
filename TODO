@@ -1,0 +1,33 @@
+
+--- v0.80 ---
+
+translate doc in english
+
+wiki
+
+gem
+
+comment all modules, classes and constants
+
+--help-output
+--portable (default)
+--linux (arrows, curse ?)
+
+--- v0.90 ---
+
+undo
+
+--- v1.0 ---
+
+--tk
+
+skining
+
+--- next ---
+
+format fichier niveau xml (.slc)
+--windows ?
+--gnome ?
+--kde ?
+--fxruby ?
+save, reload

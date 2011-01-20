@@ -1,0 +1,45 @@
+= Welcome to RSokoban !
+
+RSokoban is a clone of the famous {Sokoban game}[http://en.wikipedia.org/wiki/Sokoban].
+I wrote this program just to improve my skills in Ruby. Currently, you can play only in a console
+window.
+<pre>
+      #####
+      #   #
+      #$  #
+    ###  $##
+    #  $ $ #
+  ### # ## #   ######
+  #   # ## #####  ..#
+  # $  $          ..#
+  ##### ### #@##  ..#
+      #     #########
+      #######
+</pre>
+Enjoy the game.
+
+== Documentation
+Players can look at {the wiki}[TODO].
+
+Developers can look at Level and Game.
+
+
+== Dependancies
+Ruby >= 1.9.2
+
+== Installing RSokoban
+Installing via a gem is planned.
+Currently, just copy the files somewhere, go to the bin/ folder and type :
+
+	./rsokoban
+
+to start playing.
+
+To run tests, go to the bin/ folder and type :
+
+  ./test.rb
+
+== Questions and/or Comments
+Feel free to email {Xavier Nayrac}[mailto:xavier.nayrac@gmail.com]
+with any questions.
+
