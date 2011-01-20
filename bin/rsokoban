@@ -6,5 +6,5 @@ require 'rsokoban'
 
 option = Option.new
 
-game = RSokoban::Game.new
+game = RSokoban::Game.new option[:ui]
 game.run

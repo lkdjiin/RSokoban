@@ -3,13 +3,19 @@ module RSokoban
 	# I am mostly the game loop.
 	class Game
 
-		# Construct a new game that you can later run. Without argument, the game will use
-		# a portable (I hope that) console interface.
-		# @param [UI] ui the user interface for the game
-		def initialize(ui = UI::Console.new)
+		# Construct a new game that you can later run.
+		# @param [:curses|:portable] ui_as_symbol the user interface for the game
+		def initialize ui_as_symbol
 			@levelLoader = LevelLoader.new "original.xsb"
 			@levelNumber = 1
-			@ui = ui
+			case ui_as_symbol
+				when :curses
+					require "rsokoban/ui/curses_console"
+					@ui = UI::CursesConsole.new
+				when :portable
+					require_relative "rsokoban/ui/console"
+					@ui = UI::Console.new
+			end
 		end
 		
 		# I am the game loop.

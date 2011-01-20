@@ -2,9 +2,8 @@
 --- v0.71 ---
 
 (done)CursesConsole
-
---portable 
---curses (default)
+(done)--portable 
+(done)--curses (default)
 
 --help-output
 

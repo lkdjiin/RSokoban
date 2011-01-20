@@ -4,18 +4,26 @@ require 'optparse'
 class Option
 
 	# Here is a list of command line options :
+	# * --curses
 	# * --version
 	# * --license
 	# * --help
+	# * --help-output
+	# * --portable
 	# @todo refactoring
 	def initialize
-		@options = {}
+		@options = {:ui => :curses}
+		
 		optparse = OptionParser.new do|opts|
 		 	opts.banner = "Usage: #{$0} [options]"
-		 	# Define the options, and what they do
-   		@options[:version] = false
-   		opts.on( '-v', '--version', 'Print version number and exit' ) do
-     		@options[:version] = true
+   		
+   		opts.on( '-c', '--curses', 'Use curses console for user interface (default)' ) do
+     		@options[:ui] = :curses
+   		end
+   		
+   		@options[:help_output] = false
+   		opts.on( '-o', '--help-output', 'Print help on output options and exit' ) do
+     		@options[:help_output] = true
    		end
    		
    		@options[:license] = false
@@ -23,19 +31,31 @@ class Option
      		@options[:license] = true
    		end
    		
+   		opts.on( '-p', '--portable', 'Use standard console for user interface' ) do
+     		@options[:ui] = :portable
+   		end
+   		
+   		@options[:version] = false
+   		opts.on( '-v', '--version', 'Print version number and exit' ) do
+     		@options[:version] = true
+   		end
+   		
    		opts.on( '-h', '--help', 'Display this screen' ) do
      		puts opts
      		exit
    		end
 		end
+		
 		begin
 			optparse.parse!
 		rescue OptionParser::InvalidOption => e
 			puts e.to_s
 			exit 1
 		end
-		printVersion if @options[:version]
-		printLicense if @options[:license]
+		
+		print_version if @options[:version]
+		print_license if @options[:license]
+		print_help_output if @options[:help_output]
 	end
 	
 	def [](k)
@@ -44,13 +64,18 @@ class Option
 	
 private
 
-	def printVersion
+	def print_version
 		puts RSokoban::VERSION
 		exit
 	end
 	
-	def printLicense
+	def print_license
 		puts "RSokoban is licensed under the GPL 3. See the COPYING's file."
+		exit
+	end
+	
+	def print_help_output
+		puts 'TODO'
 		exit
 	end
 end
