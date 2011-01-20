@@ -1,36 +1,36 @@
 module RSokoban
 
-	# Je suis un niveau du jeu.
-	# Pour réussir un niveau, placer chaque caisses ('$') sur un emplacement
-	# de stockage ('.').
+	# I am a level of the game.
+	# To complete a level, place each crate ('$') on a storage location ('.').
 	class Level
 		attr_reader :floor, :man, :crates, :storages, :title
 		
-		# Je construit le niveau à partir d'un format brut.
-		# @example un niveau en format brut
+		# I build the level from a RawLevel object.
+		# @example a RawLevel object
+		#   A RawLevel object have got one title and one 'picture'. A 'picture' is an array of string.
+		#   Each string contain one line of the level map.
 		#	  'Level 1', ['#####', '#.o@#', '#####']
 		# 
-		# * '#' est un mur
-		# * '.' est un emplacement de stockage
-		# * '$' est une caisse
-		# * '@' est le bonhomme
-		# * ' ' est un bout de sol vide
+		# * '#' is a wal
+		# * '.' is a storage location
+		# * '$' is a crate
+		# * '*' is a crate on storage location
+		# * '@' is the man
+		# * ' ' is an empty floor
 		#
-		# @param [RawLevel] rawLevel le niveau en format brut
+		# @param [RawLevel] rawLevel
 		def initialize rawLevel
 			@title = rawLevel.title
 			@floor = init_floor rawLevel.picture
 			@man = init_man rawLevel.picture
-			
 			@crates = []
 			@storages = []
 			init_crates_and_storages rawLevel.picture
-			
 			@move = 0
 			@picture = nil
 		end
 		
-		# Two Level objects are equals if their @floor, @man, @crates and @storages are equals.
+		# Two Level objects are equals if their @title, @floor, @man, @crates and @storages are equals.
 		# @param [Object] obj
 		# @return [false|true]
 		def ==(obj)
@@ -44,7 +44,8 @@ module RSokoban
 			self == obj
 		end
 		
-		# @return [Array<String>] le niveau, en format brut, après les X tours de jeu
+		# Get an instant picture of the game.
+		# @return [Array<String>] the picture, after X turns of game.
 		def picture
 			@picture = init_floor @floor
 			draw_crates
@@ -53,37 +54,37 @@ module RSokoban
 			@picture
 		end
 		
-		# Bouge le bonhomme une case vers le haut.
-		# @return [String] le résultat du coup
-		#   ["ERROR wall"] si le joueur est stoppé par un mur
+		# Move the man one box up.
+		# @return [String] the move's result
+		#   ["ERROR wall"] if the player is stopped by a wall
 		#   ['ERROR wall behind crate'] si le joueur est stoppé par une caisse suivie d'un mur
-		#   ['ERROR double crate'] si le joueur est stoppé par deux caisses qui se suivent
-		#   ['OK move ?'] si le coup est accepté (? est remplacé par le numéro du coup)
-		#   ['WIN move ?'] si le jeu est gagné (? est remplacé par le numéro du coup)
+		#   ['ERROR double crate'] if the player is stopped by a crate followed by a wall
+		#   ['OK move ?'] if the move is accepted (? is replaced by the number of the move)
+		#   ['WIN move ?'] if the level is completed (? is replaced by the number of the move)
 		def moveUp
 			move :up
 		end
 		
-		# Bouge le bonhomme une case vers le bas.
-		# @see #moveUp pour plus d'explications
+		# Move the man one box down.
+		# @see #moveUp for more explanation
 		def moveDown
 			move :down
 		end
 		
-		# Bouge le bonhomme une case vers la gauche.
-		# @see #moveUp pour plus d'explications
+		# Move the man one box left.
+		# @see #moveUp for more explanation
 		def moveLeft
 			move :left
 		end
 		
-		# Bouge le bonhomme une case vers la droite.
-		# @see #moveUp pour plus d'explications
+		# Move the man one box right.
+		# @see #moveUp for more explanation
 		def moveRight
 			move :right
 		end
 		
-		# Bouge le bonhomme une case vers +direction+.
-		# @see #moveUp pour plus d'explications
+		# Move the man one box +direction+.
+		# @see #moveUp for more explanation
 		def move direction
 			return 'ERROR wall' if wall?(direction)
 			return 'ERROR wall behind crate' if wall_behind_crate?(direction)
@@ -100,7 +101,7 @@ module RSokoban
 		
 		private
 		
-		# @return true if all crates are on a storage
+		# @return true if all crates are on a storage location
 		def win?
 			return false if @crates.size == 0 # needed for testing purpose.
 			@crates.each {|c|
@@ -109,8 +110,8 @@ module RSokoban
 			true
 		end
 		
-		# Is there a wall near the man, in the direction pointed by +direction+ ?
-		# @param [:up|:down|:left|:right]
+		# Is there a wall near the man, in the direction pointed to by +direction+ ?
+		# @param [:up|:down|:left|:right] direction
 		# @return [true|false]
 		def wall? direction
 			case direction
@@ -126,6 +127,9 @@ module RSokoban
 			return(box == WALL)
 		end
 		
+		# Is there a crate followed by a wall near the man, in the direction pointed to by +direction+ ?
+		# @param [:up|:down|:left|:right] direction
+		# @return [true|false]
 		def wall_behind_crate?(direction)
 			case direction
 				when :up
@@ -144,6 +148,9 @@ module RSokoban
 			return(near and boxBehind == WALL)
 		end
 		
+		# Is there a crate followed by a crate near the man, in the direction pointed to by +direction+ ?
+		# @param [:up|:down|:left|:right] direction
+		# @return [true|nil]
 		def double_crate?(direction)
 			case direction
 				when :up
@@ -157,21 +164,28 @@ module RSokoban
 			end
 		end
 		
-		# Y-a-t-il une caisse ('o' ou '*') au sol dans la case x, y ?
-		# @param [Fixnum] x coordonnée x
-		# @param [Fixnum] y coordonnée y
+		# Is there a crate ('o' or '*') in the box pointed to by x, y ?
+		# @param [Fixnum] x x coordinate in the map
+		# @param [Fixnum] y y coordinate in the map
 		# @return [true|false]
 		def crate?(x, y)
 			box = what_is_on(x, y)
-			return true if box == CRATE or box == CRATE_ON_STORAGE
-			false
+			box == CRATE or box == CRATE_ON_STORAGE
 		end
 		
 		# Draw the man for @picture output
 		def draw_man
 			box = what_is_on @man.x, @man.y
-			@picture[@man.y][@man.x] = MAN if box == FLOOR
-			@picture[@man.y][@man.x] = MAN_ON_STORAGE if box == STORAGE
+			put_man_in_picture if box == FLOOR
+			put_man_on_storage_in_picture if box == STORAGE
+		end
+		
+		def put_man_in_picture
+			@picture[@man.y][@man.x] = MAN
+		end
+		
+		def put_man_on_storage_in_picture
+			@picture[@man.y][@man.x] = MAN_ON_STORAGE
 		end
 		
 		# Draw the crates for @picture output
@@ -179,17 +193,18 @@ module RSokoban
 			@crates.each {|crate| @picture[crate.y][crate.x] = what_is_on(crate.x, crate.y) }
 		end
 		
+		# Draw the storages location for @picture output
 		def draw_storages
 			@storages.each {|st| @picture[st.y][st.x] = what_is_on(st.x, st.y) }
 		end
 
-		# Qu'y-a-t-il au sol dans la case x, y ?
-		# @param [Fixnum] x coordonnée x
-		# @param [Fixnum] y coordonnée y
+		# Get the content of box x, y
+		# @param [Fixnum] x x coordinate in the map
+		# @param [Fixnum] y y coordinate in the map
 		# @return [' ' | '#' | '.' | 'o' | '*']
 		def what_is_on x, y
 			box = (@floor[y][x]).chr
-			if box == ' '
+			if box == FLOOR
 				s = Storage.new(x, y)
 				c = Crate.new(x, y)
 				if @storages.include?(s) and @crates.include?(c)
@@ -203,24 +218,23 @@ module RSokoban
 			box
 		end
 		
-		# Retire tous les emplacements de stockages, toutes les caisses et le bonhomme
-		# pour ne laisser que les murs et le sol.
+		# Removes all storages locations, all crates and the man, leaving only walls and floor.
 		#
-		# @param [Array<String>] picture le niveau (map)
-		# @return [Array<String>] le niveau en format brut avec seulement le sol vide et les murs
+		# @param [Array<String>] picture 
+		# @return [Array<String>] picture with only walls and floor
 		def init_floor picture
 			floor = []
 			picture.each {|x| floor.push x.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
 			floor
 		end
 		
-		# Trouve la position du bonhomme, au début du niveau.
+		# Find the man's position, at the begining of the level.
 		#
-		# @param [Array<String>] rawLevel le niveau en format brut
-		# @return [Man] un bonhomme initialisé
-		def init_man rawLevel
+		# @param [Array<String>] picture
+		# @return [Man] an initialised man
+		def init_man picture
 			x = y = 0
-			rawLevel.each {|line| 
+			picture.each {|line| 
 				if line.include?(MAN)
 					x = line.index(MAN)
 					break
@@ -230,9 +244,9 @@ module RSokoban
 			Man.new x, y
 		end
 		
-		# Trouve la position des caisses et des emplacements de stockage, au début du niveau.
+		# Find position of crates and storages, at the begining of the level.
 		#
-		# @param [Array<String>] picture le niveau (map)
+		# @param [Array<String>] picture
 		def init_crates_and_storages picture
 			y = 0
 			picture.each do |line| 

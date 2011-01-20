@@ -7,13 +7,18 @@ require "rsokoban/crate"
 require "rsokoban/storage"
 require "rsokoban/game"
 require "rsokoban/ui/console"
+#require "rsokoban/ui/curses_console"
 require "rsokoban/option"
 require "rsokoban/level_set"
 require "rsokoban/raw_level"
 
+# I am the main module of the game.
 module RSokoban
-	VERSION = '0.70'
+	# Version of the program
+	VERSION = '0.71'
 	
+	# Game elements.
+	# Those constants are used intensively.
 	MAN = '@'
 	FLOOR = ' '
 	CRATE = '$'

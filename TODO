@@ -1,17 +1,24 @@
 
---- v0.80 ---
+--- v0.71 ---
+
+(done)CursesConsole
+
+--portable 
+--curses (default)
+
+--help-output
 
 translate doc in english
 
-wiki
+wiki installing
+
+wiki curses console
 
 gem
 
 comment all modules, classes and constants
 
---help-output
---portable (default)
---linux (arrows, curse ?)
+Picture must be a class
 
 --- v0.90 ---
 

@@ -31,7 +31,7 @@ Ruby >= 1.9.2
 Installing via a gem is planned.
 Currently, just copy the files somewhere, go to the bin/ folder and type :
 
-	./rsokoban
+  ./rsokoban
 
 to start playing.
 
