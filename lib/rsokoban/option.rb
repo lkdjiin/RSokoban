@@ -75,7 +75,19 @@ private
 	end
 	
 	def print_help_output
-		puts 'TODO'
+		help=<<EOS
+
+RSokoban can use 2 user interfaces :
+
+  --curses
+    This is the default UI. It uses the curses library in a console window.
+    It works on Linux. I don't know if it works on Windows or OSX.
+    
+  --portable
+    It uses a plain console window. This UI is boring but should work
+    everywhere.
+EOS
+		puts help
 		exit
 	end
 end
