@@ -5,16 +5,13 @@
 (done)--portable 
 (done)--curses (default)
 (done)--help-output
-
-translate doc in english
+(done)curses: level completed (yes/no) > y or n
 
 wiki installing
 
 wiki curses console
 
 gem
-
-comment all modules, classes and constants
 
 Picture must be a class
 

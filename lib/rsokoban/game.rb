@@ -90,8 +90,12 @@ module RSokoban
 		# Start a level, according to some instance members.
 		# @return [Object] the user's {action}[Console#get_action]
 		def start_level
-			@level = @levelLoader.level(@levelNumber)
-			@ui.get_action('START', @level.picture, "Level : #{@level.title}")
+			begin
+				@level = @levelLoader.level(@levelNumber)
+				@ui.get_action('START', @level.picture, "Level : #{@level.title}")
+			rescue LevelNumberTooHighError
+				@ui.get_action('END_OF_SET', ['####'], "No more levels in this set")
+			end
 		end
 		
 	end

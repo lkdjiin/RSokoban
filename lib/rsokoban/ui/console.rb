@@ -2,6 +2,9 @@
 module RSokoban::UI
 
 	# I am a portable console for the user interface.
+	# In addition to what BaseUI want from me, I offer the user
+	# an help feature.
+	# I assume 24 lines height.
 	class Console < BaseUI
 		
 		def initialize

@@ -2,7 +2,7 @@ require 'curses'
 
 module RSokoban::UI
 
-	# I am a xonsole user interface using curses library.
+	# I am a console user interface using curses library.
 	# I assume 24 lines height.
 	class CursesConsole < BaseUI
 	
@@ -19,12 +19,12 @@ module RSokoban::UI
 		end
 		
 		def get_action(type, level, message)
-			if type == 'START'
+			if type == 'START' or type == 'END_OF_SET'
 				@level_title = message 
 				message = 'OK move 0'
 				Curses.clear
 			end
-			if type == 'DISPLAY' or type == 'START'
+			if type == 'DISPLAY' or type == 'START'  or type == 'END_OF_SET'
 				ask_player level, message
 			else
 				# assuming type == 'WIN'
@@ -63,8 +63,9 @@ module RSokoban::UI
 			write @@STATUS_LINE, 0, "LEVEL COMPLETED ! Play next level ? (yes, no)        "
 			case Curses.getch
 				when ?n, ?N then :quit
-			else
-				:next
+				when ?y, ?Y then :next
+				else
+					askForNextLevel level, message
 			end
 		end
 		
@@ -72,10 +73,7 @@ module RSokoban::UI
 			display level, message
 			response = get_player_input
 			if response.nil?
-				ask_player
-			#elsif response == :help
-				#displayHelp
-				#askPlayer
+				ask_player level, message
 			else
 				response
 			end
