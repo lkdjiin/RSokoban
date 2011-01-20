@@ -4,7 +4,7 @@ module RSokoban::UI
 
 	# I am a xonsole user interface using curses library.
 	# I assume 24 lines height.
-	class CursesConsole
+	class CursesConsole < BaseUI
 	
 		@@TITLE_LINE = 0
 		@@MOVES_LINE = 1
@@ -12,7 +12,7 @@ module RSokoban::UI
 		@@PICTURE_LINE = 4
 		
 		def initialize
-			@level_title = ''
+			super()
 			init_screen
 		ensure
 			Curses.close_screen

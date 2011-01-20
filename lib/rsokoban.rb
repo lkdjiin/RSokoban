@@ -9,6 +9,7 @@ require "rsokoban/game"
 require "rsokoban/option"
 require "rsokoban/level_set"
 require "rsokoban/raw_level"
+require "rsokoban/ui/ui"
 
 # I am the main module of the game.
 module RSokoban

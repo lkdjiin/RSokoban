@@ -13,7 +13,7 @@ module RSokoban
 					require "rsokoban/ui/curses_console"
 					@ui = UI::CursesConsole.new
 				when :portable
-					require_relative "rsokoban/ui/console"
+					require "rsokoban/ui/console"
 					@ui = UI::Console.new
 			end
 		end

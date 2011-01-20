@@ -2,29 +2,14 @@
 module RSokoban::UI
 
 	# I am a portable console for the user interface.
-	class Console
+	class Console < BaseUI
 		
 		def initialize
-			@levelTitle = ''
+			super()
 		end
 		
-		# Based on things found in the arguments, the user you tell
-		# what it want to do.
-		#
-		# List of action I can return :
-		# :quit ::                     to quit game
-		# :next ::                     to load and play next level
-		# :retry ::                    to restart the current level
-		# :up, :down, :left, :right :: to move the man
-		# a number ::                  to load this level number
-		# an .xsb filename ::          to load the set with this name
-		# 
-		# @param ['START'|'DISPLAY'|'WIN'] type the type of message
-		# @parma [Array<String>] level the picture of the level
-		# @param [String] message a message to be displayed
-		# @return [Object] the user's action
 		def get_action(type, level, message)
-			@levelTitle = message if type == 'START'
+			@level_title = message if type == 'START'
 			message = 'OK move 0' if type == 'START'
 			display level, message
 			if type == 'DISPLAY' or type == 'START'
@@ -40,7 +25,7 @@ module RSokoban::UI
 		def display level, message
 			blankConsole = "\n" * 24 # assuming a console window of 24 lines height
 			puts blankConsole
-			puts @levelTitle
+			puts @level_title
 			puts "--------------------"
 			puts message
 			puts ''
