@@ -1,3 +1,4 @@
+require 'rsokoban/ui/console'
 class TC_Console < Test::Unit::TestCase
 
 	def setup

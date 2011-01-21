@@ -35,7 +35,7 @@ Currently, just copy the files somewhere, go to the bin/ folder and type :
 
 to start playing.
 
-To run tests, go to the bin/ folder and type :
+To run tests, go to the test/ folder and type :
 
   ./test.rb
 
