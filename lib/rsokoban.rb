@@ -12,10 +12,7 @@ require "rsokoban/raw_level"
 require "rsokoban/ui/ui"
 
 # I am the main module of the game.
-module RSokoban
-	# Version of the program
-	VERSION = '0.72'
-	
+module RSokoban	
 	# Game elements.
 	# Those constants are used intensively.
 	MAN = '@'

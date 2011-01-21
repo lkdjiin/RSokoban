@@ -65,7 +65,7 @@ class Option
 private
 
 	def print_version
-		puts RSokoban::VERSION
+		puts File.read('../VERSION').strip
 		exit
 	end
 	

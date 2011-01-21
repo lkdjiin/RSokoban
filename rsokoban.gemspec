@@ -4,7 +4,7 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name = 'RSokoban'
-  s.version = "0.72"
+  s.version = File.read('VERSION').strip
   s.authors = ['Xavier Nayrac']
   s.email = 'xavier.nayrac@gmail.com'
   s.summary = 'Clone of the Sokoban game.'

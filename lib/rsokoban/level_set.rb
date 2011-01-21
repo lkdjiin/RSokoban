@@ -22,7 +22,7 @@ module RSokoban
 		# @param [String] title get/set the title of this level set.
 		attr_accessor :title
 		# @param [String] description get/set the description of this level set.
-		attr_accessor :description,
+		attr_accessor :description
 		# @param [Array<RawLevel>] rawLevels get/set the raw levels of this set
 		attr_accessor :rawLevels
 		
