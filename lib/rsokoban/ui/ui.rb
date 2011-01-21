@@ -21,6 +21,7 @@ module RSokoban
 			# :next                      to load and play next level
 			# :retry                     to restart the current level
 			# :up, :down, :left, :right  to move the man
+			# :undo                      to undo a move
 			# a number                   to load this level number
 			# an .xsb filename           to load the set with this name
 			# 

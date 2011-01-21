@@ -39,6 +39,8 @@ module RSokoban
 					next
 				elsif [:down, :up, :left, :right].include?(action)
 					result = @level.move(action)
+				elsif :undo
+					result = @level.undo
 				end
 				
 				if result.start_with?('WIN')

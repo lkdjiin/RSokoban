@@ -13,4 +13,4 @@ require "../test/tc_position"
 require "../test/tc_moveable"
 require "../test/tc_man"
 require "../test/ui/tc_console"
-
+require "../test/tc_move_recorder"

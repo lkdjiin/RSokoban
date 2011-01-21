@@ -63,7 +63,7 @@ module RSokoban::UI
 		
 		def parse str
 			case str
-				when 'quit', 'up', 'down', 'right', 'left', 'retry', 'help'
+				when 'quit', 'up', 'down', 'right', 'left', 'retry', 'help', 'undo'
 					str.to_sym
 				when 'z'
 					:up
@@ -88,6 +88,7 @@ General commands :
 quit         : Quit game
 help         : Display this screen
 retry        : Restart level
+undo         : Undo last move
 1 to 999     : Play this level
 file.xsb     : Load this set of levels
 

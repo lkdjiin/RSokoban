@@ -44,8 +44,8 @@ module RSokoban::UI
 		def display level, message
 			write @@TITLE_LINE, 0, @level_title
 			move_index = message =~ /\d+/
-			write @@MOVES_LINE, 0, 'moves : ' + message[move_index..-1] if move_index
-			write @@STATUS_LINE, 0, 'arrows=move (q)uit (r)etry (l)oad level/set'
+			write @@MOVES_LINE, 0, "moves : #{message[move_index..-1]}   " if move_index
+			write @@STATUS_LINE, 0, 'arrows=move (q)uit (r)etry (u)ndo (l)oad level/set'
 			line_num = @@PICTURE_LINE
 			level.each {|line| 
 				write line_num, 0, line
@@ -88,6 +88,7 @@ module RSokoban::UI
     		when ?q, ?Q then :quit
     		when ?r, ?R then :retry
     		when ?l, ?L then ask_level_or_set
+    		when ?u, ?U then :undo
     		else
     			nil
 			end

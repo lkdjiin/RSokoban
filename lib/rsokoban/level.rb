@@ -28,6 +28,7 @@ module RSokoban
 			init_crates_and_storages rawLevel.picture
 			@move = 0
 			@picture = nil
+			@move_recorder = MoveRecorder.new
 		end
 		
 		# Two Level objects are equals if their @title, @floor, @man, @crates and @storages are equals.
@@ -90,12 +91,48 @@ module RSokoban
 			return 'ERROR wall behind crate' if wall_behind_crate?(direction)
 			return 'ERROR double crate' if double_crate?(direction)
 			@move += 1
+			
 			@man.send(direction)
 			if @crates.include?(Crate.new(@man.x, @man.y))
 				i = @crates.index(Crate.new(@man.x, @man.y))
 				@crates[i].send(direction)
+				@move_recorder.record direction, :push
+			else
+				@move_recorder.record direction
 			end
 			return "WIN move #{@move}" if win?
+			"OK move #{@move}"
+		end
+		
+		# Undo last move
+		def undo
+			begin
+				case @move_recorder.undo
+					when :up then @man.down
+					when :down then @man.up
+					when :left then @man.right
+					when :right then @man.left
+					when :UP
+						i = @crates.index(Crate.new(@man.x, @man.y-1))
+						@crates[i].down
+						@man.down
+					when :DOWN
+						i = @crates.index(Crate.new(@man.x, @man.y+1))
+						@crates[i].up
+						@man.up
+					when :LEFT
+						i = @crates.index(Crate.new(@man.x-1, @man.y))
+						@crates[i].right
+						@man.right
+					when :RIGHT
+						i = @crates.index(Crate.new(@man.x+1, @man.y))
+						@crates[i].left
+						@man.left
+				end
+				@move -= 1
+			rescue EmptyMoveQueueError
+				# Nothing to do
+			end
 			"OK move #{@move}"
 		end
 		
