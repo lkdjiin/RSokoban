@@ -1,22 +1,13 @@
 
---- v0.71 ---
-
-(done)CursesConsole
-(done)--portable 
-(done)--curses (default)
-(done)--help-output
-(done)curses: level completed (yes/no) > y or n
-(done)gem
-
 wiki installing
 
 wiki curses console
 
-Picture must be a class
-
 --- v0.90 ---
 
 undo
+
+Picture must be a class
 
 --- v1.0 ---
 

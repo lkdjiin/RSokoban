@@ -1,0 +1,11 @@
+version 0.71  2011-01-21
+
+  * New console output using curses
+  
+  * New command line options
+    --curses : Use curses as user interface. Default option.
+    --portable : Use a simplest user interface, should work on any platform.
+    --help-output : Display help on available user interfaces.
+
+  * Installing via RubyGem
+ 
