@@ -14,7 +14,7 @@ require "rsokoban/ui/ui"
 # I am the main module of the game.
 module RSokoban
 	# Version of the program
-	VERSION = '0.71'
+	VERSION = '0.72'
 	
 	# Game elements.
 	# Those constants are used intensively.
