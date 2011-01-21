@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: RSokoban::LevelLoader</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (L)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></span>
+     &raquo; 
+    <span class="title">LevelLoader</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: RSokoban::LevelLoader
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">RSokoban::LevelLoader</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/rsokoban/level_loader.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note todo">
+    <strong>TODO:</strong> 
+    <div class='inline'><p>
+translate, document and refactor
+</p>
+</div>
+  </div>
+
+<p>
+Je charge le fichier contenant les niveaux du jeu. ?? ma cr??ation, vous
+m&#8217;indiquez un fichier  au format xsb contenant un ou plusieurs
+niveaux.  Vous pouvez ensuite me demander un niveau particulier (un objet
+Level).
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#level-instance_method" title="#level (instance method)">- (Object) <strong>level</strong>(num) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute level.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set-instance_method" title="#set (instance method)">- (Object) <strong>set</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns the value of attribute set.
+</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (LevelLoader) <strong>initialize</strong>(filename) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of LevelLoader.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="RSokoban::LevelLoader (class)">LevelLoader</a></span></tt>) <strong>initialize</strong>(filename) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of LevelLoader
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <span class='name'>filename</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+le nom du fichier o?? trouver les niveaux. Ce fichier est cherch?? dans le
+dossier data/.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoFileError.html" title="RSokoban::NoFileError (class)">RSokoban::NoFileError</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+si le fichier n&#8217;existe pas
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="LevelSet.html" title="RSokoban::LevelSet (class)">overview of .xsb file format</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_loader.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id filename'>filename</span>
+	<span class='id filename'>filename</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='gvar'>$RSOKOBAN_DATA_PATH</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id filename'>filename</span>
+	<span class='id raise'>raise</span> <span class='const'>NoFileError</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id filename'>filename</span><span class='rparen'>)</span>
+	<span class='ivar'>@set</span> <span class='op'>=</span> <span class='const'>LevelSet</span><span class='period'>.</span><span class='id new'>new</span>
+	<span class='id file'>file</span> <span class='op'>=</span> <span class='id open'>open</span><span class='lparen'>(</span><span class='id filename'>filename</span><span class='rparen'>)</span>
+	<span class='ivar'>@set</span><span class='period'>.</span><span class='id title'>title</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span><span class='period'>.</span><span class='id chomp'>chomp</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id strip'>strip</span>
+	<span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span> <span class='comment'># must be blank line
+</span>	<span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span>
+	<span class='id desc'>desc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+	<span class='kw'>while</span> <span class='id line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='CHAR'>?;</span> <span class='kw'>do</span>
+		<span class='id desc'>desc</span> <span class='op'>+=</span> <span class='id line'>line</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\s*</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+		<span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span>
+	<span class='kw'>end</span>
+	<span class='ivar'>@set</span><span class='period'>.</span><span class='id description'>description</span> <span class='op'>=</span> <span class='id desc'>desc</span>
+	
+	<span class='id loop'>loop</span> <span class='kw'>do</span>
+		<span class='kw'>begin</span>
+			<span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span><span class='period'>.</span><span class='id chomp'>chomp</span>
+			<span class='id raw'>raw</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+			<span class='kw'>while</span> <span class='id line'>line</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^ *#</span><span class='regexp_end'>/</span></span>
+				<span class='id raw'>raw</span><span class='period'>.</span><span class='id push'>push</span> <span class='id line'>line</span>
+				<span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span><span class='period'>.</span><span class='id chomp'>chomp</span>
+			<span class='kw'>end</span>
+			<span class='id line'>line</span> <span class='op'>=</span> <span class='id line'>line</span><span class='period'>.</span><span class='id chomp'>chomp</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\s*</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+			<span class='ivar'>@set</span><span class='period'>.</span><span class='id rawLevels'>rawLevels</span><span class='period'>.</span><span class='id push'>push</span> <span class='const'>RawLevel</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id raw'>raw</span><span class='rparen'>)</span>
+			
+			<span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span>
+			<span class='kw'>while</span> <span class='id line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>;</span><span class='tstring_end'>'</span></span>
+				<span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id readline'>readline</span>
+			<span class='kw'>end</span>
+			<span class='comment'># must be a blank line here
+</span>		<span class='kw'>rescue</span> <span class='const'>EOFError</span>
+			<span class='kw'>break</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="level-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="level-instance_method">
+  
+    - (<tt>Object</tt>) <strong>level</strong>(num)  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute level
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="LevelNumberTooHighError.html" title="RSokoban::LevelNumberTooHighError (class)">LevelNumberTooHighError</a></span></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_loader.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id level'>level</span> <span class='id num'>num</span>
+	<span class='id raise'>raise</span> <span class='const'>LevelNumberTooHighError</span> <span class='kw'>if</span> <span class='id num'>num</span> <span class='op'>&gt;</span> <span class='ivar'>@set</span><span class='period'>.</span><span class='id rawLevels'>rawLevels</span><span class='period'>.</span><span class='id size'>size</span>
+	<span class='const'>Level</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@set</span><span class='period'>.</span><span class='id rawLevels'>rawLevels</span><span class='lbracket'>[</span><span class='id num'>num</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="set-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="set-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns the value of attribute set
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_loader.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id set'>set</span>
+  <span class='ivar'>@set</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Jan 21 15:41:17 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

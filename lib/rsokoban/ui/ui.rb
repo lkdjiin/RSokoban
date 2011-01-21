@@ -4,6 +4,7 @@ module RSokoban
 	module UI
 		
 		# Every concrete UI should inherits from me.
+		# @abstract Subclass and override {#get_action} to implement a working UI.
 		class BaseUI
 		
 			def initialize

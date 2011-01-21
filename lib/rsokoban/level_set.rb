@@ -3,22 +3,28 @@ module RSokoban
 	# I am a set of sokoban levels.
 	# Level set are found in .xsb files.
 	#
-	# =xsb file format
+	# = xsb file format
 	# 
 	# Info lines begins with semi-colon (;)
-	# Map lines begins with a # (that's a wall !)
+	# Map lines begins with a # (that's a wall !) preceded by 0, 1 or more spaces.
 	# 
-	# 1: First info is title of the set
-	# 2: Blank line
-	# 3: List of info lines : description
-	# 4: Blank line
-	# 5: Level map
-	# 6: info title of this level
-	# 7: List of info lines : blabla about this level
+	# 1. First info is title of the set
+	# 2. Blank line
+	# 3. List of info lines : description
+	# 4. Blank line
+	# 5. Level map
+	# 6. info title of this level
+	# 7. List of info lines : blabla about this level
 	#
 	# From 4 to 7 again for each supplementary level
 	class LevelSet
-		attr_accessor :title, :description, :rawLevels
+	
+		# @param [String] title get/set the title of this level set.
+		attr_accessor :title
+		# @param [String] description get/set the description of this level set.
+		attr_accessor :description,
+		# @param [Array<RawLevel>] rawLevels get/set the raw levels of this set
+		attr_accessor :rawLevels
 		
 		def initialize
 			@title = 'Unknown set title'

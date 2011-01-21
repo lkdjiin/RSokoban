@@ -7,10 +7,10 @@ module RSokoban
 	class LevelLoader
 		attr_reader :level, :set
 	
-		# @filename [String] le nom du fichier où trouver les niveaux.
+		# @param [String] filename le nom du fichier où trouver les niveaux.
 		#   Ce fichier est cherché dans le dossier data/.
-		# @throws [RSokoban::NoFileError] si le fichier n'existe pas
-		# @see LevelSet for an overview of .xsb file format
+		# @raise [RSokoban::NoFileError] si le fichier n'existe pas
+		# @see LevelSet overview of .xsb file format
 		def initialize filename
 			filename = "#{$RSOKOBAN_DATA_PATH}/" + filename
 			raise NoFileError unless File.exist?(filename)
