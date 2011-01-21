@@ -6,12 +6,11 @@
 (done)--curses (default)
 (done)--help-output
 (done)curses: level completed (yes/no) > y or n
+(done)gem
 
 wiki installing
 
 wiki curses console
-
-gem
 
 Picture must be a class
 

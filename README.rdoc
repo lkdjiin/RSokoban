@@ -25,19 +25,21 @@ Developpers can look at Level and Game.
 
 
 == Dependancies
-Ruby >= 1.9.2
+Ruby >= 1.9
 
 == Installing RSokoban
-Installing via a gem is planned.
-Currently, just copy the files somewhere, go to the bin/ folder and type :
+Installing via a gem is easy.
+Go to the RSokoban folder and build the gem :
 
-  ./rsokoban
+ gem build rsokoban.gemspec
 
-to start playing.
+Then install it :
 
-To run tests, go to the test/ folder and type :
+ gem install RSokoban-x-xx.gem
+ 
+Now start playing :
 
-  ./test.rb
+ rsokoban
 
 == Questions and/or Comments
 Feel free to email {Xavier Nayrac}[mailto:xavier.nayrac@gmail.com]
