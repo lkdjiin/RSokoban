@@ -11,10 +11,10 @@ module RSokoban::UI
 			super()
 		end
 		
-		def get_action(type, level, message)
+		def get_action(type, map, message)
 			@level_title = message if type == 'START'
 			message = 'OK move 0' if type == 'START'
-			display level, message
+			display map, message
 			if type == 'DISPLAY' or type == 'START'
 				askPlayer
 			else
@@ -25,14 +25,14 @@ module RSokoban::UI
 		
 		private
 		
-		def display level, message
+		def display map, message
 			blankConsole = "\n" * 24 # assuming a console window of 24 lines height
 			puts blankConsole
 			puts @level_title
 			puts "--------------------"
 			puts message
 			puts ''
-			level.each {|line| puts line }
+			map.each {|line| puts line }
 			puts ''
 		end
 		

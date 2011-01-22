@@ -21,15 +21,15 @@ class TC_RawLevel < Test::Unit::TestCase
                '#.$@#',
                '#####']
                
-	def test_picture_accessors
+	def test_map_accessors
 		ins = RSokoban::RawLevel.new
-		ins.picture = Picture1
-		assert_equal Picture1, ins.picture
+		ins.map = Picture1
+		assert_equal Picture1, ins.map.rows
 	end
 	
-	def test_default_picture
+	def test_default_map
 		ins = RSokoban::RawLevel.new
-		assert_equal [], ins.picture
+		assert_equal RSokoban::Map.new, ins.map
 	end
 	
 end

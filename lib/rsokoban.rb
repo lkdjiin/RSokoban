@@ -11,6 +11,7 @@ require "rsokoban/level_set"
 require "rsokoban/raw_level"
 require "rsokoban/ui"
 require "rsokoban/move_recorder"
+require "rsokoban/map"
 
 # I am the main module of the game.
 module RSokoban	

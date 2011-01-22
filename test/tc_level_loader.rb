@@ -31,7 +31,7 @@ class TC_LevelLoader < Test::Unit::TestCase
 		expected = [ '#####',
                  '#.$@#',
                  '#####']
-    assert_equal expected, ins.set.rawLevels[0].picture
+    assert_equal expected, ins.set.rawLevels[0].map
 	end
 	
 	def test_title_of_level

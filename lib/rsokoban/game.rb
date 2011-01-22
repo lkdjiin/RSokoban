@@ -44,9 +44,9 @@ module RSokoban
 				end
 				
 				if result.start_with?('WIN')
-					action = @ui.get_action('WIN', @level.picture, result)
+					action = @ui.get_action('WIN', @level.map, result)
 				else
-					action = @ui.get_action('DISPLAY', @level.picture, result)
+					action = @ui.get_action('DISPLAY', @level.map, result)
 				end
 			end
 		end
@@ -78,7 +78,7 @@ module RSokoban
 			rescue NoFileError
 				message = "Error, no such file : #{setname}"
 			end
-			@ui.get_action('START', @level.picture, message)
+			@ui.get_action('START', @level.map, message)
 		end
 		
 		# Load a level from the current set.
@@ -94,7 +94,7 @@ module RSokoban
 		def start_level
 			begin
 				@level = @levelLoader.level(@levelNumber)
-				@ui.get_action('START', @level.picture, "Level : #{@level.title}")
+				@ui.get_action('START', @level.map, "Level : #{@level.title}")
 			rescue LevelNumberTooHighError
 				@ui.get_action('END_OF_SET', ['####'], "No more levels in this set")
 			end

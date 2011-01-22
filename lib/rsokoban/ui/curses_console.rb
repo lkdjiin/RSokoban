@@ -18,17 +18,17 @@ module RSokoban::UI
 			Curses.close_screen
 		end
 		
-		def get_action(type, level, message)
+		def get_action(type, map, message)
 			if type == 'START' or type == 'END_OF_SET'
 				@level_title = message 
 				message = 'OK move 0'
 				Curses.clear
 			end
 			if type == 'DISPLAY' or type == 'START'  or type == 'END_OF_SET'
-				ask_player level, message
+				ask_player map, message
 			else
 				# assuming type == 'WIN'
-				askForNextLevel level, message
+				askForNextLevel map, message
 			end
 		end
 		
@@ -41,13 +41,13 @@ module RSokoban::UI
 			Curses.curs_set 0
 		end
 		
-		def display level, message
+		def display map, message
 			write @@TITLE_LINE, 0, @level_title
 			move_index = message =~ /\d+/
 			write @@MOVES_LINE, 0, "moves : #{message[move_index..-1]}   " if move_index
 			write @@STATUS_LINE, 0, 'arrows=move (q)uit (r)etry (u)ndo (l)oad level/set'
 			line_num = @@PICTURE_LINE
-			level.each {|line| 
+			map.each {|line| 
 				write line_num, 0, line
 				line_num += 1
 			}
@@ -58,22 +58,22 @@ module RSokoban::UI
 			Curses.addstr(text);
 		end
 		
-		def askForNextLevel level, message
-			display level, message
+		def askForNextLevel map, message
+			display map, message
 			write @@STATUS_LINE, 0, "LEVEL COMPLETED ! Play next level ? (yes, no)        "
 			case Curses.getch
 				when ?n, ?N then :quit
 				when ?y, ?Y then :next
 				else
-					askForNextLevel level, message
+					askForNextLevel map, message
 			end
 		end
 		
-		def ask_player level, message
-			display level, message
+		def ask_player map, message
+			display map, message
 			response = get_player_input
 			if response.nil?
-				ask_player level, message
+				ask_player map, message
 			else
 				response
 			end

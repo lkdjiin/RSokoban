@@ -148,7 +148,7 @@ class TC_Level < Test::Unit::TestCase
 
 	def test_rawLevel
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Level1))
-		assert_equal Level1, ins.picture
+		assert_equal Level1, ins.map
 	end
 	
 	Level1_u = ['    #####',
@@ -166,7 +166,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_rawLevel_after_move_up
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Level1))
 		ins.move :up
-		assert_equal Level1_u, ins.picture
+		assert_equal Level1_u, ins.map
 	end
 	
 	Text4 = [ '####',
@@ -202,7 +202,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveUp1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveUp1))
 		ins.moveUp
-		assert_equal AfterMoveUp1, ins.picture
+		assert_equal AfterMoveUp1, ins.map
 	end
 	
 	CanMoveUp2 = ['###',
@@ -225,7 +225,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveUp2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveUp2))
 		ins.moveUp
-		assert_equal AfterMoveUp2, ins.picture
+		assert_equal AfterMoveUp2, ins.map
 	end
 	
 	CanMoveUp3 = ['###',
@@ -250,7 +250,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveUp3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveUp3))
 		ins.moveUp
-		assert_equal AfterMoveUp3, ins.picture
+		assert_equal AfterMoveUp3, ins.map
 	end
 	
 	CanMoveUp4 = ['###',
@@ -275,7 +275,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveUp4
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveUp4))
 		ins.moveUp
-		assert_equal AfterMoveUp4, ins.picture
+		assert_equal AfterMoveUp4, ins.map
 	end
 	
 	CannotMoveUp1 = ['###',
@@ -285,7 +285,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveUp1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUp1))
 		assert_equal 'ERROR wall', ins.moveUp
-		assert_equal CannotMoveUp1, ins.picture
+		assert_equal CannotMoveUp1, ins.map
 	end
 	
 	CannotMoveUp2 = ['###',
@@ -296,7 +296,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveUp2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUp2))
 		assert_equal 'ERROR wall behind crate', ins.moveUp
-		assert_equal CannotMoveUp2, ins.picture
+		assert_equal CannotMoveUp2, ins.map
 	end
 	
 	CannotMoveUp3 = ['###',
@@ -309,7 +309,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveUp3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUp3))
 		assert_equal 'ERROR double crate', ins.moveUp
-		assert_equal CannotMoveUp3, ins.picture
+		assert_equal CannotMoveUp3, ins.map
 	end
 	
 	CannotMoveUp4 = ['###',
@@ -322,7 +322,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveUp4
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUp4))
 		assert_equal 'ERROR double crate', ins.moveUp
-		assert_equal CannotMoveUp4, ins.picture
+		assert_equal CannotMoveUp4, ins.map
 	end
 	
 	CannotMoveUp5 = ['###',
@@ -335,7 +335,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveUp5
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUp5))
 		assert_equal 'ERROR double crate', ins.moveUp
-		assert_equal CannotMoveUp5, ins.picture
+		assert_equal CannotMoveUp5, ins.map
 	end
 	
 	CannotMoveUp6 = ['###',
@@ -348,7 +348,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveUp6
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUp6))
 		assert_equal 'ERROR double crate', ins.moveUp
-		assert_equal CannotMoveUp6, ins.picture
+		assert_equal CannotMoveUp6, ins.map
 	end
 	
 	### Move down ##############################################
@@ -371,7 +371,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveDown1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveDown1))
 		ins.moveDown
-		assert_equal AfterMoveDown1, ins.picture
+		assert_equal AfterMoveDown1, ins.map
 	end
 	
 	CanMoveDown2 = ['###',
@@ -392,7 +392,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveDown2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveDown2))
 		ins.moveDown
-		assert_equal AfterMoveDown2, ins.picture
+		assert_equal AfterMoveDown2, ins.map
 	end
 	
 	CanMoveDown3 = ['###',
@@ -415,7 +415,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveDown3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveDown3))
 		ins.moveDown
-		assert_equal AfterMoveDown3, ins.picture
+		assert_equal AfterMoveDown3, ins.map
 	end
 	
 	CanMoveDown4 = ['###',
@@ -438,7 +438,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveDown4
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveDown4))
 		ins.moveDown
-		assert_equal AfterMoveDown4, ins.picture
+		assert_equal AfterMoveDown4, ins.map
 	end
 	
 	CannotMoveDown1 = ['###',
@@ -448,7 +448,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveDown1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveDown1))
 		assert_equal 'ERROR wall', ins.moveDown
-		assert_equal CannotMoveDown1, ins.picture
+		assert_equal CannotMoveDown1, ins.map
 	end
 	
 	CannotMoveDown2 = ['###',
@@ -459,7 +459,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveDown2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveDown2))
 		assert_equal 'ERROR wall behind crate', ins.moveDown
-		assert_equal CannotMoveDown2, ins.picture
+		assert_equal CannotMoveDown2, ins.map
 	end
 	
 	CannotMoveDown3 = ['###',
@@ -472,7 +472,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveDown3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveDown3))
 		assert_equal 'ERROR double crate', ins.moveDown
-		assert_equal CannotMoveDown3, ins.picture
+		assert_equal CannotMoveDown3, ins.map
 	end
 	
 	CannotMoveDown4 = ['###',
@@ -485,7 +485,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveDown4
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveDown4))
 		assert_equal 'ERROR double crate', ins.moveDown
-		assert_equal CannotMoveDown4, ins.picture
+		assert_equal CannotMoveDown4, ins.map
 	end
 	
 	CannotMoveDown5 = ['###',
@@ -498,7 +498,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveDown5
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveDown5))
 		assert_equal 'ERROR double crate', ins.moveDown
-		assert_equal CannotMoveDown5, ins.picture
+		assert_equal CannotMoveDown5, ins.map
 	end
 	
 	CannotMoveDown6 = ['###',
@@ -511,7 +511,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveDown6
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveDown6))
 		assert_equal 'ERROR double crate', ins.moveDown
-		assert_equal CannotMoveDown6, ins.picture
+		assert_equal CannotMoveDown6, ins.map
 	end
 	
 	### Move left ##############################################
@@ -532,7 +532,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveLeft1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveLeft1))
 		ins.moveLeft
-		assert_equal AfterMoveLeft1, ins.picture
+		assert_equal AfterMoveLeft1, ins.map
 	end
 	
 	CanMoveLeft2 = ['####',
@@ -551,7 +551,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveLeft2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveLeft2))
 		ins.moveLeft
-		assert_equal AfterMoveLeft2, ins.picture
+		assert_equal AfterMoveLeft2, ins.map
 	end
 	
 	CanMoveLeft3 = ['#####',
@@ -570,7 +570,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveLeft3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveLeft3))
 		ins.moveLeft
-		assert_equal AfterMoveLeft3, ins.picture
+		assert_equal AfterMoveLeft3, ins.map
 	end
 	
 	CanMoveLeft4 = ['#####',
@@ -589,7 +589,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveLeft4
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveLeft4))
 		ins.moveLeft
-		assert_equal AfterMoveLeft4, ins.picture
+		assert_equal AfterMoveLeft4, ins.map
 	end
 	
 	CannotMoveLeft1 = ['###',
@@ -599,7 +599,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveLeft1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveLeft1))
 		assert_equal 'ERROR wall', ins.moveLeft
-		assert_equal CannotMoveLeft1, ins.picture
+		assert_equal CannotMoveLeft1, ins.map
 	end
 	
 	CannotMoveLeft2 = ['####',
@@ -609,7 +609,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveLeft2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveLeft2))
 		assert_equal 'ERROR wall behind crate', ins.moveLeft
-		assert_equal CannotMoveLeft2, ins.picture
+		assert_equal CannotMoveLeft2, ins.map
 	end
 	
 	CannotMoveLeft3 = ['######',
@@ -619,7 +619,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveLeft3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveLeft3))
 		assert_equal 'ERROR double crate', ins.moveLeft
-		assert_equal CannotMoveLeft3, ins.picture
+		assert_equal CannotMoveLeft3, ins.map
 	end
 	
 	### Move right ##############################################
@@ -640,7 +640,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveRight1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveRight1))
 		ins.moveRight
-		assert_equal AfterMoveRight1, ins.picture
+		assert_equal AfterMoveRight1, ins.map
 	end
 	
 	CanMoveRight2 = ['####',
@@ -659,7 +659,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveRight2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveRight2))
 		ins.moveRight
-		assert_equal AfterMoveRight2, ins.picture
+		assert_equal AfterMoveRight2, ins.map
 	end
 	
 	CanMoveRight3 = ['#####',
@@ -678,7 +678,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveRight3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveRight3))
 		ins.moveRight
-		assert_equal AfterMoveRight3, ins.picture
+		assert_equal AfterMoveRight3, ins.map
 	end
 	
 	CanMoveRight4 = ['#####',
@@ -697,7 +697,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_AfterMoveRight4
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CanMoveRight4))
 		ins.moveRight
-		assert_equal AfterMoveRight4, ins.picture
+		assert_equal AfterMoveRight4, ins.map
 	end
 	
 	CannotMoveRight1 = ['###',
@@ -707,7 +707,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveRight1
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveRight1))
 		assert_equal 'ERROR wall', ins.moveRight
-		assert_equal CannotMoveRight1, ins.picture
+		assert_equal CannotMoveRight1, ins.map
 	end
 	
 	CannotMoveRight2 = ['####',
@@ -717,7 +717,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveRight2
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveRight2))
 		assert_equal 'ERROR wall behind crate', ins.moveRight
-		assert_equal CannotMoveRight2, ins.picture
+		assert_equal CannotMoveRight2, ins.map
 	end
 	
 	CannotMoveRight3 = ['######',
@@ -727,7 +727,7 @@ class TC_Level < Test::Unit::TestCase
 	def test_CannotMoveRight3
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveRight3))
 		assert_equal 'ERROR double crate', ins.moveRight
-		assert_equal CannotMoveRight3, ins.picture
+		assert_equal CannotMoveRight3, ins.map
 	end
 	
 	### WIN ########################################################
@@ -766,7 +766,7 @@ class TC_Level < Test::Unit::TestCase
 		ins.addStorage
 		
 		# I need to be sure that coord 1, 1 is '*'
-		assert_equal '#*#', ins.picture[1]
+		assert_equal '#*#', ins.map[1]
 		
 		assert_equal 'ERROR wall behind crate', ins.moveUp
 	end

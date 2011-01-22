@@ -21,13 +21,13 @@ module RSokoban
 		# @param [RawLevel] rawLevel
 		def initialize rawLevel
 			@title = rawLevel.title
-			@floor = init_floor rawLevel.picture
-			@man = init_man rawLevel.picture
+			@floor = init_floor rawLevel.map
+			@man = init_man rawLevel.map
 			@crates = []
 			@storages = []
-			init_crates_and_storages rawLevel.picture
+			init_crates_and_storages rawLevel.map
 			@move = 0
-			@picture = nil
+			@map = nil
 			@move_recorder = MoveRecorder.new
 		end
 		
@@ -45,14 +45,14 @@ module RSokoban
 			self == obj
 		end
 		
-		# Get an instant picture of the game.
-		# @return [Array<String>] the picture, after X turns of game.
-		def picture
-			@picture = init_floor @floor
+		# Get an instant map of the game.
+		# @return [Map] the map, after X turns of game.
+		def map
+			@map = init_floor @floor
 			draw_crates
 			draw_storages
 			draw_man
-			@picture
+			@map
 		end
 		
 		# Move the man one box up.
@@ -210,29 +210,29 @@ module RSokoban
 			box == CRATE or box == CRATE_ON_STORAGE
 		end
 		
-		# Draw the man for @picture output
+		# Draw the man for map output
 		def draw_man
 			box = what_is_on @man.x, @man.y
-			put_man_in_picture if box == FLOOR
-			put_man_on_storage_in_picture if box == STORAGE
+			put_man_in_map if box == FLOOR
+			put_man_on_storage_in_map if box == STORAGE
 		end
 		
-		def put_man_in_picture
-			@picture[@man.y][@man.x] = MAN
+		def put_man_in_map
+			@map[@man.y][@man.x] = MAN
 		end
 		
-		def put_man_on_storage_in_picture
-			@picture[@man.y][@man.x] = MAN_ON_STORAGE
+		def put_man_on_storage_in_map
+			@map[@man.y][@man.x] = MAN_ON_STORAGE
 		end
 		
-		# Draw the crates for @picture output
+		# Draw the crates for map output
 		def draw_crates
-			@crates.each {|crate| @picture[crate.y][crate.x] = what_is_on(crate.x, crate.y) }
+			@crates.each {|crate| @map[crate.y][crate.x] = what_is_on(crate.x, crate.y) }
 		end
 		
-		# Draw the storages location for @picture output
+		# Draw the storages location for map output
 		def draw_storages
-			@storages.each {|st| @picture[st.y][st.x] = what_is_on(st.x, st.y) }
+			@storages.each {|st| @map[st.y][st.x] = what_is_on(st.x, st.y) }
 		end
 
 		# Get the content of box x, y
@@ -257,21 +257,21 @@ module RSokoban
 		
 		# Removes all storages locations, all crates and the man, leaving only walls and floor.
 		#
-		# @param [Array<String>] picture 
-		# @return [Array<String>] picture with only walls and floor
-		def init_floor picture
+		# @param [Map] map 
+		# @return [Map] map with only walls and floor
+		def init_floor map
 			floor = []
-			picture.each {|x| floor.push x.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
+			map.each {|x| floor.push x.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
 			floor
 		end
 		
 		# Find the man's position, at the begining of the level.
 		#
-		# @param [Array<String>] picture
+		# @param [Map] map
 		# @return [Man] an initialised man
-		def init_man picture
+		def init_man map
 			x = y = 0
-			picture.each {|line| 
+			map.each {|line| 
 				if line.include?(MAN)
 					x = line.index(MAN)
 					break
@@ -283,10 +283,10 @@ module RSokoban
 		
 		# Find position of crates and storages, at the begining of the level.
 		#
-		# @param [Array<String>] picture
-		def init_crates_and_storages picture
+		# @param [Map] map
+		def init_crates_and_storages map
 			y = 0
-			picture.each do |line| 
+			map.each do |line| 
 				count = 0
 				line.each_char do |c| 
 					@crates.push Crate.new(count, y) if c == CRATE
