@@ -3,6 +3,12 @@
 (done)move version in a file
 (done)undo
 
+switch to ruby 1.8.7
+
+UI must display level's title, number of current level and total of levels in current set
+
+UI must provide a way for the user to know names of sets
+
 Picture must be a class
 
 --- v1.0 ---

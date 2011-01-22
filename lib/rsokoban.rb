@@ -9,7 +9,7 @@ require "rsokoban/game"
 require "rsokoban/option"
 require "rsokoban/level_set"
 require "rsokoban/raw_level"
-require "rsokoban/ui/ui"
+require "rsokoban/ui"
 require "rsokoban/move_recorder"
 
 # I am the main module of the game.
