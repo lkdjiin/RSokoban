@@ -23,7 +23,7 @@ module RSokoban::UI
 		# an .xsb filename           to load the set with this name
 		# 
 		# @param ['START'|'DISPLAY'|'WIN'] type the type of message
-		# @param [Array<String>] map the map of the level
+		# @param [Map] map the map of the level
 		# @param [String] message a message to be displayed. See Level#move
 		#   to learn more about the message format and content.
 		# @return [Object] the user's action

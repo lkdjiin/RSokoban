@@ -21,5 +21,5 @@ Enjoy the game !}
 	s.executables = ['rsokoban']
 	s.test_file  = 'test/test.rb'
 	s.license = 'GPL-3'
-	s.required_ruby_version = '>= 1.9.0'
+	s.required_ruby_version = '>= 1.8.7'
 end
