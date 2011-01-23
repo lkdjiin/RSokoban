@@ -25,13 +25,10 @@ module RSokoban::UI
 				@set_title = hash[:set]
 				@level_number = hash[:number]
 				@set_total = hash[:total]
-				@move = hash[:move]
 				Curses.clear
 			end
 			if [:display, :start].include?(hash[:type]) 
 				ask_player hash
-			#elsif hash[:type] == :end_of_set
-				#tell_end_of_set
 			else
 				# assuming :win
 				ask_for_next_level hash
