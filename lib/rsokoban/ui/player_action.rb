@@ -2,7 +2,7 @@ module RSokoban::UI
 
 	# I am an action from the player.
 	#
-	# List of actions :
+	# List of possible actions :
 	# [:quit]                      to quit game
 	# [:next]                      to load and play next level
 	# [:retry]                     to restart the current level
@@ -13,14 +13,21 @@ module RSokoban::UI
 	#
 	# @since 0.73
 	class PlayerAction
+		# @param [Object] the action
 		attr_reader :action
 		
 		@@Allowed_symbols = [ :up, :down, :left, :right, :quit, :next, :retry, :undo ]
 		
-		def initialize val = nil
-			self.action = val unless val.nil?
+		# You can the the {class description}[PlayerAction] for an allowed list of value.
+		# @param [Object] value optional initial action
+		# @raise ArgumentError if value is not allowed
+		def initialize value = nil
+			self.action = value unless value.nil?
 		end
 		
+		# Set the player action.
+		# You can the the {class description}[PlayerAction] for an allowed list of value.
+		# @param [Object] value the player action
 		def action=(value)
 			if value.instance_of?(Symbol)
 				raise ArgumentError unless @@Allowed_symbols.include?(value)
