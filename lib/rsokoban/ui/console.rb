@@ -11,32 +11,35 @@ module RSokoban::UI
 			super()
 		end
 		
-		def get_action(type, map, message)
-			@level_title = message if type == 'START'
-			message = 'OK move 0' if type == 'START'
-			display map, message
-			if type == 'DISPLAY' or type == 'START'
-				askPlayer
+		def get_action(hash)
+			@level_title = hash[:title] if hash[:type] == :start
+			display hash
+			if [:display, :start].include?(hash[:type])
+				ask_player
 			else
 				# assuming type == 'WIN'
-				askForNextLevel
+				ask_for_next_level
 			end
 		end
 		
 		private
 		
-		def display map, message
+		def display hash
 			blankConsole = "\n" * 24 # assuming a console window of 24 lines height
 			puts blankConsole
 			puts @level_title
 			puts "--------------------"
-			puts message
+			unless hash[:move].nil?
+				puts "move #{hash[:move]}"
+			else
+				puts ''
+			end
 			puts ''
-			map.each {|line| puts line }
+			hash[:map].each {|line| puts line }
 			puts ''
 		end
 		
-		def askForNextLevel
+		def ask_for_next_level
 			printf "Play next level ? "
 			line = readline.chomp
 			if ['yes', 'ye', 'y', 'YES', 'YE', 'Y'].include?(line)
@@ -46,16 +49,16 @@ module RSokoban::UI
 			end
 		end
 		
-		def askPlayer
+		def ask_player
 			printf "Your choice ? "
 			line = readline.chomp
 			response = parse line
 			if response.nil?
 				puts "Error : #{line}"
-				askPlayer
-			elsif response == :help
-				displayHelp
-				askPlayer
+				ask_player
+			elsif response.instance_of?(Symbol) and response == :help
+				display_help
+				ask_player
 			else
 				response
 			end
@@ -63,24 +66,19 @@ module RSokoban::UI
 		
 		def parse str
 			case str
-				when 'quit', 'up', 'down', 'right', 'left', 'retry', 'help', 'undo'
+				when 'quit', 'up', 'down', 'right', 'left', 'retry', 'undo'
 					PlayerAction.new(str.to_sym)
-				when 'z'
-					PlayerAction.new(:up)
-				when 's'
-					PlayerAction.new(:down)
-				when 'q'
-					PlayerAction.new(:left)
-				when 'd'
-					PlayerAction.new(:right)
-				when '1'..'999'
-					PlayerAction.new(str.to_i)
-				when /\.xsb$/
-					PlayerAction.new(str)
+				when 'help' then :help
+				when 'z' then PlayerAction.new(:up)
+				when 's' then PlayerAction.new(:down)
+				when 'q' then PlayerAction.new(:left)
+				when 'd' then PlayerAction.new(:right)
+				when '1'..'999' then PlayerAction.new(str.to_i)
+				when /\.xsb$/ then PlayerAction.new(str)
 			end
 		end
 		
-		def displayHelp
+		def display_help
 			help=<<EOS
 ------------------------------
 General commands :

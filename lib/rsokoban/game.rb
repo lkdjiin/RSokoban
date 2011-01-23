@@ -6,8 +6,8 @@ module RSokoban
 		# Construct a new game that you can later run.
 		# @param [:curses|:portable] ui_as_symbol the user interface for the game
 		def initialize ui_as_symbol
-			@levelLoader = LevelLoader.new "original.xsb"
-			@levelNumber = 1
+			@level_loader = LevelLoader.new "original.xsb"
+			@level_number = 1
 			case ui_as_symbol
 				when :curses
 					require "rsokoban/ui/curses_console"
@@ -42,10 +42,15 @@ module RSokoban
 					result = @level.undo
 				end
 				
+				move_index = result =~ /\d+/
 				if result.start_with?('WIN')
-					player_action = @ui.get_action('WIN', @level.map, result)
+					player_action = @ui.get_action(:type=>:win, :map=>@level.map, :move=>result[move_index..-1])
 				else
-					player_action = @ui.get_action('DISPLAY', @level.map, result)
+					if move_index
+						player_action = @ui.get_action(:type=>:display, :map=>@level.map, :move=>result[move_index..-1])
+					else
+						player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result)
+					end
 				end
 			end
 		end
@@ -55,7 +60,7 @@ module RSokoban
 		# Load and start the next level of the set
 		# @return [Object] the user's {action}[Console#get_action]
 		def next_level
-			@levelNumber += 1
+			@level_number += 1
 			start_level
 		end
 		
@@ -69,22 +74,25 @@ module RSokoban
 		# @param [String] setname the name of the set (with .xsb extension)
 		# @return [Object] the user's {action}[Console#get_action]
 		def load_a_new_set setname 
+			title = nil
+			error = nil
 			begin
-				@levelLoader = LevelLoader.new setname
-				@levelNumber = 1
-				@level = @levelLoader.level(@levelNumber)
-				message = "Level : #{@level.title}"
+				@level_loader = LevelLoader.new setname
+				@level_number = 1
+				@level = @level_loader.level(@level_number)
+				title = @level.title
 			rescue NoFileError
-				message = "Error, no such file : #{setname}"
+				error = "Error, no such file : #{setname}"
 			end
-			@ui.get_action('START', @level.map, message)
+			@ui.get_action(:type=>:start, :map=>@level.map, :title=>title, :error=>error, :set=>setname,
+			:number=>@level_number, :total=>0)
 		end
 		
 		# Load a level from the current set.
 		# @param [Fixnum] num the number of the set (base 1)
 		# @return [Object] the user's {action}[Console#get_action]
 		def load_level num
-			@levelNumber = num
+			@level_number = num
 			start_level
 		end
 		
@@ -92,10 +100,11 @@ module RSokoban
 		# @return [Object] the user's {action}[Console#get_action]
 		def start_level
 			begin
-				@level = @levelLoader.level(@levelNumber)
-				@ui.get_action('START', @level.map, "Level : #{@level.title}")
+				@level = @level_loader.level(@level_number)
+				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>'???',
+				:number=>@level_number, :total=>0)
 			rescue LevelNumberTooHighError
-				@ui.get_action('END_OF_SET', ['####'], "No more levels in this set")
+				@ui.get_action(:type=>:end_of_set, :map=>Map.new)
 			end
 		end
 		

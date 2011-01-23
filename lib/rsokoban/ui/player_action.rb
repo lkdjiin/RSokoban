@@ -25,6 +25,10 @@ module RSokoban::UI
 			self.action = value unless value.nil?
 		end
 		
+		def ==(obj)
+			@action == obj.action
+		end
+		
 		# Set the player action.
 		# You can the the {class description}[PlayerAction] for an allowed list of value.
 		# @param [Object] value the player action

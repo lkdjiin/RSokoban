@@ -8,20 +8,27 @@ module RSokoban::UI
 			@level_title = ''
 		end
 		
-		# Based on things found in the arguments, I display the game
-		# to the user. Then he can tell what he want to do. Whatever
+		# Based on things found in the +hash+ argument, I display the game
+		# to the user. Then he can tell what he wants to do. Whatever
 		# my childs permit the user to do, they can only return an 
 		# ActionPlayer object.
 		# 
-		# @param ['START'|'DISPLAY'|'WIN'] type the type of message
-		# @param [Map] map the map of the level
-		# @param [String] message a message to be displayed. See Level#move
-		#   to learn more about the message format and content.
+		# @param [Hash] hash
+		#   :type => type of message, :win or :start or :display or :end_of_set
+		#   :map => current game map
+		# @param [Hash] hash the options passed to the UI.
+		# @option hash [:win|:start|:display|:end_of_set] :type The type of the message (always +requiered+)
+		# @option hash [Map] :map The current map of the game (always +requiered+)
+		# @option hash [String] :title The level's title (requiered if type==:start)
+		# @option hash [String] :set The set's title (requiered if type==:start)
+		# @option hash [Fixnum] :number The level's number (requiered if type==:start)
+		# @option hash [Fixnum] :total Number of level in this set (requiered if type==:start)
+		# @option hash [Fixnum] :move The move's number (requiered when type is :display or :win)
+		# @option hash [String] :error An error message. Could happen when type is :display or :start
 		# @return [PlayerAction] the user's action
-		# @since 0.71
+		# @since 0.73
 		# @todo write some examples
-		# @todo document better +type+
-		def get_action(type, map, message)
+		def get_action(hash)
 			raise "Please implement me !"
 		end
 		

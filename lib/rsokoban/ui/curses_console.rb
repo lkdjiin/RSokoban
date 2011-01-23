@@ -18,17 +18,17 @@ module RSokoban::UI
 			Curses.close_screen
 		end
 		
-		def get_action(type, map, message)
-			if type == 'START' or type == 'END_OF_SET'
-				@level_title = message 
-				message = 'OK move 0'
+		def get_action(hash)
+			if hash[:type] == :start or hash[:type] == :end_of_set
+				@level_title = hash[:title]
+				@move = hash[:move]
 				Curses.clear
 			end
-			if type == 'DISPLAY' or type == 'START'  or type == 'END_OF_SET'
-				ask_player map, message
+			if [:display, :start, :end_of_set].include?(hash[:type]) 
+				ask_player hash
 			else
-				# assuming type == 'WIN'
-				askForNextLevel map, message
+				# assuming :win
+				ask_for_next_level hash
 			end
 		end
 		
@@ -41,13 +41,12 @@ module RSokoban::UI
 			Curses.curs_set 0
 		end
 		
-		def display map, message
+		def display hash
 			write @@TITLE_LINE, 0, @level_title
-			move_index = message =~ /\d+/
-			write @@MOVES_LINE, 0, "moves : #{message[move_index..-1]}   " if move_index
+			write @@MOVES_LINE, 0, "moves : #{hash[:move].to_s}   " unless hash[:move].nil?
 			write @@STATUS_LINE, 0, 'arrows=move (q)uit (r)etry (u)ndo (l)oad level/set'
 			line_num = @@PICTURE_LINE
-			map.each {|line| 
+			hash[:map].each {|line| 
 				write line_num, 0, line
 				line_num += 1
 			}
@@ -58,22 +57,22 @@ module RSokoban::UI
 			Curses.addstr(text);
 		end
 		
-		def askForNextLevel map, message
-			display map, message
+		def ask_for_next_level hash
+			display hash
 			write @@STATUS_LINE, 0, "LEVEL COMPLETED ! Play next level ? (yes, no)        "
 			case Curses.getch
 				when ?n, ?N then PlayerAction.new(:quit)
 				when ?y, ?Y then PlayerAction.new(:next)
 				else
-					askForNextLevel map, message
+					ask_for_next_level hash
 			end
 		end
 		
-		def ask_player map, message
-			display map, message
+		def ask_player hash
+			display hash
 			response = get_player_input
 			if response.nil?
-				ask_player map, message
+				ask_player hash
 			else
 				response
 			end
