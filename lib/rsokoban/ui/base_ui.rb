@@ -9,7 +9,7 @@ module RSokoban::UI
 		end
 		
 		# Based on things found in the arguments, I display the game
-		# to the user. Then he can tell what it want to do. Whatever
+		# to the user. Then he can tell what he want to do. Whatever
 		# my childs permit the user to do, they can only return an 
 		# ActionPlayer object.
 		# 
