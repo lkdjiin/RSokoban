@@ -84,8 +84,8 @@ module RSokoban
 			rescue NoFileError
 				error = "Error, no such file : #{setname}"
 			end
-			@ui.get_action(:type=>:start, :map=>@level.map, :title=>title, :error=>error, :set=>setname,
-			:number=>@level_number, :total=>0)
+			@ui.get_action(:type=>:start, :map=>@level.map, :title=>title, :error=>error, :set=>@level_loader.set.title,
+			:number=>@level_number, :total=>@level_loader.set.size)
 		end
 		
 		# Load a level from the current set.
@@ -101,8 +101,8 @@ module RSokoban
 		def start_level
 			begin
 				@level = @level_loader.level(@level_number)
-				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>'???',
-				:number=>@level_number, :total=>0)
+				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.set.title,
+				:number=>@level_number, :total=>@level_loader.set.size)
 			rescue LevelNumberTooHighError
 				@ui.get_action(:type=>:end_of_set, :map=>Map.new)
 			end

@@ -6,10 +6,11 @@ module RSokoban::UI
 	# I assume 24 lines height.
 	class CursesConsole < BaseUI
 	
-		@@TITLE_LINE = 0
-		@@MOVES_LINE = 1
-		@@STATUS_LINE = 2
-		@@PICTURE_LINE = 4
+		@@SET_LINE = 0
+		@@TITLE_LINE = 1
+		@@MOVES_LINE = 2
+		@@STATUS_LINE = 3
+		@@PICTURE_LINE = 5
 		
 		def initialize
 			super()
@@ -19,8 +20,13 @@ module RSokoban::UI
 		end
 		
 		def get_action(hash)
-			if hash[:type] == :start or hash[:type] == :end_of_set
+			if hash[:type] == :start
 				@level_title = hash[:title]
+				@set_title = hash[:set]
+				@level_number = hash[:number]
+				@set_total = hash[:total]
+			end
+			if hash[:type] == :start or hash[:type] == :end_of_set
 				@move = hash[:move]
 				Curses.clear
 			end
@@ -42,7 +48,8 @@ module RSokoban::UI
 		end
 		
 		def display hash
-			write @@TITLE_LINE, 0, @level_title
+			write @@SET_LINE, 0, "Set: #{@set_title}"
+			write @@TITLE_LINE, 0, "Level: #{@level_title} (#{@level_number}/#{@set_total})"
 			write @@MOVES_LINE, 0, "moves : #{hash[:move].to_s}   " unless hash[:move].nil?
 			write @@STATUS_LINE, 0, 'arrows=move (q)uit (r)etry (u)ndo (l)oad level/set'
 			line_num = @@PICTURE_LINE

@@ -32,6 +32,10 @@ module RSokoban
 			@rawLevels = []
 		end
 		
+		def size
+			@rawLevels.size
+		end
+		
 	end
 	
 end

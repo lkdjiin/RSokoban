@@ -12,7 +12,12 @@ module RSokoban::UI
 		end
 		
 		def get_action(hash)
-			@level_title = hash[:title] if hash[:type] == :start
+			if hash[:type] == :start
+				@level_title = hash[:title] 
+				@set_title = hash[:set]
+				@level_number = hash[:number]
+				@set_total = hash[:total]
+			end
 			display hash
 			if [:display, :start].include?(hash[:type])
 				ask_player
@@ -27,7 +32,8 @@ module RSokoban::UI
 		def display hash
 			blankConsole = "\n" * 24 # assuming a console window of 24 lines height
 			puts blankConsole
-			puts @level_title
+			puts "Set: #{@set_title}"
+			puts "Level: #{@level_title} (#{@level_number}/#{@set_total})"
 			puts "--------------------"
 			unless hash[:move].nil?
 				puts "move #{hash[:move]}"
