@@ -25,13 +25,13 @@ module RSokoban::UI
 				@set_title = hash[:set]
 				@level_number = hash[:number]
 				@set_total = hash[:total]
-			end
-			if hash[:type] == :start or hash[:type] == :end_of_set
 				@move = hash[:move]
 				Curses.clear
 			end
-			if [:display, :start, :end_of_set].include?(hash[:type]) 
+			if [:display, :start].include?(hash[:type]) 
 				ask_player hash
+			#elsif hash[:type] == :end_of_set
+				#tell_end_of_set
 			else
 				# assuming :win
 				ask_for_next_level hash
@@ -118,7 +118,12 @@ EOS
 			Curses.curs_set 0
 			Curses.noecho
 			case str
-				when '1'..'999' then PlayerAction.new(str.to_i)
+				when '1'..'999'
+					if str.to_i > @set_total
+						ask_level_or_set
+					else
+						PlayerAction.new(str.to_i)
+					end
 				when /\.xsb$/ then PlayerAction.new(str)
 				else
 					PlayerAction.new(:retry)

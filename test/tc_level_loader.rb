@@ -26,7 +26,7 @@ class TC_LevelLoader < Test::Unit::TestCase
 		assert_equal "one simple level to test\n", ins.set.description
 	end
 	
-	def test_picture
+	def test_map
 		ins = RSokoban::LevelLoader.new "test_file1.xsb"
 		expected = [ '#####',
                  '#.$@#',
@@ -83,6 +83,18 @@ class TC_LevelLoader < Test::Unit::TestCase
 		assert_raise(RSokoban::LevelNumberTooHighError) do
 			assert_equal '99', ins.level(99).title
 		end
+	end
+	
+	def test_get_size_of_set
+		ins = RSokoban::LevelLoader.new "original.xsb"
+		assert_equal 90, ins.set.size
+	end
+	
+	# There was a bug where size was majored by one when the xsb file
+	# finish by several blank lines.
+	def test_get_size_of_set_buggy
+		ins = RSokoban::LevelLoader.new "test_file2.xsb"
+		assert_equal 6, ins.set.size
 	end
 	
 end

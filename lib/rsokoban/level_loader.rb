@@ -35,7 +35,7 @@ module RSokoban
 						line = file.readline.chomp
 					end
 					line = line.chomp.sub(/;/, '').sub(/\s*/, '')
-					@set.rawLevels.push RawLevel.new(line, raw)
+					@set.rawLevels.push RawLevel.new(line, raw) unless raw.empty?
 					
 					line = file.readline
 					while line[0, 1] == ';'

@@ -79,7 +79,12 @@ module RSokoban::UI
 				when 's' then PlayerAction.new(:down)
 				when 'q' then PlayerAction.new(:left)
 				when 'd' then PlayerAction.new(:right)
-				when '1'..'999' then PlayerAction.new(str.to_i)
+				when '1'..'999'
+					if str.to_i > @set_total
+						ask_player
+					else
+					 	PlayerAction.new(str.to_i)
+					 end
 				when /\.xsb$/ then PlayerAction.new(str)
 			end
 		end

@@ -39,4 +39,12 @@ class TC_LevelSet < Test::Unit::TestCase
 		ins = RSokoban::LevelSet.new
 		assert_equal [], ins.rawLevels
 	end
+	
+	def test_get_size
+		ins = RSokoban::LevelSet.new
+		list = [].push(RSokoban::RawLevel.new('title', ['###']))
+		ins.rawLevels = list
+		assert_equal 1, ins.size
+	end
+	
 end
