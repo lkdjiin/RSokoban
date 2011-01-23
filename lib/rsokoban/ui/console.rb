@@ -40,9 +40,9 @@ module RSokoban::UI
 			printf "Play next level ? "
 			line = readline.chomp
 			if ['yes', 'ye', 'y', 'YES', 'YE', 'Y'].include?(line)
-				:next
+				PlayerAction.new(:next)
 			else
-				:quit
+				PlayerAction.new(:quit)
 			end
 		end
 		
@@ -64,19 +64,19 @@ module RSokoban::UI
 		def parse str
 			case str
 				when 'quit', 'up', 'down', 'right', 'left', 'retry', 'help', 'undo'
-					str.to_sym
+					PlayerAction.new(str.to_sym)
 				when 'z'
-					:up
+					PlayerAction.new(:up)
 				when 's'
-					:down
+					PlayerAction.new(:down)
 				when 'q'
-					:left
+					PlayerAction.new(:left)
 				when 'd'
-					:right
+					PlayerAction.new(:right)
 				when '1'..'999'
-					str.to_i
+					PlayerAction.new(str.to_i)
 				when /\.xsb$/
-					str
+					PlayerAction.new(str)
 			end
 		end
 		

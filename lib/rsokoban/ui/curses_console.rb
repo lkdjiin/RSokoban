@@ -62,8 +62,8 @@ module RSokoban::UI
 			display map, message
 			write @@STATUS_LINE, 0, "LEVEL COMPLETED ! Play next level ? (yes, no)        "
 			case Curses.getch
-				when ?n, ?N then :quit
-				when ?y, ?Y then :next
+				when ?n, ?N then PlayerAction.new(:quit)
+				when ?y, ?Y then PlayerAction.new(:next)
 				else
 					askForNextLevel map, message
 			end
@@ -81,14 +81,14 @@ module RSokoban::UI
 		
 		def get_player_input
 			case Curses.getch
-				when Curses::Key::UP then :up
-    		when Curses::Key::DOWN then :down
-    		when Curses::Key::LEFT then :left
-    		when Curses::Key::RIGHT then :right
-    		when ?q, ?Q then :quit
-    		when ?r, ?R then :retry
+				when Curses::Key::UP then PlayerAction.new(:up)
+    		when Curses::Key::DOWN then PlayerAction.new(:down)
+    		when Curses::Key::LEFT then PlayerAction.new(:left)
+    		when Curses::Key::RIGHT then PlayerAction.new(:right)
+    		when ?q, ?Q then PlayerAction.new(:quit)
+    		when ?r, ?R then PlayerAction.new(:retry)
     		when ?l, ?L then ask_level_or_set
-    		when ?u, ?U then :undo
+    		when ?u, ?U then PlayerAction.new(:undo)
     		else
     			nil
 			end
@@ -112,10 +112,10 @@ EOS
 			Curses.curs_set 0
 			Curses.noecho
 			case str
-				when '1'..'999' then str.to_i
-				when /\.xsb$/ then str
+				when '1'..'999' then PlayerAction.new(str.to_i)
+				when /\.xsb$/ then PlayerAction.new(str)
 				else
-					:retry
+					PlayerAction.new(:retry)
 			end
 		end
 		

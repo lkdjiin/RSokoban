@@ -2,8 +2,7 @@
 --- v0.73 ---
 (done)move version in a file
 (done)undo
-
-switch to ruby 1.8.7
+(done)switch to ruby 1.8.7
 
 UI must display level's title, number of current level and total of levels in current set
 

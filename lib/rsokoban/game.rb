@@ -20,33 +20,32 @@ module RSokoban
 		
 		# I am the game loop.
 		def run
-			action = start_level
+			player_action = start_level
 			loop do
-				if action.is_a?(Fixnum)
-					action = load_level action
+				if player_action.level_number?
+					player_action = load_level player_action.action
 					next
-				elsif action.instance_of?(String)
-					# Assuming we recieve a filename of level's set to load
-					action = load_a_new_set action
+				elsif player_action.set_name?
+					player_action = load_a_new_set player_action.action
 					next
-				elsif action == :quit
+				elsif player_action.quit?
 					break
-				elsif action == :next
-					action = next_level
+				elsif player_action.next?
+					player_action = next_level
 					next
-				elsif action == :retry
-					action = try_again
+				elsif player_action.retry?
+					player_action = try_again
 					next
-				elsif [:down, :up, :left, :right].include?(action)
-					result = @level.move(action)
-				elsif :undo
+				elsif player_action.move?
+					result = @level.move(player_action.action)
+				elsif player_action.undo?
 					result = @level.undo
 				end
 				
 				if result.start_with?('WIN')
-					action = @ui.get_action('WIN', @level.map, result)
+					player_action = @ui.get_action('WIN', @level.map, result)
 				else
-					action = @ui.get_action('DISPLAY', @level.map, result)
+					player_action = @ui.get_action('DISPLAY', @level.map, result)
 				end
 			end
 		end
