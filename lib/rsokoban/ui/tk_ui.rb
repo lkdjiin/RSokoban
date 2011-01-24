@@ -70,17 +70,17 @@ module RSokoban::UI
 		
 		def init_labels
 			@tk_label_set = TkLabel.new(@tk_root) do
-			 	grid('row' => 0, 'column' => 0, 'columnspan' => 19)
+			 	grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
 			end
 			@tk_label_set.configure('text' => "Set: #{@level_loader.set.title}")
 			
 			@tk_label_level = TkLabel.new(@tk_root) do
-				grid('row'=>1, 'column'=>0, 'columnspan' => 19)
+				grid('row'=>1, 'column'=>0, 'columnspan' => 19, 'sticky' => 'w')
 			end
 			@tk_label_level.configure('text' => "Level: #{@level.title} (#{@level_number}/#{@level_loader.set.size})")
 			
 			@tk_label_move = TkLabel.new(@tk_root) do
-				grid('row'=>2, 'column'=>0, 'columnspan' => 19)
+				grid('row'=>2, 'column'=>0, 'columnspan' => 19, 'sticky' => 'w')
 			end
 			update_move_information
 			
@@ -133,8 +133,8 @@ module RSokoban::UI
 			@tk_undo_button = TkButton.new(@tk_root) do
 				text 'Undo'
 				grid('row'=>3, 'column'=>0, 'columnspan' => 3)
-				command proc { puts "undo" }
 			end
+			@tk_undo_button.command {undo}
 			
 			@tk_retry_button = TkButton.new(@tk_root) do
 				text 'Retry'
@@ -157,6 +157,14 @@ module RSokoban::UI
 			@tk_root.bind('Down') { move :down }
 			@tk_root.bind('Left') { move :left }
 			@tk_root.bind('Right') { move :right }
+			@tk_root.bind('Control-u') { undo }
+		end
+		
+		def undo
+			result = @level.undo
+			@move = get_move_number_from_result_of_last_move result
+			update_move_information
+			display
 		end
 		
 		def move symb
