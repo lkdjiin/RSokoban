@@ -21,14 +21,18 @@ module RSokoban::UI
 		def next_level
 			begin
 				@level_number += 1
-				@level = @level_loader.level(@level_number)
-				@move = 0
-				init_labels # @todo reset_labels instead
-				reset_map
-				display
+				start_level
 			rescue RSokoban::LevelNumberTooHighError
 				Tk::messageBox :message => 'Sorry, no more levels in this set.'
 			end
+		end
+		
+		def start_level
+			@level = @level_loader.level(@level_number)
+			@move = 0
+			init_labels # @todo reset_labels instead
+			reset_map
+			display
 		end
 		
 		def display
@@ -134,12 +138,13 @@ module RSokoban::UI
 				text 'Undo'
 				grid('row'=>3, 'column'=>0, 'columnspan' => 3)
 			end
-			@tk_undo_button.command {undo}
+			@tk_undo_button.command { undo }
 			
 			@tk_retry_button = TkButton.new(@tk_root) do
 				text 'Retry'
 				grid('row'=>3, 'column'=>3, 'columnspan' => 3)
 			end
+			@tk_retry_button.command { start_level }
 			
 			@tk_level_button = TkButton.new(@tk_root) do
 				text 'Level'
@@ -158,6 +163,7 @@ module RSokoban::UI
 			@tk_root.bind('Left') { move :left }
 			@tk_root.bind('Right') { move :right }
 			@tk_root.bind('Control-u') { undo }
+			@tk_root.bind('Control-r') { start_level }
 		end
 		
 		def undo

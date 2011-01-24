@@ -9,13 +9,16 @@
 (done)update move number
 (done)ask next level when win
 (done)undo: button and shorcut Ctrl+u
-place labels to the left
-retry
-load level
-load set
+(done)place labels to the left
+(done)retry
 man in 4 directions
-help
-about
+menu
+  undo
+  retry
+  load level
+  load set
+  help
+  about
 BUG floor outside
 search skins
 ask creators of skin if I can use it
