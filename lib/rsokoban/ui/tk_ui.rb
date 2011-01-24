@@ -7,7 +7,7 @@ module RSokoban::UI
 	class TkUI
 	
 		def initialize
-			@level_loader = RSokoban::LevelLoader.new "original.xsb"
+			@level_loader = RSokoban::LevelLoader.new "microban.xsb"
 			@level_number = 1
 			@level = @level_loader.level(@level_number)
 			@move = 0
@@ -17,6 +17,19 @@ module RSokoban::UI
 		end
 		
 		private
+		
+		def next_level
+			begin
+				@level_number += 1
+				@level = @level_loader.level(@level_number)
+				@move = 0
+				init_labels # @todo reset_labels instead
+				reset_map
+				display
+			rescue RSokoban::LevelNumberTooHighError
+				Tk::messageBox :message => 'Sorry, no more levels in this set.'
+			end
+		end
 		
 		def display
 			y = 0
@@ -41,16 +54,17 @@ module RSokoban::UI
 		def init_gui
 			init_root
 			init_labels
+			preload_images
 			init_map
 			init_buttons
 			make_binding
-			preload_images
 		end
 		
 		def init_root
 			@tk_root = TkRoot.new do
 				title "RSokoban " + File.read('../VERSION').strip
 				minsize(400, 400)
+				resizable(false, false)
 			end
 		end
 		
@@ -68,7 +82,7 @@ module RSokoban::UI
 			@tk_label_move = TkLabel.new(@tk_root) do
 				grid('row'=>2, 'column'=>0, 'columnspan' => 19)
 			end
-			@tk_label_move.configure('text' => "Move: #{@move}")
+			update_move_information
 			
 			@tk_label_separator = TkLabel.new(@tk_root) do
 				text("")
@@ -76,19 +90,20 @@ module RSokoban::UI
 			end
 		end
 		
+		def update_move_information
+			@tk_label_move.configure('text' => "Move: #{@move}")
+		end
+		
 		def init_map
 			row_in_grid = 5
-			photo = TkPhotoImage.new
-			photo.file = "../skins/default/outside.bmp"
-			photo.height = 0
-			photo.width = 0
-			
+			# @outside is not seen within the block of TkLabel#new, so make a local copy
+			out = @outside
 			@tk_map = []
 			(0...16).each {|row_index|
 				row = []
 				(0...19).each {|col_index|
 					label = TkLabel.new(@tk_root) do
-						image(photo)
+						image(out)
 					 	grid('row'=> row_in_grid, 'column'=> col_index, 'padx' => 0, 'pady' => 0, 'ipadx' => 0, 'ipady' => 0)
 					end
 					label['borderwidth'] = 0
@@ -97,6 +112,21 @@ module RSokoban::UI
 				@tk_map.push row
 				row_in_grid += 1
 			}
+		end
+		
+		# Reset all the map with 'outside' image.
+		# @todo little improvement : reload @outside image only if there is something else
+		#   in the current map.
+		def reset_map
+			y = 0
+			@tk_map.each do |row|
+				x = 0
+				row.each do |cell|
+					@tk_map[y][x].configure('image' => @outside)
+					x += 1
+				end
+				y += 1
+			end
 		end
 		
 		def init_buttons
@@ -130,8 +160,24 @@ module RSokoban::UI
 		end
 		
 		def move symb
-			@level.move symb
-			display
+			result = @level.move symb
+			unless result.start_with?('ERROR')
+				@move = get_move_number_from_result_of_last_move result
+				update_move_information
+				display
+			end
+			if result.start_with?('WIN')
+				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
+	    						:icon => 'question', :title => 'You win !', :parent => @tk_root, :default => 'yes'
+	    	next_level if response == 'yes'
+			end
+		end
+		
+		# Assuming that result start with 'OK' or 'WIN'
+		# @return [Fixnum] current move number
+		def get_move_number_from_result_of_last_move result
+			move_index = result =~ /\d+/
+			result[move_index..-1].to_i
 		end
 		
 		def preload_images
@@ -142,6 +188,7 @@ module RSokoban::UI
 			@man = TkPhotoImage.new('file' => '../skins/default/man_up.bmp', 'height' => 0, 'width' => 0)
 			@crate_store = TkPhotoImage.new('file' => '../skins/default/crate_store.bmp', 'height' => 0, 'width' => 0)
 			@man_store = TkPhotoImage.new('file' => '../skins/default/man_store_up.bmp', 'height' => 0, 'width' => 0)
+			@outside = TkPhotoImage.new('file' => '../skins/default/outside.bmp', 'height' => 0, 'width' => 0)
 		end
 		
 	end

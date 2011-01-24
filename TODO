@@ -6,10 +6,24 @@
 (done)UI must display level's title, set's title, number of current level and total of levels in current set
 
 --tk
+(done)update move number
+(done)ask next level when win
+undo: button and shorcut Ctrl+u
+place labels to the left
+retry
+load level
+load set
+man in 4 directions
+help
+about
+BUG floor outside
+search skins
+ask creators of skin if I can use it
+
 
 --- next ---
 
-UI must provide a way for the user to know names of sets
+(G)UI should provide a way to know names of sets
 
 redo
 
@@ -17,8 +31,15 @@ redo
 
 skining
 
+save & reload
+
+solver (plugin ?)
+
 format fichier niveau xml (.slc)
+
 --windows ?
+
 --kde ?
+
 --fxruby ?
-save, reload
+
