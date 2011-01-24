@@ -4,7 +4,7 @@ module RSokoban
 	class Game
 
 		# Construct a new game that you can later run.
-		# @param [:curses|:portable] ui_as_symbol the user interface for the game
+		# @param [:curses|:portable|:tk] ui_as_symbol the user interface for the game
 		def initialize ui_as_symbol
 			@level_loader = LevelLoader.new "original.xsb"
 			@level_number = 1
@@ -15,6 +15,9 @@ module RSokoban
 				when :portable
 					require "rsokoban/ui/console"
 					@ui = UI::Console.new
+				when :tk
+					require "rsokoban/ui/tk_ui"
+					@ui = UI::TkUI.new
 			end
 		end
 		

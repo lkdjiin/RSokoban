@@ -7,4 +7,6 @@ require 'rsokoban'
 option = Option.new
 
 game = RSokoban::Game.new option[:ui]
-game.run
+
+# It seems I have somme troubles to unify GUI and non-GUI.
+game.run if [:curses, :portable].include?(option[:ui])
