@@ -3,15 +3,40 @@ require 'tkextlib/tkimg'
 
 module RSokoban::UI
 
-	# 
+	# I am an image of the game who knows how to display itself on an array
+	# of TkLabel items.
+	# @since 0.73
+	class Image
+		
+		# @param [String] file path of image file
+		# @param [Array<Array<TkLabel>>] output an array to display myself
+		def initialize file, output
+			@box = TkPhotoImage.new('file' => file, 'height' => 0, 'width' => 0)
+			@output = output
+		end
+		
+		# Display myself at x,y coordinate
+		def display_at x, y
+			@output[y][x].configure('image' => @box)
+		end
+		
+	end
+	
+	# I am a GUI using tk library.
+	# @note I need the tk-img extension library.
+	# @since 0.73
+	# @todo a lot of refactoring is needed. There is a lot of duplicated code with Game,
+	#   and maybe Level and BaseUI.
+	# @todo need some more documentation
 	class TkUI
 	
 		def initialize
-			@level_loader = RSokoban::LevelLoader.new "original.xsb"
+			@level_loader = RSokoban::LevelLoader.new "microban.xsb"
 			@level_number = 1
 			@level = @level_loader.level(@level_number)
 			@move = 0
 			@last_move = :up
+			@tk_map = []
 			init_gui
 			display
 			Tk.mainloop 
@@ -24,7 +49,7 @@ module RSokoban::UI
 				@level_number += 1
 				start_level
 			rescue RSokoban::LevelNumberTooHighError
-				Tk::messageBox :message => 'Sorry, no more levels in this set.'
+				Tk::messageImage :message => 'Sorry, no more levels in this set.'
 			end
 		end
 		
@@ -45,13 +70,13 @@ module RSokoban::UI
 				line = row.strip
 				line.each_char do |char|
 					case char
-						when RSokoban::WALL then display_tile_at @wall, x, y
-						when RSokoban::FLOOR then display_tile_at @floor, x, y
-						when RSokoban::CRATE then display_tile_at @crate, x, y
-						when RSokoban::STORAGE then display_tile_at @store, x, y
+						when RSokoban::WALL then @wall.display_at x, y
+						when RSokoban::FLOOR then @floor.display_at x, y
+						when RSokoban::CRATE then @crate.display_at x, y
+						when RSokoban::STORAGE then @store.display_at x, y
 						when RSokoban::MAN then display_man_at x, y
 						when RSokoban::MAN_ON_STORAGE then display_man_on_storage_at x, y
-						when RSokoban::CRATE_ON_STORAGE then display_tile_at @crate_store, x, y
+						when RSokoban::CRATE_ON_STORAGE then @crate_store.display_at x, y
 					end
 					x += 1
 				end
@@ -59,27 +84,23 @@ module RSokoban::UI
 			end
 		end
 		
-		def display_tile_at tile, x, y
-			@tk_map[y][x].configure('image' => tile)
-		end
-		
 		def display_man_at x, y
 			case @last_move
-				when :up then display_tile_at @man_up, x, y
-				when :down then display_tile_at @man_down, x, y
-				when :left then display_tile_at @man_left, x, y
+				when :up then @man_up.display_at x, y
+				when :down then @man_down.display_at x, y
+				when :left then @man_left.display_at x, y
 				else
-					display_tile_at @man_right, x, y
+					@man_right.display_at x, y
 			end
 		end
 		
 		def display_man_on_storage_at x, y
 			case @last_move
-				when :up then display_tile_at @man_store_up, x, y
-				when :down then display_tile_at @man_store_down, x, y
-				when :left then display_tile_at @man_store_left, x, y
+				when :up then @man_store_up.display_at x, y
+				when :down then @man_store_down.display_at x, y
+				when :left then @man_store_left.display_at x, y
 				else
-					display_tile_at @man_store_right, x, y
+					@man_store_right.display_at x, y
 			end
 		end
 		
@@ -126,17 +147,13 @@ module RSokoban::UI
 			@tk_label_move.configure('text' => "Move: #{@move}")
 		end
 		
-		# Fill map on screen with the outside tile.
+		# Build the map of labels. Images of the game will be displayed on those labels.
 		def init_map
 			row_in_grid = 5
-			# @outside is not seen within the block of TkLabel#new, so make a local copy
-			out = @outside
-			@tk_map = []
 			(0...16).each {|row_index|
 				row = []
 				(0...19).each {|col_index|
 					label = TkLabel.new(@tk_root) do
-						image(out)
 					 	grid('row'=> row_in_grid, 'column'=> col_index, 'padx' => 0, 'pady' => 0, 'ipadx' => 0, 'ipady' => 0)
 					end
 					label['borderwidth'] = 0
@@ -145,21 +162,16 @@ module RSokoban::UI
 				@tk_map.push row
 				row_in_grid += 1
 			}
+			reset_map
 		end
 		
 		# Reset all the map with 'outside' tile.
 		# @todo little improvement : reload @outside image only if there is something else
 		#   in the current map.
 		def reset_map
-			y = 0
-			@tk_map.each do |row|
-				x = 0
-				row.each do |cell|
-					@tk_map[y][x].configure('image' => @outside)
-					x += 1
-				end
-				y += 1
-			end
+			@tk_map.each_index {|y|
+				@tk_map[y].each_index {|x| @outside.display_at(x, y) }
+			}
 		end
 		
 		def init_buttons
@@ -167,13 +179,11 @@ module RSokoban::UI
 				text 'Undo'
 				grid('row'=>3, 'column'=>0, 'columnspan' => 3)
 			end
-			@tk_undo_button.command { undo }
 			
 			@tk_retry_button = TkButton.new(@tk_root) do
 				text 'Retry'
 				grid('row'=>3, 'column'=>3, 'columnspan' => 3)
 			end
-			@tk_retry_button.command { start_level }
 			
 			@tk_level_button = TkButton.new(@tk_root) do
 				text 'Level'
@@ -186,6 +196,7 @@ module RSokoban::UI
 			end
 		end
 		
+		# Bind user's actions
 		def make_binding
 			@tk_root.bind('Up') { move :up }
 			@tk_root.bind('Down') { move :down }
@@ -193,6 +204,8 @@ module RSokoban::UI
 			@tk_root.bind('Right') { move :right }
 			@tk_root.bind('Control-u') { undo }
 			@tk_root.bind('Control-r') { start_level }
+			@tk_undo_button.command { undo }
+			@tk_retry_button.command { start_level }
 		end
 		
 		def undo
@@ -215,7 +228,7 @@ module RSokoban::UI
 				display
 			end
 			if result.start_with?('WIN')
-				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
+				response = Tk::messageImage :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
 	    						:icon => 'question', :title => 'You win !', :parent => @tk_root, :default => 'yes'
 	    	next_level if response == 'yes'
 			end
@@ -230,20 +243,20 @@ module RSokoban::UI
 		
 		def preload_images
 			dir = '../skins/default/'
-			@wall = TkPhotoImage.new('file' => dir + 'wall.bmp', 'height' => 0, 'width' => 0)
-			@crate = TkPhotoImage.new('file' => dir + 'crate.bmp', 'height' => 0, 'width' => 0)
-			@floor = TkPhotoImage.new('file' => dir + 'floor.bmp', 'height' => 0, 'width' => 0)
-			@store = TkPhotoImage.new('file' => dir + 'store.bmp', 'height' => 0, 'width' => 0)
-			@man_up = TkPhotoImage.new('file' => dir + 'man_up.bmp', 'height' => 0, 'width' => 0)
-			@man_down = TkPhotoImage.new('file' => dir + 'man_down.bmp', 'height' => 0, 'width' => 0)
-			@man_left = TkPhotoImage.new('file' => dir + 'man_left.bmp', 'height' => 0, 'width' => 0)
-			@man_right = TkPhotoImage.new('file' => dir + 'man_right.bmp', 'height' => 0, 'width' => 0)
-			@crate_store = TkPhotoImage.new('file' => dir + 'crate_store.bmp', 'height' => 0, 'width' => 0)
-			@man_store_up = TkPhotoImage.new('file' => dir + 'man_store_up.bmp', 'height' => 0, 'width' => 0)
-			@man_store_down = TkPhotoImage.new('file' => dir + 'man_store_down.bmp', 'height' => 0, 'width' => 0)
-			@man_store_left = TkPhotoImage.new('file' => dir + 'man_store_left.bmp', 'height' => 0, 'width' => 0)
-			@man_store_right = TkPhotoImage.new('file' => dir + 'man_store_right.bmp', 'height' => 0, 'width' => 0)
-			@outside = TkPhotoImage.new('file' => dir + 'outside.bmp', 'height' => 0, 'width' => 0)
+			@wall = Image.new(dir + 'wall.bmp', @tk_map)
+			@crate = Image.new(dir + 'crate.bmp', @tk_map)
+			@floor = Image.new(dir + 'floor.bmp', @tk_map)
+			@store = Image.new(dir + 'store.bmp', @tk_map)
+			@man_up = Image.new(dir + 'man_up.bmp', @tk_map)
+			@man_down = Image.new(dir + 'man_down.bmp', @tk_map)
+			@man_left = Image.new(dir + 'man_left.bmp', @tk_map)
+			@man_right = Image.new(dir + 'man_right.bmp', @tk_map)
+			@crate_store = Image.new(dir + 'crate_store.bmp', @tk_map)
+			@man_store_up = Image.new(dir + 'man_store_up.bmp', @tk_map)
+			@man_store_down = Image.new(dir + 'man_store_down.bmp', @tk_map)
+			@man_store_left = Image.new(dir + 'man_store_left.bmp', @tk_map)
+			@man_store_right = Image.new(dir + 'man_store_right.bmp', @tk_map)
+			@outside = Image.new(dir + 'outside.bmp', @tk_map)
 		end
 		
 	end
