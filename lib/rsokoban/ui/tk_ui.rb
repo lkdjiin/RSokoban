@@ -11,6 +11,7 @@ module RSokoban::UI
 			@level_number = 1
 			@level = @level_loader.level(@level_number)
 			@move = 0
+			@last_move = :up
 			init_gui
 			display
 			Tk.mainloop 
@@ -35,6 +36,7 @@ module RSokoban::UI
 			display
 		end
 		
+		# Display the current map (current state of the level) on screen.
 		def display
 			y = 0
 			@level.map.each do |row|
@@ -42,16 +44,42 @@ module RSokoban::UI
 				x = row.index(RSokoban::WALL)
 				line = row.strip
 				line.each_char do |char|
-					@tk_map[y][x].configure('image' => @wall) if char == RSokoban::WALL
-					@tk_map[y][x].configure('image' => @floor) if char == RSokoban::FLOOR
-					@tk_map[y][x].configure('image' => @crate) if char == RSokoban::CRATE
-					@tk_map[y][x].configure('image' => @store) if char == RSokoban::STORAGE
-					@tk_map[y][x].configure('image' => @man) if char == RSokoban::MAN
-					@tk_map[y][x].configure('image' => @crate_store) if char == RSokoban::CRATE_ON_STORAGE
-					@tk_map[y][x].configure('image' => @man_store) if char == RSokoban::MAN_ON_STORAGE
+					case char
+						when RSokoban::WALL then display_tile_at @wall, x, y
+						when RSokoban::FLOOR then display_tile_at @floor, x, y
+						when RSokoban::CRATE then display_tile_at @crate, x, y
+						when RSokoban::STORAGE then display_tile_at @store, x, y
+						when RSokoban::MAN then display_man_at x, y
+						when RSokoban::MAN_ON_STORAGE then display_man_on_storage_at x, y
+						when RSokoban::CRATE_ON_STORAGE then display_tile_at @crate_store, x, y
+					end
 					x += 1
 				end
 				y += 1
+			end
+		end
+		
+		def display_tile_at tile, x, y
+			@tk_map[y][x].configure('image' => tile)
+		end
+		
+		def display_man_at x, y
+			case @last_move
+				when :up then display_tile_at @man_up, x, y
+				when :down then display_tile_at @man_down, x, y
+				when :left then display_tile_at @man_left, x, y
+				else
+					display_tile_at @man_right, x, y
+			end
+		end
+		
+		def display_man_on_storage_at x, y
+			case @last_move
+				when :up then display_tile_at @man_store_up, x, y
+				when :down then display_tile_at @man_store_down, x, y
+				when :left then display_tile_at @man_store_left, x, y
+				else
+					display_tile_at @man_store_right, x, y
 			end
 		end
 		
@@ -98,6 +126,7 @@ module RSokoban::UI
 			@tk_label_move.configure('text' => "Move: #{@move}")
 		end
 		
+		# Fill map on screen with the outside tile.
 		def init_map
 			row_in_grid = 5
 			# @outside is not seen within the block of TkLabel#new, so make a local copy
@@ -118,7 +147,7 @@ module RSokoban::UI
 			}
 		end
 		
-		# Reset all the map with 'outside' image.
+		# Reset all the map with 'outside' tile.
 		# @todo little improvement : reload @outside image only if there is something else
 		#   in the current map.
 		def reset_map
@@ -173,7 +202,12 @@ module RSokoban::UI
 			display
 		end
 		
+		# Send the move to Level and process response.
+		# @todo the last move is recorded here to permit the display of the man
+		#   in the 4 direction. This is a bad thing ! Level#move should returns a hash
+		#   with all needed information (status, move number, last move, error message, etc.)
 		def move symb
+			@last_move = symb
 			result = @level.move symb
 			unless result.start_with?('ERROR')
 				@move = get_move_number_from_result_of_last_move result
@@ -195,14 +229,21 @@ module RSokoban::UI
 		end
 		
 		def preload_images
-			@wall = TkPhotoImage.new('file' => '../skins/default/wall.bmp', 'height' => 0, 'width' => 0)
-			@crate = TkPhotoImage.new('file' => '../skins/default/crate.bmp', 'height' => 0, 'width' => 0)
-			@floor = TkPhotoImage.new('file' => '../skins/default/floor.bmp', 'height' => 0, 'width' => 0)
-			@store = TkPhotoImage.new('file' => '../skins/default/store.bmp', 'height' => 0, 'width' => 0)
-			@man = TkPhotoImage.new('file' => '../skins/default/man_up.bmp', 'height' => 0, 'width' => 0)
-			@crate_store = TkPhotoImage.new('file' => '../skins/default/crate_store.bmp', 'height' => 0, 'width' => 0)
-			@man_store = TkPhotoImage.new('file' => '../skins/default/man_store_up.bmp', 'height' => 0, 'width' => 0)
-			@outside = TkPhotoImage.new('file' => '../skins/default/outside.bmp', 'height' => 0, 'width' => 0)
+			dir = '../skins/default/'
+			@wall = TkPhotoImage.new('file' => dir + 'wall.bmp', 'height' => 0, 'width' => 0)
+			@crate = TkPhotoImage.new('file' => dir + 'crate.bmp', 'height' => 0, 'width' => 0)
+			@floor = TkPhotoImage.new('file' => dir + 'floor.bmp', 'height' => 0, 'width' => 0)
+			@store = TkPhotoImage.new('file' => dir + 'store.bmp', 'height' => 0, 'width' => 0)
+			@man_up = TkPhotoImage.new('file' => dir + 'man_up.bmp', 'height' => 0, 'width' => 0)
+			@man_down = TkPhotoImage.new('file' => dir + 'man_down.bmp', 'height' => 0, 'width' => 0)
+			@man_left = TkPhotoImage.new('file' => dir + 'man_left.bmp', 'height' => 0, 'width' => 0)
+			@man_right = TkPhotoImage.new('file' => dir + 'man_right.bmp', 'height' => 0, 'width' => 0)
+			@crate_store = TkPhotoImage.new('file' => dir + 'crate_store.bmp', 'height' => 0, 'width' => 0)
+			@man_store_up = TkPhotoImage.new('file' => dir + 'man_store_up.bmp', 'height' => 0, 'width' => 0)
+			@man_store_down = TkPhotoImage.new('file' => dir + 'man_store_down.bmp', 'height' => 0, 'width' => 0)
+			@man_store_left = TkPhotoImage.new('file' => dir + 'man_store_left.bmp', 'height' => 0, 'width' => 0)
+			@man_store_right = TkPhotoImage.new('file' => dir + 'man_store_right.bmp', 'height' => 0, 'width' => 0)
+			@outside = TkPhotoImage.new('file' => dir + 'outside.bmp', 'height' => 0, 'width' => 0)
 		end
 		
 	end
