@@ -20,21 +20,32 @@ menu
   help
   about
 BUG floor outside
-search skins
-ask creators of skin if I can use it
 
+search skins and ask creators if I can use it
+
+add short features list in README and link to complete features list in wiki
+
+wiki: add tk GUI
 
 --- next ---
 
-(G)UI should provide a way to know names of sets
+tk: adjust window size to map size
 
 redo
 
 --gnome
 
-skining
+skining (several size of tile, resizing ?)
+
+Console UI should provide a way to know names of sets
 
 save & reload
+
+multi player
+
+save score
+
+don't restrict map size
 
 solver (plugin ?)
 
@@ -46,3 +57,8 @@ format fichier niveau xml (.slc)
 
 --fxruby ?
 
+mouse support
+
+i18n
+
+level preview

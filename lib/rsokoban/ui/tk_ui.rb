@@ -7,7 +7,7 @@ module RSokoban::UI
 	class TkUI
 	
 		def initialize
-			@level_loader = RSokoban::LevelLoader.new "microban.xsb"
+			@level_loader = RSokoban::LevelLoader.new "original.xsb"
 			@level_number = 1
 			@level = @level_loader.level(@level_number)
 			@move = 0
