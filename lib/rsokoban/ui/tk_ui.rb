@@ -137,6 +137,40 @@ module RSokoban::UI
 		end
 	end
 	
+	class HelpDialog < TkToplevel
+		def initialize(root, title)
+			super(root)
+			title(title)
+			minsize(200, 100)
+
+			text = TkText.new(self) do
+				borderwidth 1
+				font TkFont.new('times 12 bold')
+				grid('row' => 0, 'column' => 0)
+			end
+			
+			help=<<EOS
+Welcome to RSokoban !
+
+Goal of Sokoban game is to place each crate on a storage location.
+Move the man using the arrow keys.
+For a more comprehensive help, please visit the wiki at https://github.com/lkdjiin/RSokoban/wiki.
+EOS
+			
+			text.insert 'end', help
+
+			@ok = TkButton.new(self) do
+				text 'OK'
+				grid('row'=>1, 'column'=>0)
+			end
+			@ok.command { ok_on_clic }
+		end
+		
+		def ok_on_clic
+			destroy
+		end
+	end
+	
 	# I am a GUI using tk library.
 	# @note I need the tk-img extension library.
 	# @since 0.73
@@ -261,9 +295,9 @@ module RSokoban::UI
 			@tk_root['menu'] = menubar
 			
 			file = TkMenu.new(menubar)
-			help = TkMenu.new(menubar)
+			helpm = TkMenu.new(menubar)
 			menubar.add :cascade, :menu => file, :label => 'File'
-			menubar.add :cascade, :menu => help, :label => 'Help'
+			menubar.add :cascade, :menu => helpm, :label => 'Help'
 			
 			file.add :command, :label => 'Load level', :command => proc{load_level}, :accelerator => 'Ctrl+L'
 			file.add :command, :label => 'Load set', :command => proc{load_set}
@@ -272,6 +306,10 @@ module RSokoban::UI
 			file.add :command, :label => 'Restart level', :command => proc{start_level}, :accelerator => 'Ctrl+R'
 			file.add :separator
 			file.add :command, :label => 'Quit', :command => proc{exit}
+			
+			helpm.add :command, :label => 'Help', :command => proc{help}, :accelerator => 'F1'
+			helpm.add :separator
+			helpm.add :command, :label => 'About', :command => proc{about}
 		end
 		
 		def init_labels
@@ -358,6 +396,7 @@ module RSokoban::UI
 			@tk_root.bind('Control-u') { undo }
 			@tk_root.bind('Control-r') { start_level }
 			@tk_root.bind('Control-l') { load_level }
+			@tk_root.bind('F1') { help }
 			@tk_undo_button.command { undo }
 			@tk_retry_button.command { start_level }
 			@tk_level_button.command { load_level }
@@ -413,6 +452,19 @@ module RSokoban::UI
 			@man_store_left = Image.new(dir + 'man_store_left.bmp', @tk_map)
 			@man_store_right = Image.new(dir + 'man_store_right.bmp', @tk_map)
 			@outside = Image.new(dir + 'outside.bmp', @tk_map)
+		end
+		
+		def help
+			HelpDialog.new(@tk_root, "RSokoban Help")
+		end
+		
+		def about
+			text = "RSokoban #{File.read('../VERSION').strip} \n"
+			text += "This is free software !\n"
+			text += "Copyright 2011, Xavier Nayrac\n"
+			text += "Licensed under the GPL-3\n"
+			text += "Contact: xavier.nayrac@gmail.com"
+			Tk::messageBox :message => text, :title => 'About'
 		end
 		
 	end
