@@ -16,12 +16,14 @@
 (done)  undo
 (done)  retry
 (done)  load level
-  load set
+(done)  load set
   help
   about
 BUG floor outside
 BUG label move
 BUG it seems to me there are some levels > 19x16 in microban.xsb
+
+when win > answer No to "Play next level ?" should restart current level
 
 search skins and ask creators if I can use it
 
@@ -29,9 +31,17 @@ add short features list in README and link to complete features list in wiki
 
 wiki: add tk GUI
 
+game should start trying tk ui. If fail, display an help message describing how to install tk and
+telling how to play game with curses ui. Nearly the same for curses...
+
 --- next ---
+tk: view description of level set in 'load set' dialog
+
+tk: add a scrollbar to the 'load set' dialog.
 
 tk: adjust window size to map size
+
+tk: level preview
 
 redo
 
@@ -62,5 +72,3 @@ format fichier niveau xml (.slc)
 mouse support
 
 i18n
-
-level preview

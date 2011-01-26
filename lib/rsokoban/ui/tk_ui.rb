@@ -63,16 +63,79 @@ module RSokoban::UI
 			destroy
 		end
 		
-		def state
-			@state
+		def ok?
+			@state == 'OK'
 		end
 		
 		def value
-			$spinval
+			$spinval.to_i
 		end
 	end
 	
-	
+	class SetDialog < TkToplevel
+		def initialize(root, title)
+			super(root)
+			title(title)
+			minsize(200, 100)
+			@state = 'CANCEL'
+			grab
+			
+			@value = nil
+			@xsb = get_xsb
+			$listval = TkVariable.new(@xsb)
+
+			@list = TkListbox.new(self) do
+				width 20
+			 	height 8
+			 	listvariable $listval
+			 	grid('row'=>0, 'column'=>0)
+			end
+			
+			@ok = TkButton.new(self) do
+				text 'OK'
+				grid('row'=>1, 'column'=>0)
+			end
+			@ok.command { ok_on_clic }
+			
+			@cancel = TkButton.new(self) do
+				text 'Cancel'
+				grid('row'=>1, 'column'=>1)
+			end
+			@cancel.command { cancel_on_clic }
+			
+			wait_destroy
+		end
+		
+		def ok_on_clic
+			@state = 'OK'
+			idx = @list.curselection
+			unless idx.empty?
+				@value = @xsb[idx[0]]
+			end
+			destroy
+		end
+		
+		def cancel_on_clic
+			@state = 'CANCEL'
+			destroy
+		end
+		
+		def ok?
+			@state == 'OK'
+		end
+		
+		def value
+			@value
+		end
+		
+		def get_xsb
+			current = Dir.pwd
+			Dir.chdir '../data'
+			ret = Dir.glob '*.xsb'
+			Dir.chdir current
+			ret
+		end
+	end
 	
 	# I am a GUI using tk library.
 	# @note I need the tk-img extension library.
@@ -115,14 +178,20 @@ module RSokoban::UI
 		
 		def load_level
 			d =  LevelDialog.new(@tk_root, "Load a level")
-			if d.state == 'OK'
-				@level_number = d.value.to_i
+			if d.ok?
+				@level_number = d.value
 				start_level
 			end
 		end
 		
 		def load_set
-			puts 'load_set'
+			d =  SetDialog.new(@tk_root, "Load a set")
+			new_set = d.value
+			if d.ok? and new_set != nil
+				@level_loader = RSokoban::LevelLoader.new new_set
+				@level_number = 1
+				start_level
+			end
 		end
 		
 		# Display the current map (current state of the level) on screen.
@@ -292,6 +361,7 @@ module RSokoban::UI
 			@tk_undo_button.command { undo }
 			@tk_retry_button.command { start_level }
 			@tk_level_button.command { load_level }
+			@tk_set_button.command { load_set }
 		end
 		
 		def undo
