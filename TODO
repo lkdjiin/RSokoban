@@ -1,29 +1,12 @@
 
 --- v0.73 ---
-(done)move version in a file
-(done)undo
-(done)switch to ruby 1.8.7
-(done)UI must display level's title, set's title, number of current level and total of levels in current set
+(done)when win, answer No to "Play next level ?" restart current level
 
---tk
-(done)update move number
-(done)ask next level when win
-(done)undo: button and shorcut Ctrl+u
-(done)place labels to the left
-(done)retry
-(done)man in 4 directions
-(done)menu
-(done)  undo
-(done)  retry
-(done)  load level
-(done)  load set
-(done)  help
-(done)  about
 BUG floor outside
-BUG label move
-BUG it seems to me there are some levels > 19x16 in microban.xsb
 
-when win > answer No to "Play next level ?" should restart current level
+BUG label move
+
+BUG it seems to me there are some levels > 19x16 in microban.xsb
 
 search skins and ask creators if I can use it
 

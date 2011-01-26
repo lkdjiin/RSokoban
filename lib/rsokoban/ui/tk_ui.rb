@@ -426,6 +426,7 @@ EOS
 				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
 	    						:icon => 'question', :title => 'You win !', :parent => @tk_root, :default => 'yes'
 	    	next_level if response == 'yes'
+	    	start_level if response == 'no'
 			end
 		end
 		
