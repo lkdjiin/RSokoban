@@ -22,6 +22,58 @@ module RSokoban::UI
 		
 	end
 	
+	class LevelDialog < TkToplevel
+		def initialize(root, title)
+			super(root)
+			title(title)
+			minsize(200, 100)
+			@state = 'CANCEL'
+			grab
+			
+			$spinval = TkVariable.new
+			@spin = TkSpinbox.new(self) do
+				textvariable($spinval)
+				grid('row'=>0, 'column'=>0)
+			end
+			@spin.to(999)
+			@spin.from(1)
+			
+			@ok = TkButton.new(self) do
+				text 'OK'
+				grid('row'=>1, 'column'=>0)
+			end
+			@ok.command { ok_on_clic }
+			
+			@cancel = TkButton.new(self) do
+				text 'Cancel'
+				grid('row'=>1, 'column'=>1)
+			end
+			@cancel.command { cancel_on_clic }
+			
+			wait_destroy
+		end
+		
+		def ok_on_clic
+			@state = 'OK'
+			destroy
+		end
+		
+		def cancel_on_clic
+			@state = 'CANCEL'
+			destroy
+		end
+		
+		def state
+			@state
+		end
+		
+		def value
+			$spinval
+		end
+	end
+	
+	
+	
 	# I am a GUI using tk library.
 	# @note I need the tk-img extension library.
 	# @since 0.73
@@ -45,20 +97,32 @@ module RSokoban::UI
 		private
 		
 		def next_level
-			begin
-				@level_number += 1
-				start_level
-			rescue RSokoban::LevelNumberTooHighError
-				Tk::messageImage :message => 'Sorry, no more levels in this set.'
-			end
+			@level_number += 1
+			start_level
 		end
 		
 		def start_level
-			@level = @level_loader.level(@level_number)
-			@move = 0
-			init_labels # @todo reset_labels instead
-			reset_map
-			display
+			begin
+				@level = @level_loader.level(@level_number)
+				@move = 0
+				init_labels # @todo reset_labels instead
+				reset_map
+				display
+			rescue RSokoban::LevelNumberTooHighError
+				Tk::messageBox :message => "Sorry, no level ##{@level_number} in this set."
+			end
+		end
+		
+		def load_level
+			d =  LevelDialog.new(@tk_root, "Load a level")
+			if d.state == 'OK'
+				@level_number = d.value.to_i
+				start_level
+			end
+		end
+		
+		def load_set
+			puts 'load_set'
 		end
 		
 		# Display the current map (current state of the level) on screen.
@@ -106,6 +170,7 @@ module RSokoban::UI
 		
 		def init_gui
 			init_root
+			init_menu
 			init_labels
 			preload_images
 			init_map
@@ -119,6 +184,25 @@ module RSokoban::UI
 				minsize(400, 400)
 				resizable(false, false)
 			end
+		end
+		
+		def init_menu
+			TkOption.add '*tearOff', 0
+			menubar = TkMenu.new(@tk_root)
+			@tk_root['menu'] = menubar
+			
+			file = TkMenu.new(menubar)
+			help = TkMenu.new(menubar)
+			menubar.add :cascade, :menu => file, :label => 'File'
+			menubar.add :cascade, :menu => help, :label => 'Help'
+			
+			file.add :command, :label => 'Load level', :command => proc{load_level}, :accelerator => 'Ctrl+L'
+			file.add :command, :label => 'Load set', :command => proc{load_set}
+			file.add :separator
+			file.add :command, :label => 'Undo', :command => proc{undo}, :accelerator => 'Ctrl+U'
+			file.add :command, :label => 'Restart level', :command => proc{start_level}, :accelerator => 'Ctrl+R'
+			file.add :separator
+			file.add :command, :label => 'Quit', :command => proc{exit}
 		end
 		
 		def init_labels
@@ -204,8 +288,10 @@ module RSokoban::UI
 			@tk_root.bind('Right') { move :right }
 			@tk_root.bind('Control-u') { undo }
 			@tk_root.bind('Control-r') { start_level }
+			@tk_root.bind('Control-l') { load_level }
 			@tk_undo_button.command { undo }
 			@tk_retry_button.command { start_level }
+			@tk_level_button.command { load_level }
 		end
 		
 		def undo
@@ -228,7 +314,7 @@ module RSokoban::UI
 				display
 			end
 			if result.start_with?('WIN')
-				response = Tk::messageImage :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
+				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
 	    						:icon => 'question', :title => 'You win !', :parent => @tk_root, :default => 'yes'
 	    	next_level if response == 'yes'
 			end

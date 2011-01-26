@@ -11,16 +11,17 @@
 (done)undo: button and shorcut Ctrl+u
 (done)place labels to the left
 (done)retry
-man in 4 directions
-menu
-  undo
-  retry
-  load level
+(done)man in 4 directions
+(done)menu
+(done)  undo
+(done)  retry
+(done)  load level
   load set
   help
   about
 BUG floor outside
 BUG label move
+BUG it seems to me there are some levels > 19x16 in microban.xsb
 
 search skins and ask creators if I can use it
 
