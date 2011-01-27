@@ -27,26 +27,35 @@ module RSokoban::UI
 			super(root)
 			title(title)
 			minsize(200, 100)
-			@state = 'CANCEL'
+			@state = :cancel
 			grab
 			
+			@frame_north = TkFrame.new(self) do
+				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
+				padx 10
+				pady 10
+			end
+			
 			$spinval = TkVariable.new
-			@spin = TkSpinbox.new(self) do
+			@spin = TkSpinbox.new(@frame_north) do
 				textvariable($spinval)
-				grid('row'=>0, 'column'=>0)
+				width 3
+				grid(:row => 0, :column => 0)
 			end
 			@spin.to(999)
 			@spin.from(1)
+			@spin.focus
 			
 			@ok = TkButton.new(self) do
 				text 'OK'
-				grid('row'=>1, 'column'=>0)
+				grid(:row => 1, :column => 0)
+				default :active
 			end
 			@ok.command { ok_on_clic }
 			
 			@cancel = TkButton.new(self) do
 				text 'Cancel'
-				grid('row'=>1, 'column'=>1)
+				grid(:row => 1, :column => 1)
 			end
 			@cancel.command { cancel_on_clic }
 			
@@ -54,17 +63,17 @@ module RSokoban::UI
 		end
 		
 		def ok_on_clic
-			@state = 'OK'
+			@state = :ok
 			destroy
 		end
 		
 		def cancel_on_clic
-			@state = 'CANCEL'
+			@state = :cancel
 			destroy
 		end
 		
 		def ok?
-			@state == 'OK'
+			@state == :ok
 		end
 		
 		def value

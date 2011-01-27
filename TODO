@@ -1,12 +1,10 @@
 --- v0.74 ---
 
 * tk GUI
-  + put buttons in a frame
   + view description of level set in 'load set' dialog
   + add a scrollbar to the 'load set' dialog.
   + adjust window size to map size
   + level preview
-  + load level dialog: default button OK and make the window more sexy
   + fix bug 1
   + fix bug 2
 * redo
