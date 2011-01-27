@@ -2,7 +2,6 @@
 
 * tk GUI
   + put buttons in a frame
-  + put information labels in a frame
   + view description of level set in 'load set' dialog
   + add a scrollbar to the 'load set' dialog.
   + adjust window size to map size

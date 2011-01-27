@@ -314,18 +314,19 @@ EOS
 		end
 		
 		def init_labels
-			@tk_label_set = TkLabel.new(@tk_root) do
-			 	grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+			@tk_frame_label = TkFrame.new(@tk_root) do
+				grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+				padx 5
+				pady 5
 			end
-			@tk_label_level = TkLabel.new(@tk_root) do
-				grid('row'=>1, 'column'=>0, 'columnspan' => 19, 'sticky' => 'w')
+			@tk_label_set = TkLabel.new(@tk_frame_label) do
+			 	grid('row' => 0, 'column' => 0, 'sticky' => 'w')
 			end
-			@tk_label_move = TkLabel.new(@tk_root) do
-				grid('row'=>2, 'column'=>0, 'columnspan' => 19, 'sticky' => 'w')
+			@tk_label_level = TkLabel.new(@tk_frame_label) do
+				grid('row'=>1, 'column'=> 0, 'sticky' => 'w')
 			end
-			@tk_label_separator = TkLabel.new(@tk_root) do
-				text("")
-				grid('row'=>4, 'column'=>0, 'columnspan' => 19)
+			@tk_label_move = TkLabel.new(@tk_frame_label) do
+				grid('row'=>2, 'column'=>0, 'sticky' => 'w')
 			end
 			reset_labels
 		end
