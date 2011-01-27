@@ -98,25 +98,35 @@ height.
   
     <dl class="constants">
       
+        <dt id="SET_LINE-classvariable" class="">@@SET_LINE =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>0</span>
+</pre></dd>
+      
         <dt id="TITLE_LINE-classvariable" class="">@@TITLE_LINE =
           
         </dt>
-        <dd><pre class="code"><span class='int'>0</span></pre></dd>
+        <dd><pre class="code"><span class='integer val'>1</span>
+</pre></dd>
       
         <dt id="MOVES_LINE-classvariable" class="">@@MOVES_LINE =
           
         </dt>
-        <dd><pre class="code"><span class='int'>1</span></pre></dd>
+        <dd><pre class="code"><span class='integer val'>2</span>
+</pre></dd>
       
         <dt id="STATUS_LINE-classvariable" class="">@@STATUS_LINE =
           
         </dt>
-        <dd><pre class="code"><span class='int'>2</span></pre></dd>
+        <dd><pre class="code"><span class='integer val'>3</span>
+</pre></dd>
       
         <dt id="PICTURE_LINE-classvariable" class="">@@PICTURE_LINE =
           
         </dt>
-        <dd><pre class="code"><span class='int'>4</span></pre></dd>
+        <dd><pre class="code"><span class='integer val'>5</span>
+</pre></dd>
       
     </dl>
   
@@ -138,7 +148,7 @@ height.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_action-instance_method" title="#get_action (instance method)">- (Object) <strong>get_action</strong>(type, level, message) </a>
+      <a href="#get_action-instance_method" title="#get_action (instance method)">- (Object) <strong>get_action</strong>(hash) </a>
     
 
     
@@ -217,22 +227,23 @@ A new instance of CursesConsole
       <pre class="lines">
 
 
-14
 15
 16
 17
 18
-19</pre>
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/curses_console.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/curses_console.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span>
-	<span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
-	<span class='id init_screen'>init_screen</span>
-<span class='kw'>ensure</span>
-	<span class='const'>Curses</span><span class='period'>.</span><span class='id close_screen'>close_screen</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
+  <span class='super super kw'>super</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+  <span class='init_screen identifier id'>init_screen</span>
+<span class='ensure ensure kw'>ensure</span>
+  <span class='Curses constant id'>Curses</span><span class='dot token'>.</span><span class='close_screen identifier id'>close_screen</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -248,7 +259,7 @@ A new instance of CursesConsole
       <div class="method_details first">
   <p class="signature first" id="get_action-instance_method">
   
-    - (<tt>Object</tt>) <strong>get_action</strong>(type, level, message) 
+    - (<tt>Object</tt>) <strong>get_action</strong>(hash) 
   
 
   
@@ -258,7 +269,6 @@ A new instance of CursesConsole
       <pre class="lines">
 
 
-21
 22
 23
 24
@@ -270,24 +280,30 @@ A new instance of CursesConsole
 30
 31
 32
-33</pre>
+33
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/curses_console.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/curses_console.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id get_action'>get_action</span><span class='lparen'>(</span><span class='id type'>type</span><span class='comma'>,</span> <span class='id level'>level</span><span class='comma'>,</span> <span class='id message'>message</span><span class='rparen'>)</span>
-	<span class='kw'>if</span> <span class='id type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>START</span><span class='tstring_end'>'</span></span> <span class='kw'>or</span> <span class='id type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>END_OF_SET</span><span class='tstring_end'>'</span></span>
-		<span class='ivar'>@level_title</span> <span class='op'>=</span> <span class='id message'>message</span> 
-		<span class='id message'>message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>OK move 0</span><span class='tstring_end'>'</span></span>
-		<span class='const'>Curses</span><span class='period'>.</span><span class='id clear'>clear</span>
-	<span class='kw'>end</span>
-	<span class='kw'>if</span> <span class='id type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>DISPLAY</span><span class='tstring_end'>'</span></span> <span class='kw'>or</span> <span class='id type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>START</span><span class='tstring_end'>'</span></span>  <span class='kw'>or</span> <span class='id type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>END_OF_SET</span><span class='tstring_end'>'</span></span>
-		<span class='id ask_player'>ask_player</span> <span class='id level'>level</span><span class='comma'>,</span> <span class='id message'>message</span>
-	<span class='kw'>else</span>
-		<span class='comment'># assuming type == 'WIN'
-</span>		<span class='id askForNextLevel'>askForNextLevel</span> <span class='id level'>level</span><span class='comma'>,</span> <span class='id message'>message</span>
-	<span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='get_action identifier id'>get_action</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='symbol val'>:start</span>
+    <span class='@level_title ivar id'>@level_title</span> <span class='assign token'>=</span> <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span>
+    <span class='@set_title ivar id'>@set_title</span> <span class='assign token'>=</span> <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:set</span><span class='rbrack token'>]</span>
+    <span class='@level_number ivar id'>@level_number</span> <span class='assign token'>=</span> <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:number</span><span class='rbrack token'>]</span>
+    <span class='@set_total ivar id'>@set_total</span> <span class='assign token'>=</span> <span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:total</span><span class='rbrack token'>]</span>
+    <span class='Curses constant id'>Curses</span><span class='dot token'>.</span><span class='clear identifier id'>clear</span>
+  <span class='end end kw'>end</span>
+  <span class='if if kw'>if</span> <span class='lbrack token'>[</span><span class='symbol val'>:display</span><span class='comma token'>,</span> <span class='symbol val'>:start</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> 
+    <span class='ask_player identifier id'>ask_player</span> <span class='hash identifier id'>hash</span>
+  <span class='else else kw'>else</span>
+    <span class='comment val'># assuming :win</span>
+    <span class='ask_for_next_level identifier id'>ask_for_next_level</span> <span class='hash identifier id'>hash</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -298,9 +314,9 @@ A new instance of CursesConsole
 </div>
     
     <div id="footer">
-  Generated on Fri Jan 21 15:41:17 2011 by 
+  Generated on Thu Jan 27 11:16:56 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.3 (ruby-1.8.7).
 </div>
 
   </body>

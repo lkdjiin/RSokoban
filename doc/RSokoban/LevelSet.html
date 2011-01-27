@@ -90,33 +90,26 @@ Info lines begins with semi-colon (;) Map lines begins with a #
 (that&#8217;s a wall !) preceded by 0, 1 or more spaces.
 </p>
 <ol>
-<li><p>
-First info is title of the set
-</p>
+<li>First info is title of the set
+
 </li>
-<li><p>
-Blank line
-</p>
+<li>Blank line
+
 </li>
-<li><p>
-List of info lines : description
-</p>
+<li>List of info lines : description
+
 </li>
-<li><p>
-Blank line
-</p>
+<li>Blank line
+
 </li>
-<li><p>
-Level map
-</p>
+<li>Level map
+
 </li>
-<li><p>
-info title of this level
-</p>
+<li>info title of this level
+
 </li>
-<li><p>
-List of info lines : blabla about this level
-</p>
+<li>List of info lines : blabla about this level
+
 </li>
 </ol>
 <p>
@@ -242,6 +235,27 @@ A new instance of LevelSet.
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#size-instance_method" title="#size (instance method)">- (Object) <strong>size</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -272,20 +286,21 @@ A new instance of LevelSet
       <pre class="lines">
 
 
-26
-27
-28
 29
-30</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 29</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span>
-	<span class='ivar'>@title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Unknown set title</span><span class='tstring_end'>'</span></span>
-	<span class='ivar'>@description</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Empty description</span><span class='tstring_end'>'</span></span>
-	<span class='ivar'>@rawLevels</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
+  <span class='@title ivar id'>@title</span> <span class='assign token'>=</span> <span class='string val'>'Unknown set title'</span>
+  <span class='@description ivar id'>@description</span> <span class='assign token'>=</span> <span class='string val'>'Empty description'</span>
+  <span class='@rawLevels ivar id'>@rawLevels</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -321,23 +336,6 @@ A new instance of LevelSet
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <span class='name'>title</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-get/set the title of this level set.
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
         <span class='name'>description</span>
       
       
@@ -345,23 +343,6 @@ get/set the title of this level set.
         &mdash;
         <div class='inline'><p>
 get/set the description of this level set.
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="RawLevel.html" title="RSokoban::RawLevel (class)">RawLevel</a></span>&gt;</tt>)</span>
-      
-      
-        <span class='name'>rawLevels</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-get/set the raw levels of this set
 </p>
 </div>
       
@@ -375,16 +356,17 @@ get/set the raw levels of this set
       <pre class="lines">
 
 
-24
 25
-26</pre>
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 25</span>
 
-<span class='kw'>def</span> <span class='id description'>description</span>
-  <span class='ivar'>@description</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='description identifier id'>description</span>
+  <span class='@description ivar id'>@description</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -412,40 +394,6 @@ get/set the raw levels of this set
   
     <li>
       
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-        <span class='name'>title</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-get/set the title of this level set.
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-        <span class='name'>description</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-get/set the description of this level set.
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="RawLevel.html" title="RSokoban::RawLevel (class)">RawLevel</a></span>&gt;</tt>)</span>
       
       
@@ -469,16 +417,17 @@ get/set the raw levels of this set
       <pre class="lines">
 
 
-24
-25
-26</pre>
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 27</span>
 
-<span class='kw'>def</span> <span class='id rawLevels'>rawLevels</span>
-  <span class='ivar'>@rawLevels</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='rawLevels identifier id'>rawLevels</span>
+  <span class='@rawLevels ivar id'>@rawLevels</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -521,40 +470,6 @@ get/set the title of this level set.
       
     </li>
   
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-        <span class='name'>description</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-get/set the description of this level set.
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="RawLevel.html" title="RSokoban::RawLevel (class)">RawLevel</a></span>&gt;</tt>)</span>
-      
-      
-        <span class='name'>rawLevels</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-get/set the raw levels of this set
-</p>
-</div>
-      
-    </li>
-  
 </ul>
 
 </div><table class="source_code">
@@ -563,16 +478,17 @@ get/set the raw levels of this set
       <pre class="lines">
 
 
+23
 24
-25
-26</pre>
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 23</span>
 
-<span class='kw'>def</span> <span class='id title'>title</span>
-  <span class='ivar'>@title</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='title identifier id'>title</span>
+  <span class='@title ivar id'>@title</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -581,12 +497,47 @@ get/set the raw levels of this set
   </div>
 
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="size-instance_method">
+  
+    - (<tt>Object</tt>) <strong>size</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level_set.rb', line 35</span>
+
+<span class='def def kw'>def</span> <span class='size identifier id'>size</span>
+  <span class='@rawLevels ivar id'>@rawLevels</span><span class='dot token'>.</span><span class='size identifier id'>size</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
     
     <div id="footer">
-  Generated on Fri Jan 21 15:41:16 2011 by 
+  Generated on Thu Jan 27 11:17:00 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.3 (ruby-1.8.7).
 </div>
 
   </body>

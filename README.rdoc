@@ -1,25 +1,13 @@
 = Welcome to RSokoban !
 
-RSokoban is a clone of the famous {Sokoban game}[http://en.wikipedia.org/wiki/Sokoban].
+RSokoban is a clone of the famous {Sokoban}[http://en.wikipedia.org/wiki/Sokoban] game.
 I wrote this program just to improve my skills in Ruby.
 
-+Features+
-* User interface in 3 flavors (tk, curses, straight text mode)
+*Features*
+* User interface comes in 3 flavors (tk, curses, straight text mode)
 * Installing via RubyGem
 * Undo
 * Use xsb file format to load sets of levels
-
-      #####
-      #   #
-      #$  #
-    ###  $##
-    #  $ $ #
-  ### # ## #   ######
-  #   # ## #####  ..#
-  # $  $          ..#
-  ##### ### #@##  ..#
-      #     #########
-      #######
 
 Enjoy the game.
 

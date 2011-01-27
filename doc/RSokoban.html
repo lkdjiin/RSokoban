@@ -60,7 +60,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/rsokoban.rb<span class="defines">,<br />
-  lib/rsokoban/man.rb,<br /> lib/rsokoban/game.rb,<br /> lib/rsokoban/crate.rb,<br /> lib/rsokoban/level.rb,<br /> lib/rsokoban/ui/ui.rb,<br /> lib/rsokoban/storage.rb,<br /> lib/rsokoban/moveable.rb,<br /> lib/rsokoban/position.rb,<br /> lib/rsokoban/level_set.rb,<br /> lib/rsokoban/exception.rb,<br /> lib/rsokoban/raw_level.rb,<br /> lib/rsokoban/level_loader.rb</span>
+  lib/rsokoban/ui.rb,<br /> lib/rsokoban/map.rb,<br /> lib/rsokoban/man.rb,<br /> lib/rsokoban/game.rb,<br /> lib/rsokoban/crate.rb,<br /> lib/rsokoban/level.rb,<br /> lib/rsokoban/storage.rb,<br /> lib/rsokoban/moveable.rb,<br /> lib/rsokoban/position.rb,<br /> lib/rsokoban/exception.rb,<br /> lib/rsokoban/level_set.rb,<br /> lib/rsokoban/raw_level.rb,<br /> lib/rsokoban/level_loader.rb,<br /> lib/rsokoban/move_recorder.rb</span>
 </dd>
   
 </dl>
@@ -85,7 +85,7 @@ I am the main module of the game.
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RSokoban/Crate.html" title="RSokoban::Crate (class)">Crate</a></span>, <span class='object_link'><a href="RSokoban/Game.html" title="RSokoban::Game (class)">Game</a></span>, <span class='object_link'><a href="RSokoban/Level.html" title="RSokoban::Level (class)">Level</a></span>, <span class='object_link'><a href="RSokoban/LevelLoader.html" title="RSokoban::LevelLoader (class)">LevelLoader</a></span>, <span class='object_link'><a href="RSokoban/LevelNumberTooHighError.html" title="RSokoban::LevelNumberTooHighError (class)">LevelNumberTooHighError</a></span>, <span class='object_link'><a href="RSokoban/LevelSet.html" title="RSokoban::LevelSet (class)">LevelSet</a></span>, <span class='object_link'><a href="RSokoban/Man.html" title="RSokoban::Man (class)">Man</a></span>, <span class='object_link'><a href="RSokoban/NoFileError.html" title="RSokoban::NoFileError (class)">NoFileError</a></span>, <span class='object_link'><a href="RSokoban/Position.html" title="RSokoban::Position (class)">Position</a></span>, <span class='object_link'><a href="RSokoban/RawLevel.html" title="RSokoban::RawLevel (class)">RawLevel</a></span>, <span class='object_link'><a href="RSokoban/Storage.html" title="RSokoban::Storage (class)">Storage</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RSokoban/Crate.html" title="RSokoban::Crate (class)">Crate</a></span>, <span class='object_link'><a href="RSokoban/EmptyMoveQueueError.html" title="RSokoban::EmptyMoveQueueError (class)">EmptyMoveQueueError</a></span>, <span class='object_link'><a href="RSokoban/Game.html" title="RSokoban::Game (class)">Game</a></span>, <span class='object_link'><a href="RSokoban/Level.html" title="RSokoban::Level (class)">Level</a></span>, <span class='object_link'><a href="RSokoban/LevelLoader.html" title="RSokoban::LevelLoader (class)">LevelLoader</a></span>, <span class='object_link'><a href="RSokoban/LevelNumberTooHighError.html" title="RSokoban::LevelNumberTooHighError (class)">LevelNumberTooHighError</a></span>, <span class='object_link'><a href="RSokoban/LevelSet.html" title="RSokoban::LevelSet (class)">LevelSet</a></span>, <span class='object_link'><a href="RSokoban/Man.html" title="RSokoban::Man (class)">Man</a></span>, <span class='object_link'><a href="RSokoban/Map.html" title="RSokoban::Map (class)">Map</a></span>, <span class='object_link'><a href="RSokoban/MoveRecorder.html" title="RSokoban::MoveRecorder (class)">MoveRecorder</a></span>, <span class='object_link'><a href="RSokoban/NoFileError.html" title="RSokoban::NoFileError (class)">NoFileError</a></span>, <span class='object_link'><a href="RSokoban/Position.html" title="RSokoban::Position (class)">Position</a></span>, <span class='object_link'><a href="RSokoban/RawLevel.html" title="RSokoban::RawLevel (class)">RawLevel</a></span>, <span class='object_link'><a href="RSokoban/Storage.html" title="RSokoban::Storage (class)">Storage</a></span>
     
   
 </p>
@@ -93,22 +93,6 @@ I am the main module of the game.
   <h2>Constant Summary</h2>
   
     <dl class="constants">
-      
-        <dt id="VERSION-constant" class="">VERSION =
-          <div class="docstring">
-  <div class="discussion">
-    <p>
-Version of the program
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-</div>
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0.72</span><span class='tstring_end'>'</span></span></pre></dd>
       
         <dt id="MAN-constant" class="">MAN =
           <div class="docstring">
@@ -124,37 +108,44 @@ Game elements. Those constants are used intensively.
   
 </div>
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>@</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>'@'</span>
+</pre></dd>
       
         <dt id="FLOOR-constant" class="">FLOOR =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> </span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>' '</span>
+</pre></dd>
       
         <dt id="CRATE-constant" class="">CRATE =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>$</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>'$'</span>
+</pre></dd>
       
         <dt id="STORAGE-constant" class="">STORAGE =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>'.'</span>
+</pre></dd>
       
         <dt id="WALL-constant" class="">WALL =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>#</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>'#'</span>
+</pre></dd>
       
         <dt id="MAN_ON_STORAGE-constant" class="">MAN_ON_STORAGE =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>+</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>'+'</span>
+</pre></dd>
       
         <dt id="CRATE_ON_STORAGE-constant" class="">CRATE_ON_STORAGE =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>*</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='string val'>'*'</span>
+</pre></dd>
       
     </dl>
   
@@ -166,9 +157,9 @@ Game elements. Those constants are used intensively.
 </div>
     
     <div id="footer">
-  Generated on Fri Jan 21 15:41:14 2011 by 
+  Generated on Thu Jan 27 11:16:52 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.3 (ruby-1.8.7).
 </div>
 
   </body>

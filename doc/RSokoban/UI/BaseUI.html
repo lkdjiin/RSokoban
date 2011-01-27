@@ -74,7 +74,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rsokoban/ui/ui.rb</dd>
+    <dd class="r2 last">lib/rsokoban/ui/base_ui.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -115,7 +115,7 @@ Every concrete UI should inherits from me.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_action-instance_method" title="#get_action (instance method)">- (Object) <strong>get_action</strong>(type, level, message) </a>
+      <a href="#get_action-instance_method" title="#get_action (instance method)">- (PlayerAction) <strong>get_action</strong>(hash) </a>
     
 
     
@@ -129,7 +129,8 @@ Every concrete UI should inherits from me.
 
   
     <span class="summary_desc"><div class='inline'><p>
-Based on things found in the arguments, I display the game to the user.
+Based on things found in the <tt>hash</tt> argument, I display the game to
+the user.
 </p>
 </div></span>
   
@@ -192,16 +193,17 @@ A new instance of BaseUI
       <pre class="lines">
 
 
-10
-11
-12</pre>
+7
+8
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/ui.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/base_ui.rb', line 7</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span>
-	<span class='ivar'>@level_title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
+  <span class='@level_title ivar id'>@level_title</span> <span class='assign token'>=</span> <span class='string val'>''</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -217,7 +219,7 @@ A new instance of BaseUI
       <div class="method_details first">
   <p class="signature first" id="get_action-instance_method">
   
-    - (<tt>Object</tt>) <strong>get_action</strong>(type, level, message) 
+    - (<tt><span class='object_link'><a href="PlayerAction.html" title="RSokoban::UI::PlayerAction (class)">PlayerAction</a></span></tt>) <strong>get_action</strong>(hash) 
   
 
   
@@ -232,41 +234,10 @@ write some examples
 </div>
   </div>
 
-  <div class="note todo">
-    <strong>TODO:</strong> 
-    <div class='inline'><p>
-action diserves its own class
-</p>
-</div>
-  </div>
-
-  <div class="note todo">
-    <strong>TODO:</strong> 
-    <div class='inline'><p>
-picture diserves its own class
-</p>
-</div>
-  </div>
-
-  <div class="note todo">
-    <strong>TODO:</strong> 
-    <div class='inline'><p>
-document better <tt>type</tt>
-</p>
-</div>
-  </div>
-
 <p>
-Based on things found in the arguments, I display the game to the user.
-Then he can tell what it want to do. Whatever my childs permit the user to
-do, they can only return one  of the following actions.
-</p>
-<p>
-List of action I must be able to parse and return : :quit                  
-to quit game :next                      to load and play next level :retry 
-to restart the current level :up, :down, :left, :right  to move the man a
-number                   to load this level number an .xsb filename        
-to load the set with this name
+Based on things found in the <tt>hash</tt> argument, I display the game to
+the user. Then he can tell what he wants to do. Whatever my childs permit
+the user to do, they can only return an ActionPlayer object.
 </p>
 
 
@@ -278,16 +249,17 @@ to load the set with this name
   
     <li>
       
-        <span class='type'>(<tt>'START'|'DISPLAY'|'WIN'</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <span class='name'>type</span>
+        <span class='name'>hash</span>
       
       
       
         &mdash;
         <div class='inline'><p>
-the type of message
+:type =&gt; type of message, :win or :start or :display or :end_of_set :map
+=&gt; current game map
 </p>
 </div>
       
@@ -295,46 +267,133 @@ the type of message
   
     <li>
       
-        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
-        <span class='name'>level</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the picture of the level
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-        <span class='name'>message</span>
+        <span class='name'>hash</span>
       
       
       
         &mdash;
         <div class='inline'><p>
-a message to be displayed. See Level#move to learn more about the message
-format and content.
+the options passed to the UI.
 </p>
 </div>
       
     </li>
   
 </ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>hash</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>:win|:start|:display|:end_of_set</tt>)</span>
+          <span class="name">:type</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The type of the message (always <tt>requiered</tt>)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../Map.html" title="RSokoban::Map (class)">Map</a></span></tt>)</span>
+          <span class="name">:map</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The current map of the game (always <tt>requiered</tt>)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="name">:title</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The level&#8217;s title (requiered if type==:start)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="name">:set</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The set&#8217;s title (requiered if type==:start)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Fixnum</tt>)</span>
+          <span class="name">:number</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The level&#8217;s number (requiered if type==:start)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Fixnum</tt>)</span>
+          <span class="name">:total</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Number of level in this set (requiered if type==:start)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Fixnum</tt>)</span>
+          <span class="name">:move</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The move&#8217;s number (requiered when type is :display or :win)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="name">:error</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+An error message. Could happen when type is :display or :start
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Object</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="PlayerAction.html" title="RSokoban::UI::PlayerAction (class)">PlayerAction</a></span></tt>)</span>
       
       
       
@@ -358,7 +417,7 @@ the user&#8217;s action
       
         
         <div class='inline'><p>
-0.71
+0.73
 </p>
 </div>
       
@@ -372,16 +431,17 @@ the user&#8217;s action
       <pre class="lines">
 
 
-37
-38
-39</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/ui.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/base_ui.rb', line 31</span>
 
-<span class='kw'>def</span> <span class='id get_action'>get_action</span><span class='lparen'>(</span><span class='id type'>type</span><span class='comma'>,</span> <span class='id level'>level</span><span class='comma'>,</span> <span class='id message'>message</span><span class='rparen'>)</span>
-	<span class='id raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Please implement me !</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='get_action identifier id'>get_action</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='raise identifier id'>raise</span> <span class='string val'>&quot;Please implement me !&quot;</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -392,9 +452,9 @@ the user&#8217;s action
 </div>
     
     <div id="footer">
-  Generated on Fri Jan 21 15:41:15 2011 by 
+  Generated on Thu Jan 27 11:16:49 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.3 (ruby-1.8.7).
 </div>
 
   </body>

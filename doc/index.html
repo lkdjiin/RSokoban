@@ -43,70 +43,85 @@
     
     <div id="content"><div id='filecontents'><h1>Welcome to RSokoban !</h1>
 <p>
-RSokoban is a clone of the famous <a
-href="http://en.wikipedia.org/wiki/Sokoban">Sokoban game</a>. I wrote this
-program just to improve my skills in Ruby. Currently, you can play only in
-a console window.
+RSokoban is a clone of the famous
+Sokoban[http://en.wikipedia.org/wiki/Sokoban] game. I wrote this program
+just to improve my skills in Ruby.
 </p>
-<pre class="code">
-      <span class='comment'>#####
-</span>      <span class='comment'>#   #
-</span>      <span class='comment'>#$  #
-</span>    <span class='comment'>###  $##
-</span>    <span class='comment'>#  $ $ #
-</span>  <span class='comment'>### # ## #   ######
-</span>  <span class='comment'>#   # ## #####  ..#
-</span>  <span class='comment'># $  $          ..#
-</span>  <span class='comment'>##### ### #@##  ..#
-</span>      <span class='comment'>#     #########
-</span>      <span class='comment'>#######
-</span></pre>
+<p>
+<b>Features</b>
+</p>
+<ul>
+<li>User interface comes in 3 flavors (tk, curses, straight text mode)
+
+</li>
+<li>Installing via RubyGem
+
+</li>
+<li>Undo
+
+</li>
+<li>Use xsb file format to load sets of levels
+
+</li>
+</ul>
 <p>
 Enjoy the game.
 </p>
 <h2>Documentation</h2>
 <p>
-Players can look at <a href="https://github.com/lkdjiin/RSokoban/wiki">the
-wiki</a>.
+Players can look at wiki[https://github.com/lkdjiin/RSokoban/wiki].
 </p>
 <p>
-Developpers can look at Level and Game.
+Developpers can look at Level, Game and TkUI.
 </p>
 <h2>Dependancies</h2>
 <p>
-Ruby >= 1.9
+Ruby &gt;= 1.8.7
 </p>
 <h2>Installing RSokoban</h2>
 <p>
-Installing via a gem is easy. Go to the RSokoban folder and build the gem :
+Installing via RubyGem is easy doing in one command:
 </p>
 <pre class="code">
- <span class='id gem'>gem</span> <span class='id build'>build</span> <span class='id rsokoban'>rsokoban</span><span class='period'>.</span><span class='id gemspec'>gemspec</span>
+ <span class='gem identifier id'>gem</span> <span class='install identifier id'>install</span> <span class='RSokoban constant id'>RSokoban</span>
+</pre>
+<p>
+Or you can install RSokoban from the source. To do this, go to the RSokoban
+folder and build the gem :
+</p>
+<pre class="code">
+ <span class='gem identifier id'>gem</span> <span class='build identifier id'>build</span> <span class='rsokoban identifier id'>rsokoban</span><span class='dot token'>.</span><span class='gemspec identifier id'>gemspec</span>
 </pre>
 <p>
 Then install it :
 </p>
 <pre class="code">
- <span class='id gem'>gem</span> <span class='id install'>install</span> <span class='const'>RSokoban</span><span class='op'>-</span><span class='id x'>x</span><span class='op'>-</span><span class='id xx'>xx</span><span class='period'>.</span><span class='id gem'>gem</span>
- 
+ <span class='gem identifier id'>gem</span> <span class='install identifier id'>install</span> <span class='RSokoban constant id'>RSokoban</span><span class='minus op'>-</span><span class='x identifier id'>x</span><span class='minus op'>-</span><span class='xx identifier id'>xx</span><span class='dot token'>.</span><span class='gem identifier id'>gem</span>
 </pre>
 <p>
 Now start playing :
 </p>
 <pre class="code">
- <span class='id rsokoban'>rsokoban</span>
+ <span class='rsokoban identifier id'>rsokoban</span>
+</pre>
+<p>
+Or you can play without installing it. Go to the RSokoban/bin folder and
+type:
+</p>
+<pre class="code">
+ <span class='dot token'>.</span><span class='div op'>/</span><span class='rsokoban identifier id'>rsokoban</span>
 </pre>
 <h2>Questions and/or Comments</h2>
 <p>
-Feel free to email <a href="mailto:xavier.nayrac@gmail.com">Xavier
-Nayrac</a> with any questions.
+Feel free to email Nayrac[mailto:xavier.nayrac@gmail.com] with any
+questions.
 </p>
 </div></div>
     
     <div id="footer">
-  Generated on Fri Jan 21 15:41:13 2011 by 
+  Generated on Thu Jan 27 11:16:46 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.3 (ruby-1.8.7).
 </div>
 
   </body>

@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: RSokoban::UI::SetDialog</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../UI.html" title="RSokoban::UI (module)">UI</a></span></span>
+     &raquo; 
+    <span class="title">SetDialog</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: RSokoban::UI::SetDialog
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">TkToplevel</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">TkToplevel</li>
+          
+            <li class="next">RSokoban::UI::SetDialog</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/rsokoban/ui/tk_ui.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cancel_on_clic-instance_method" title="#cancel_on_clic (instance method)">- (Object) <strong>cancel_on_clic</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_xsb-instance_method" title="#get_xsb (instance method)">- (Object) <strong>get_xsb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (SetDialog) <strong>initialize</strong>(root, title) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of SetDialog.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ok%3F-instance_method" title="#ok? (instance method)">- (Boolean) <strong>ok?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ok_on_clic-instance_method" title="#ok_on_clic (instance method)">- (Object) <strong>ok_on_clic</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#value-instance_method" title="#value (instance method)">- (Object) <strong>value</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="RSokoban::UI::SetDialog (class)">SetDialog</a></span></tt>) <strong>initialize</strong>(root, title) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of SetDialog
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 76</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='root identifier id'>root</span><span class='comma token'>,</span> <span class='title identifier id'>title</span><span class='rparen token'>)</span>
+  <span class='super super kw'>super</span><span class='lparen token'>(</span><span class='root identifier id'>root</span><span class='rparen token'>)</span>
+  <span class='title identifier id'>title</span><span class='lparen token'>(</span><span class='title identifier id'>title</span><span class='rparen token'>)</span>
+  <span class='minsize identifier id'>minsize</span><span class='lparen token'>(</span><span class='integer val'>200</span><span class='comma token'>,</span> <span class='integer val'>100</span><span class='rparen token'>)</span>
+  <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='string val'>'CANCEL'</span>
+  <span class='grab identifier id'>grab</span>
+  
+  <span class='@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='@xsb ivar id'>@xsb</span> <span class='assign token'>=</span> <span class='get_xsb identifier id'>get_xsb</span>
+  <span class='$listval gvar id'>$listval</span> <span class='assign token'>=</span> <span class='TkVariable constant id'>TkVariable</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@xsb ivar id'>@xsb</span><span class='rparen token'>)</span>
+
+  <span class='@list ivar id'>@list</span> <span class='assign token'>=</span> <span class='TkListbox constant id'>TkListbox</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='width identifier id'>width</span> <span class='integer val'>20</span>
+     <span class='height identifier id'>height</span> <span class='integer val'>8</span>
+     <span class='listvariable identifier id'>listvariable</span> <span class='$listval gvar id'>$listval</span>
+     <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='string val'>'row'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='string val'>'column'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  
+  <span class='@ok ivar id'>@ok</span> <span class='assign token'>=</span> <span class='TkButton constant id'>TkButton</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='text identifier id'>text</span> <span class='string val'>'OK'</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='string val'>'row'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>'column'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='@ok ivar id'>@ok</span><span class='dot token'>.</span><span class='command identifier id'>command</span> <span class='lbrace token'>{</span> <span class='ok_on_clic identifier id'>ok_on_clic</span> <span class='rbrace token'>}</span>
+  
+  <span class='@cancel ivar id'>@cancel</span> <span class='assign token'>=</span> <span class='TkButton constant id'>TkButton</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='text identifier id'>text</span> <span class='string val'>'Cancel'</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='string val'>'row'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>'column'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>1</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='@cancel ivar id'>@cancel</span><span class='dot token'>.</span><span class='command identifier id'>command</span> <span class='lbrace token'>{</span> <span class='cancel_on_clic identifier id'>cancel_on_clic</span> <span class='rbrace token'>}</span>
+  
+  <span class='wait_destroy identifier id'>wait_destroy</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="cancel_on_clic-instance_method">
+  
+    - (<tt>Object</tt>) <strong>cancel_on_clic</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 118</span>
+
+<span class='def def kw'>def</span> <span class='cancel_on_clic identifier id'>cancel_on_clic</span>
+  <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='string val'>'CANCEL'</span>
+  <span class='destroy identifier id'>destroy</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="get_xsb-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_xsb</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 131</span>
+
+<span class='def def kw'>def</span> <span class='get_xsb identifier id'>get_xsb</span>
+  <span class='current identifier id'>current</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='pwd identifier id'>pwd</span>
+  <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='chdir identifier id'>chdir</span> <span class='string val'>'../data'</span>
+  <span class='ret identifier id'>ret</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='glob identifier id'>glob</span> <span class='string val'>'*.xsb'</span>
+  <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='chdir identifier id'>chdir</span> <span class='current identifier id'>current</span>
+  <span class='ret identifier id'>ret</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ok?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>ok?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 123</span>
+
+<span class='def def kw'>def</span> <span class='ok? fid id'>ok?</span>
+  <span class='@state ivar id'>@state</span> <span class='eq op'>==</span> <span class='string val'>'OK'</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ok_on_clic-instance_method">
+  
+    - (<tt>Object</tt>) <strong>ok_on_clic</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111
+112
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 109</span>
+
+<span class='def def kw'>def</span> <span class='ok_on_clic identifier id'>ok_on_clic</span>
+  <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='string val'>'OK'</span>
+  <span class='idx identifier id'>idx</span> <span class='assign token'>=</span> <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='curselection identifier id'>curselection</span>
+  <span class='unless unless kw'>unless</span> <span class='idx identifier id'>idx</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+    <span class='@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='@xsb ivar id'>@xsb</span><span class='lbrack token'>[</span><span class='idx identifier id'>idx</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='end end kw'>end</span>
+  <span class='destroy identifier id'>destroy</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="value-instance_method">
+  
+    - (<tt>Object</tt>) <strong>value</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 127</span>
+
+<span class='def def kw'>def</span> <span class='value identifier id'>value</span>
+  <span class='@value ivar id'>@value</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Jan 27 11:16:51 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.3 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

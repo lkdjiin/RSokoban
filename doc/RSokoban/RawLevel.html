@@ -91,8 +91,7 @@ document and give some examples
   </div>
 
 <p>
-I figure out a level in a very simple format. I have a title and an array
-of string (named <tt>picture</tt>), representing the map.
+I figure out a level in a very simple format. I have a title and a map.
 </p>
 
 
@@ -108,7 +107,7 @@ of string (named <tt>picture</tt>), representing the map.
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#picture-instance_method" title="#picture (instance method)">- (Object) <strong>picture</strong> </a>
+      <a href="#map-instance_method" title="#map (instance method)">- (Object) <strong>map</strong> </a>
     
 
     
@@ -125,7 +124,7 @@ of string (named <tt>picture</tt>), representing the map.
 
   
     <span class="summary_desc"><div class='inline'><p>
-Returns the value of attribute picture.
+Returns the value of attribute map.
 </p>
 </div></span>
   
@@ -173,7 +172,7 @@ Returns the value of attribute title.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (RawLevel) <strong>initialize</strong>(title = 'Unknown level title',, picture = []) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (RawLevel) <strong>initialize</strong>(title = 'Unknown level title', map = Map.new) </a>
     
 
     
@@ -205,7 +204,7 @@ A new instance of RawLevel.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="RSokoban::RawLevel (class)">RawLevel</a></span></tt>) <strong>initialize</strong>(title = 'Unknown level title',, picture = []) 
+    - (<tt><span class='object_link'><a href="" title="RSokoban::RawLevel (class)">RawLevel</a></span></tt>) <strong>initialize</strong>(title = 'Unknown level title', map = Map.new) 
   
 
   
@@ -226,18 +225,19 @@ A new instance of RawLevel
       <pre class="lines">
 
 
-9
 10
 11
-12</pre>
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/raw_level.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/raw_level.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id title'>title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Unknown level title</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id picture'>picture</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-	<span class='ivar'>@title</span> <span class='op'>=</span> <span class='id title'>title</span>
-	<span class='ivar'>@picture</span> <span class='op'>=</span> <span class='id picture'>picture</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span> <span class='title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>'Unknown level title'</span><span class='comma token'>,</span> <span class='map identifier id'>map</span> <span class='assign token'>=</span> <span class='Map constant id'>Map</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+  <span class='@title ivar id'>@title</span> <span class='assign token'>=</span> <span class='title identifier id'>title</span>
+  <span class='@map ivar id'>@map</span> <span class='assign token'>=</span> <span class='map identifier id'>map</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -249,19 +249,19 @@ A new instance of RawLevel
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="picture=-instance_method"></span>
-      <span id="picture-instance_method"></span>
+      <span id="map=-instance_method"></span>
+      <span id="map-instance_method"></span>
       <div class="method_details first">
-  <p class="signature first" id="picture-instance_method">
+  <p class="signature first" id="map-instance_method">
   
-    - (<tt>Object</tt>) <strong>picture</strong> 
+    - (<tt>Object</tt>) <strong>map</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     <p>
-Returns the value of attribute picture
+Returns the value of attribute map
 </p>
 
 
@@ -282,9 +282,10 @@ Returns the value of attribute picture
     <td>
       <pre class="code"><span class="info file"># File 'lib/rsokoban/raw_level.rb', line 7</span>
 
-<span class='kw'>def</span> <span class='id picture'>picture</span>
-  <span class='ivar'>@picture</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='map identifier id'>map</span>
+  <span class='@map ivar id'>@map</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -317,16 +318,17 @@ Returns the value of attribute title
       <pre class="lines">
 
 
-7
 8
-9</pre>
+9
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/raw_level.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/raw_level.rb', line 8</span>
 
-<span class='kw'>def</span> <span class='id title'>title</span>
-  <span class='ivar'>@title</span>
-<span class='kw'>end</span></pre>
+<span class='def def kw'>def</span> <span class='title identifier id'>title</span>
+  <span class='@title ivar id'>@title</span>
+<span class='end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -338,9 +340,9 @@ Returns the value of attribute title
 </div>
     
     <div id="footer">
-  Generated on Fri Jan 21 15:41:17 2011 by 
+  Generated on Thu Jan 27 11:16:55 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.3 (ruby-1.8.7).
 </div>
 
   </body>
