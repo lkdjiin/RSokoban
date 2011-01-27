@@ -1,8 +1,13 @@
 = Welcome to RSokoban !
 
 RSokoban is a clone of the famous {Sokoban game}[http://en.wikipedia.org/wiki/Sokoban].
-I wrote this program just to improve my skills in Ruby. Currently, you can play only in a console
-window.
+I wrote this program just to improve my skills in Ruby.
+
++Features+
+* User interface in 3 flavors (tk, curses, straight text mode)
+* Installing via RubyGem
+* Undo
+* Use xsb file format to load sets of levels
 
       #####
       #   #
@@ -21,15 +26,18 @@ Enjoy the game.
 == Documentation
 Players can look at {the wiki}[https://github.com/lkdjiin/RSokoban/wiki].
 
-Developpers can look at Level and Game.
+Developpers can look at Level, Game and TkUI.
 
 
 == Dependancies
-Ruby >= 1.9
+Ruby >= 1.8.7
 
 == Installing RSokoban
-Installing via a gem is easy.
-Go to the RSokoban folder and build the gem :
+Installing via RubyGem is easy doing in one command:
+
+ gem install RSokoban
+
+Or you can install RSokoban from the source. To do this, go to the RSokoban folder and build the gem :
 
  gem build rsokoban.gemspec
 
@@ -40,6 +48,10 @@ Then install it :
 Now start playing :
 
  rsokoban
+
+Or you can play without installing it. Go to the RSokoban/bin folder and type:
+
+ ./rsokoban
 
 == Questions and/or Comments
 Feel free to email {Xavier Nayrac}[mailto:xavier.nayrac@gmail.com]

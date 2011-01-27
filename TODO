@@ -1,16 +1,5 @@
 
---- v0.73 ---
-(done)when win, answer No to "Play next level ?" restart current level
-(done)game start trying the tk gui. If it fails, display message and try to start with
-  curses... If curses fails, display message and abandon.
-
-BUG floor outside
-
-BUG it seems to me there are some levels > 19x16 in microban.xsb
-
-search skins and ask creators if I can use them
-
-add short features list in README and link to complete features list in wiki
+add features list in wiki
 
 wiki: add tk GUI
 
