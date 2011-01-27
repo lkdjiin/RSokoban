@@ -369,22 +369,27 @@ EOS
 		end
 		
 		def init_buttons
-			@tk_undo_button = TkButton.new(@tk_root) do
+			@tk_frame_button = TkFrame.new(@tk_root) do
+				grid('row' => 1, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+				padx 5
+				pady 5
+			end
+			@tk_undo_button = TkButton.new(@tk_frame_button) do
 				text 'Undo'
 				grid('row'=>3, 'column'=>0, 'columnspan' => 3)
 			end
 			
-			@tk_retry_button = TkButton.new(@tk_root) do
+			@tk_retry_button = TkButton.new(@tk_frame_button) do
 				text 'Retry'
 				grid('row'=>3, 'column'=>3, 'columnspan' => 3)
 			end
 			
-			@tk_level_button = TkButton.new(@tk_root) do
+			@tk_level_button = TkButton.new(@tk_frame_button) do
 				text 'Level'
 				grid('row'=>3, 'column'=>6, 'columnspan' => 3)
 			end
 			
-			@tk_next_level_button = TkButton.new(@tk_root) do
+			@tk_next_level_button = TkButton.new(@tk_frame_button) do
 				text 'Next'
 				grid('row'=>3, 'column'=>9, 'columnspan' => 3)
 			end
