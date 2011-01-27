@@ -1,42 +1,32 @@
+--- v0.74 ---
+
+* tk GUI
+  + put buttons in a frame
+  + put information labels in a frame
+  + view description of level set in 'load set' dialog
+  + add a scrollbar to the 'load set' dialog.
+  + adjust window size to map size
+  + level preview
+  + load level dialog: default button OK and make the window more sexy
+  + fix bug 1
+  + fix bug 2
+* redo
 
 --- next ---
 
-tk: add a 'next level' button
-
-tk: view description of level set in 'load set' dialog
-
-tk: add a scrollbar to the 'load set' dialog.
-
-tk: adjust window size to map size
-
-tk: level preview
-
-redo
-
---gnome
-
-skining (several size of tile, resizing ?)
-
-Console UI should provide a way to know names of sets
-
-save & reload
-
-multi player
-
-save score
-
-don't restrict map size
-
-solver (plugin ?)
-
-format fichier niveau xml (.slc)
-
---windows ?
-
---kde ?
-
---fxruby ?
-
-mouse support
-
-i18n
+* don't restrict map size
+* gnome GUI (gtk only to be windows compatible ?)
+* skining
+  + load skin
+  + several size of tiles or resizing ?)
+* Console UI should provide a way to know names of sets
+* save a game
+* reload a saved game
+* multi player support
+* save score
+* scoring moves and pushes
+* solver (plugin ?)
+* format fichier niveau xml (.slc)
+* other GUI(s) ?
+* mouse support
+* i18n

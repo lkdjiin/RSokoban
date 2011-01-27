@@ -304,6 +304,7 @@ EOS
 			file.add :separator
 			file.add :command, :label => 'Undo', :command => proc{undo}, :accelerator => 'Ctrl+U'
 			file.add :command, :label => 'Restart level', :command => proc{start_level}, :accelerator => 'Ctrl+R'
+			file.add :command, :label => 'Next level', :command => proc{next_level}, :accelerator => 'Ctrl+N'
 			file.add :separator
 			file.add :command, :label => 'Quit', :command => proc{exit}
 			
@@ -382,8 +383,8 @@ EOS
 				grid('row'=>3, 'column'=>6, 'columnspan' => 3)
 			end
 			
-			@tk_set_button = TkButton.new(@tk_root) do
-				text 'Set'
+			@tk_next_level_button = TkButton.new(@tk_root) do
+				text 'Next'
 				grid('row'=>3, 'column'=>9, 'columnspan' => 3)
 			end
 		end
@@ -397,11 +398,12 @@ EOS
 			@tk_root.bind('Control-u') { undo }
 			@tk_root.bind('Control-r') { start_level }
 			@tk_root.bind('Control-l') { load_level }
+			@tk_root.bind('Control-n') { next_level }
 			@tk_root.bind('F1') { help }
 			@tk_undo_button.command { undo }
 			@tk_retry_button.command { start_level }
 			@tk_level_button.command { load_level }
-			@tk_set_button.command { load_set }
+			@tk_next_level_button.command { next_level }
 		end
 		
 		def undo
