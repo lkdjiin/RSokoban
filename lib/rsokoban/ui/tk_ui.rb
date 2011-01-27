@@ -311,7 +311,7 @@ EOS
 			file.add :command, :label => 'Load level', :command => proc{load_level}, :accelerator => 'Ctrl+L'
 			file.add :command, :label => 'Load set', :command => proc{load_set}
 			file.add :separator
-			file.add :command, :label => 'Undo', :command => proc{undo}, :accelerator => 'Ctrl+U'
+			file.add :command, :label => 'Undo', :command => proc{undo}, :accelerator => 'Ctrl+Z'
 			file.add :command, :label => 'Restart level', :command => proc{start_level}, :accelerator => 'Ctrl+R'
 			file.add :command, :label => 'Next level', :command => proc{next_level}, :accelerator => 'Ctrl+N'
 			file.add :separator
@@ -410,7 +410,7 @@ EOS
 			@tk_root.bind('Down') { move :down }
 			@tk_root.bind('Left') { move :left }
 			@tk_root.bind('Right') { move :right }
-			@tk_root.bind('Control-u') { undo }
+			@tk_root.bind('Control-z') { undo }
 			@tk_root.bind('Control-r') { start_level }
 			@tk_root.bind('Control-l') { load_level }
 			@tk_root.bind('Control-n') { next_level }
