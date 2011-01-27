@@ -202,7 +202,7 @@ EOS
 			begin
 				@level = @level_loader.level(@level_number)
 				@move = 0
-				init_labels # @todo reset_labels instead
+				reset_labels
 				reset_map
 				display
 			rescue RSokoban::LevelNumberTooHighError
@@ -316,22 +316,23 @@ EOS
 			@tk_label_set = TkLabel.new(@tk_root) do
 			 	grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
 			end
-			@tk_label_set.configure('text' => "Set: #{@level_loader.set.title}")
-			
 			@tk_label_level = TkLabel.new(@tk_root) do
 				grid('row'=>1, 'column'=>0, 'columnspan' => 19, 'sticky' => 'w')
 			end
-			@tk_label_level.configure('text' => "Level: #{@level.title} (#{@level_number}/#{@level_loader.set.size})")
-			
 			@tk_label_move = TkLabel.new(@tk_root) do
 				grid('row'=>2, 'column'=>0, 'columnspan' => 19, 'sticky' => 'w')
 			end
-			update_move_information
-			
 			@tk_label_separator = TkLabel.new(@tk_root) do
 				text("")
 				grid('row'=>4, 'column'=>0, 'columnspan' => 19)
 			end
+			reset_labels
+		end
+		
+		def reset_labels
+			@tk_label_set.configure('text' => "Set: #{@level_loader.set.title}")
+			@tk_label_level.configure('text' => "Level: #{@level.title} (#{@level_number}/#{@level_loader.set.size})")
+			update_move_information
 		end
 		
 		def update_move_information
