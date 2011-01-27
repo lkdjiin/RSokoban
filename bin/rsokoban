@@ -1,10 +1,68 @@
 #!/usr/bin/env ruby
 
+# This file is part of RSokoban, a clone of the famous sokoban game.
+# Copyright 2011 Xavier Nayrac
+#
+# RSokoban is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 $RSOKOBAN_DATA_PATH = File.expand_path(File.dirname(__FILE__) + '/../data')
 require 'rsokoban'
 
+tk_failed=<<EOS
+Sorry, failed to load tk or tkimg library.
+Please, be sure that libtcltk-ruby and libtk-img are correctly installed on
+your system.
+Now trying to start with curses library:
+  rsokoban --curses
+
+EOS
+
+curses_failed=<<EOS
+Sorry, failed to load curses library.
+Please, be sure that curses are correctly installed on your system.
+You can try the game with the portable UI.
+  rsokoban --portable
+
+EOS
+
+# If player don't specify an explicit user interface,
+# one will use tk.
 option = Option.new
+
+# I try to load the needed tk bindings. If it fails,
+# one can try with curses.
+if option[:ui] == :tk
+	begin
+		require 'tk'
+		require 'tkextlib/tkimg'
+	rescue LoadError => e
+		puts tk_failed
+		option.interface = :curses
+	end
+end
+
+# I try to load the needed curses binding. If it fails,
+# inform user and abandon.
+if option[:ui] == :curses
+	begin
+		require 'curses'
+	rescue LoadError => e
+		puts curses_failed
+		exit
+	end
+end
 
 game = RSokoban::Game.new option[:ui]
 

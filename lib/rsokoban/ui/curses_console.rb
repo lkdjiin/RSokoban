@@ -1,4 +1,4 @@
-require 'curses'
+
 
 module RSokoban::UI
 

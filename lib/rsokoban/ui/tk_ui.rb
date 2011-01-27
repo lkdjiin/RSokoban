@@ -1,5 +1,5 @@
-require 'tk'
-require 'tkextlib/tkimg'
+#require 'tk'
+#require 'tkextlib/tkimg'
 
 module RSokoban::UI
 

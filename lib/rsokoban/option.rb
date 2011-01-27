@@ -14,7 +14,7 @@ class Option
 	# @todo refactoring
 	def initialize
 		# Default option(s)
-		@options = {:ui => :curses}
+		@options = {:ui => :tk}
 		
 		optparse = OptionParser.new do|opts|
 		 	opts.banner = "Usage: #{$0} [options]"
@@ -69,6 +69,10 @@ class Option
 	
 	def [](k)
 		@options[k]
+	end
+	
+	def interface=(k)
+		@options[:ui] = k
 	end
 	
 private
