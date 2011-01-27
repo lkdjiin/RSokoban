@@ -17,7 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+$RSOKOBAN_PATH = File.expand_path(File.dirname(__FILE__)) + '/..'
+
 $RSOKOBAN_DATA_PATH = File.expand_path(File.dirname(__FILE__) + '/../data')
+
 require 'rsokoban'
 
 tk_failed=<<EOS

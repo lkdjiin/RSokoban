@@ -78,7 +78,7 @@ class Option
 private
 
 	def print_version
-		puts File.read('../VERSION').strip
+		puts File.read($RSOKOBAN_PATH + '/VERSION').strip
 		exit
 	end
 	

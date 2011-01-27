@@ -130,7 +130,7 @@ module RSokoban::UI
 		
 		def get_xsb
 			current = Dir.pwd
-			Dir.chdir '../data'
+			Dir.chdir $RSOKOBAN_DATA_PATH
 			ret = Dir.glob '*.xsb'
 			Dir.chdir current
 			ret
@@ -283,7 +283,7 @@ EOS
 		
 		def init_root
 			@tk_root = TkRoot.new do
-				title "RSokoban " + File.read('../VERSION').strip
+				title "RSokoban " + File.read($RSOKOBAN_PATH + '/VERSION').strip
 				minsize(400, 400)
 				resizable(false, false)
 			end
@@ -439,7 +439,7 @@ EOS
 		end
 		
 		def preload_images
-			dir = '../skins/default/'
+			dir = $RSOKOBAN_PATH + '/skins/default/'
 			@wall = Image.new(dir + 'wall.bmp', @tk_map)
 			@crate = Image.new(dir + 'crate.bmp', @tk_map)
 			@floor = Image.new(dir + 'floor.bmp', @tk_map)
@@ -461,7 +461,7 @@ EOS
 		end
 		
 		def about
-			text = "RSokoban #{File.read('../VERSION').strip} \n"
+			text = "RSokoban #{File.read($RSOKOBAN_PATH + '/VERSION').strip} \n"
 			text += "This is free software !\n"
 			text += "Copyright 2011, Xavier Nayrac\n"
 			text += "Licensed under the GPL-3\n"

@@ -17,9 +17,9 @@ Enjoy the game !}
 		list.exclude(/(^|[^.a-z])[a-z]+/)
 		list.exclude('TODO')
 	end.to_a
-  s.files = FileList['lib/**/*.rb', 'bin/*', 'data/*', '[A-Z]*', 'test/**/*'].to_a + readmes
+  s.files = FileList['lib/**/*.rb', 'bin/*', 'data/*', 'skins/**/*', '[A-Z]*', 'test/**/*'].to_a + readmes
 	s.executables = ['rsokoban']
 	s.test_file  = 'test/test.rb'
-	s.license = 'GPL-3'
+	#s.license = 'GPL-3'
 	s.required_ruby_version = '>= 1.8.7'
 end
