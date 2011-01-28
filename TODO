@@ -3,6 +3,7 @@
 * tk GUI
   + fix bug 2
 * redo
+* Level#move must return a hash
 
 --- next ---
 

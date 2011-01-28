@@ -275,7 +275,7 @@ EOS
 			@last_move = :up
 			@tk_map = []
 			init_gui
-			display
+			display_initial
 			Tk.mainloop 
 		end
 		
@@ -298,7 +298,7 @@ EOS
 				@move = 0
 				reset_labels
 				reset_map
-				display
+				display_initial
 			rescue RSokoban::LevelNumberTooHighError
 				Tk::messageBox :message => "Sorry, no level ##{@level_number} in this set."
 			end
@@ -322,8 +322,28 @@ EOS
 			end
 		end
 		
+		# Update map rendering. We need only to update man's location and north, south, west
+		# and east of it. And because there walls all around the map, there is no needs to check
+		# for limits.
+		def display_update
+			x = @level.man.x
+			y = @level.man.y
+			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
+			update_array.each do |x, y|
+				case @level.map[y][x].chr
+					when RSokoban::WALL then @wall.display_at x, y
+					when RSokoban::FLOOR then @floor.display_at x, y
+					when RSokoban::CRATE then @crate.display_at x, y
+					when RSokoban::STORAGE then @store.display_at x, y
+					when RSokoban::MAN then display_man_at x, y
+					when RSokoban::MAN_ON_STORAGE then display_man_on_storage_at x, y
+					when RSokoban::CRATE_ON_STORAGE then @crate_store.display_at x, y
+				end
+			end
+		end
+		
 		# Display the current map (current state of the level) on screen.
-		def display
+		def display_initial
 			y = 0
 			@level.map.each do |row|
 				# find first wall
@@ -332,7 +352,7 @@ EOS
 				line.each_char do |char|
 					case char
 						when RSokoban::WALL then @wall.display_at x, y
-						when RSokoban::FLOOR then @floor.display_at x, y
+						when RSokoban::FLOOR then display_floor_at x, y
 						when RSokoban::CRATE then @crate.display_at x, y
 						when RSokoban::STORAGE then @store.display_at x, y
 						when RSokoban::MAN then display_man_at x, y
@@ -343,6 +363,18 @@ EOS
 				end
 				y += 1
 			end
+		end
+		
+		def display_floor_at x, y
+			return if y == 0
+			height = y - 1
+			height.downto(0).each {|row|
+				break if @level.map[row][x].nil?
+				if [RSokoban::WALL, RSokoban::FLOOR, RSokoban::CRATE, RSokoban::STORAGE].include?(@level.map[row][x].chr)
+					@floor.display_at x, y
+					break
+				end
+			}
 		end
 		
 		def display_man_at x, y
@@ -510,7 +542,7 @@ EOS
 			result = @level.undo
 			@move = get_move_number_from_result_of_last_move result
 			update_move_information
-			display
+			display_update
 		end
 		
 		# Send the move to Level and process response.
@@ -523,7 +555,7 @@ EOS
 			unless result.start_with?('ERROR')
 				@move = get_move_number_from_result_of_last_move result
 				update_move_information
-				display
+				display_update
 			end
 			if result.start_with?('WIN')
 				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
