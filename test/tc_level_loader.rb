@@ -97,4 +97,9 @@ class TC_LevelLoader < Test::Unit::TestCase
 		assert_equal 6, ins.set.size
 	end
 	
+	def test_get_the_description_of_a_set
+		ins = RSokoban::LevelLoader.new "original.xsb"
+		desc = "Copyright: a\nE-Mail:\nWeb Site:\n\nThe 50 original levels from Sokoban plus the 40 from Extra.\n"
+		assert_equal desc, ins.file_description
+	end
 end

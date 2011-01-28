@@ -19,12 +19,12 @@ module RSokoban
 			raise NoFileError unless File.exist?(filename)
 			@set = LevelSet.new
 			file = open(filename)
-			@set.title = file.readline.chomp.sub(/;/, '').strip
+			@set.title = file.readline.get_xsb_info_line_chomp
 			file.readline # must be blank line
 			line = file.readline
 			desc = ''
 			while line[0] == ?; do
-				desc += line.sub(/;/, '').sub(/\s*/, '')
+				desc += line.get_xsb_info_line
 				line = file.readline
 			end
 			@set.description = desc
@@ -37,7 +37,7 @@ module RSokoban
 						raw.push line
 						line = file.readline.chomp
 					end
-					line = line.chomp.sub(/;/, '').sub(/\s*/, '')
+					line = line.get_xsb_info_line_chomp
 					@set.rawLevels.push RawLevel.new(line, raw) unless raw.empty?
 					
 					line = file.readline
@@ -54,6 +54,12 @@ module RSokoban
 		def level num
 			raise LevelNumberTooHighError if num > @set.rawLevels.size
 			Level.new @set.rawLevels[num-1]
+		end
+		
+		# Get the description field of the loaded set of levels.
+		# @return [String] possibly multi-line
+		def file_description
+			@set.description
 		end
 		
 	end

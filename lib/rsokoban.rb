@@ -1,3 +1,4 @@
+require "rsokoban/extensions"
 require "rsokoban/level"
 require "rsokoban/level_loader"
 require "rsokoban/exception"
@@ -12,6 +13,7 @@ require "rsokoban/raw_level"
 require "rsokoban/ui"
 require "rsokoban/move_recorder"
 require "rsokoban/map"
+
 
 # I am the main module of the game.
 module RSokoban	
