@@ -4,7 +4,6 @@
   + view description of level set in 'load set' dialog
   + add a scrollbar to the 'load set' dialog.
   + adjust window size to map size
-  + level preview
   + fix bug 1
   + fix bug 2
 * redo
@@ -22,6 +21,7 @@
 * multi player support
 * save score
 * scoring moves and pushes
+* level preview
 * solver (plugin ?)
 * format fichier niveau xml (.slc)
 * other GUI(s) ?

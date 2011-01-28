@@ -22,7 +22,12 @@ module RSokoban::UI
 		
 	end
 	
+	# As dialog box, I allow the user to choose a specific level number.
 	class LevelDialog < TkToplevel
+	
+		# Create and show the dialog
+		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
+		# @param [String] title my window title
 		def initialize(root, title)
 			super(root)
 			title(title)
@@ -62,6 +67,18 @@ module RSokoban::UI
 			wait_destroy
 		end
 		
+		# @return true if user clicked the OK button
+		def ok?
+			@state == :ok
+		end
+		
+		# @return [Fixnum] level number
+		def value
+			$spinval.to_i
+		end
+		
+		private
+		
 		def ok_on_clic
 			@state = :ok
 			destroy
@@ -71,17 +88,14 @@ module RSokoban::UI
 			@state = :cancel
 			destroy
 		end
-		
-		def ok?
-			@state == :ok
-		end
-		
-		def value
-			$spinval.to_i
-		end
 	end
 	
+	# As dialog box, I allow the user to choose a set name.
 	class SetDialog < TkToplevel
+	
+		# Create and show the dialog
+		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
+		# @param [String] title my window title
 		def initialize(root, title)
 			super(root)
 			title(title)
@@ -89,20 +103,41 @@ module RSokoban::UI
 			@state = 'CANCEL'
 			grab
 			
-			@value = nil
 			@xsb = get_xsb
 			$listval = TkVariable.new(@xsb)
-
-			@list = TkListbox.new(self) do
+			@value = @xsb[0]
+			
+			@frame_north = TkFrame.new(self) do
+				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
+				padx 10
+				pady 10
+			end
+			
+			@list = TkListbox.new(@frame_north) do
 				width 20
 			 	height 8
 			 	listvariable $listval
 			 	grid('row'=>0, 'column'=>0)
 			end
 			
+			scroll = TkScrollbar.new(@frame_north) do
+				orient 'vertical'
+				grid(:row => 0, :column => 1, :sticky => :ns)
+			end
+
+			@list.yscrollcommand(proc { |*args|
+				scroll.set(*args)
+			})
+
+			scroll.command(proc { |*args|
+				@list.yview(*args)
+			}) 
+
+			
 			@ok = TkButton.new(self) do
 				text 'OK'
 				grid('row'=>1, 'column'=>0)
+				default :active
 			end
 			@ok.command { ok_on_clic }
 			
@@ -112,8 +147,21 @@ module RSokoban::UI
 			end
 			@cancel.command { cancel_on_clic }
 			
+			@list.focus
 			wait_destroy
 		end
+		
+		# @return true if user clicked the OK button
+		def ok?
+			@state == 'OK'
+		end
+		
+		# @return [String] the name of the set
+		def value
+			@value
+		end
+		
+		private
 		
 		def ok_on_clic
 			@state = 'OK'
@@ -129,14 +177,6 @@ module RSokoban::UI
 			destroy
 		end
 		
-		def ok?
-			@state == 'OK'
-		end
-		
-		def value
-			@value
-		end
-		
 		def get_xsb
 			current = Dir.pwd
 			Dir.chdir $RSOKOBAN_DATA_PATH
@@ -146,7 +186,11 @@ module RSokoban::UI
 		end
 	end
 	
+	# As dialog box, I display some help.
 	class HelpDialog < TkToplevel
+		# Create and show the dialog
+		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
+		# @param [String] title my window title
 		def initialize(root, title)
 			super(root)
 			title(title)
