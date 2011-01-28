@@ -1,13 +1,12 @@
 --- v0.74 ---
 
 * tk GUI
-  + adjust window size to map size
-  + fix bug 1
   + fix bug 2
 * redo
 
 --- next ---
 
+* tk: use one image for rendering, not an array (if possible ?)
 * don't restrict map size
 * gnome GUI (gtk only to be windows compatible ?)
 * skining

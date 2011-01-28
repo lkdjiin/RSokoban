@@ -288,6 +288,12 @@ EOS
 		def start_level
 			begin
 				@level = @level_loader.level(@level_number)
+				# For now, map size is restrict to 19x16 on screen.
+				if @level.width > 19 or @level.height > 16
+					Tk::messageBox :message => "Sorry, level '#{@level.title}' is too big to be displayed."
+					@level_number = 1
+					start_level
+				end
 				@move = 0
 				reset_labels
 				reset_map

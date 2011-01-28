@@ -276,11 +276,9 @@ module RSokoban
 		
 		# Initialize map width and map height of this level
 		def init_dimension map
-			@width = @height = 0
-			map.each do |y|
-				@width = y.size if y.size > @width
-				@height += 1
-			end
+			@width = 0
+			map.each {|y| @width = y.size if y.size > @width }
+			@height = map.size
 		end
 		
 		# Find the man's position, at the begining of the level.
