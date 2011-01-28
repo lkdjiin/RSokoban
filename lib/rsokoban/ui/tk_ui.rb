@@ -50,6 +50,7 @@ module RSokoban::UI
 			@spin.to(999)
 			@spin.from(1)
 			@spin.focus
+			@spin.bind 'Key-Return', proc{ ok_on_clic }
 			
 			@ok = TkButton.new(self) do
 				text 'OK'
