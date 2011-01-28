@@ -3,6 +3,7 @@ version 0.74  2011-??-??
   * Tk GUI
     + add a 'next level' feature
     + undo shortcut change to Ctrl+Z
+    + minor improvements in dialog boxes
     
 
 version 0.73  2011-01-27

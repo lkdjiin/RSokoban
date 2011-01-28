@@ -1,15 +1,18 @@
 module RSokoban
 
-	# Je charge le fichier contenant les niveaux du jeu. À ma création, vous m'indiquez un fichier 
-	# au format xsb contenant un ou plusieurs niveaux. 
-	# Vous pouvez ensuite me demander un niveau particulier (un objet Level).
-	# @todo translate, document and refactor
+	# I load a file containing the levels of the game. On instanciation,
+	# you tell me a file (in xsb file format) containing one or more levels.
+	#
+	# You can then ask for a particular level (a Level object). You can use me too
+	# to find the description of a level.
+	# @todo give some examples
+	# @todo document and refactor
 	class LevelLoader
 		attr_reader :level, :set
 	
-		# @param [String] filename le nom du fichier où trouver les niveaux.
-		#   Ce fichier est cherché dans le dossier data/.
-		# @raise [RSokoban::NoFileError] si le fichier n'existe pas
+		# @param [String] filename an xsb filename.
+		#   This file is searched in thedata/ folder.
+		# @raise [RSokoban::NoFileError] if filename doesn't exist
 		# @see LevelSet overview of .xsb file format
 		def initialize filename
 			filename = "#{$RSOKOBAN_DATA_PATH}/" + filename
