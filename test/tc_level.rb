@@ -16,122 +16,112 @@ class TC_Level < Test::Unit::TestCase
 	          '#$$#',
 	          '#@ #',
 	          '####']
-	          
+	
+	def setup
+		@text_1 = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
+		@text_2 = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text2))
+		@text_3 = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
+		@original_1 = RSokoban::Level.new(RSokoban::RawLevel.new('1', Level1))
+	end
+	
 	def test_instance
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal true, ins.instance_of?(RSokoban::Level), "Must be an instance of RSokoban::Level"
+		assert_equal true, @text_1.instance_of?(RSokoban::Level), "Must be an instance of RSokoban::Level"
 	end
 	
 	def test_floor_with_Text1
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
 		expected = [ '#####',
             		 '#   #',
                  '#####']
-		assert_equal expected, ins.floor
+		assert_equal expected, @text_1.floor
 	end
 	
 	def test_floor_with_Text3
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
 		expected = [ '####',
 								 '#  #',
 								 '#  #',
 								 '#  #',
 								 '####']
-		assert_equal expected, ins.floor
+		assert_equal expected, @text_3.floor
 	end
 	
 	def test_man_position
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal 3, ins.man.x
-		assert_equal 1, ins.man.y
+		assert_equal 3, @text_1.man.x
+		assert_equal 1, @text_1.man.y
 	end
 	
 	def test_crates_is_an_Array
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal true, ins.crates.instance_of?(Array), "Must be an Array"
+		assert_equal true, @text_1.crates.instance_of?(Array), "Must be an Array"
 	end
 	
 	def test_crates_with_Text1_must_be_of_size_1
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal 1, ins.crates.size
+		assert_equal 1, @text_1.crates.size
 	end
 	
 	def test_crates_contains_some_crate
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal true, ins.crates[0].instance_of?(RSokoban::Crate)
+		assert_equal true, @text_1.crates[0].instance_of?(RSokoban::Crate)
 	end
 	
 	def test_crates_with_Text2_must_be_of_size_3
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text2))
-		assert_equal 3, ins.crates.size
+		assert_equal 3, @text_2.crates.size
 	end
 	
 	def test_crates_positions
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text2))
-		assert_equal 2, ins.crates[0].x
-		assert_equal 1, ins.crates[0].y
+		assert_equal 2, @text_2.crates[0].x
+		assert_equal 1, @text_2.crates[0].y
 		
-		assert_equal 2, ins.crates[1].x
-		assert_equal 2, ins.crates[1].y
+		assert_equal 2, @text_2.crates[1].x
+		assert_equal 2, @text_2.crates[1].y
 		
-		assert_equal 2, ins.crates[2].x
-		assert_equal 3, ins.crates[2].y
+		assert_equal 2, @text_2.crates[2].x
+		assert_equal 3, @text_2.crates[2].y
 	end
 	
 	def test_several_crates_on_a_line
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
-		assert_equal 1, ins.crates[0].x
-		assert_equal 2, ins.crates[0].y
+		assert_equal 1, @text_3.crates[0].x
+		assert_equal 2, @text_3.crates[0].y
 		
-		assert_equal 2, ins.crates[1].x
-		assert_equal 2, ins.crates[1].y
+		assert_equal 2, @text_3.crates[1].x
+		assert_equal 2, @text_3.crates[1].y
 	end
 	
 	def test_storages
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal true, ins.storages.instance_of?(Array), "Must be an Array"
+		assert_equal true, @text_1.storages.instance_of?(Array), "Must be an Array"
 	end
 	
 	def test_storages_with_Text1_must_be_of_size_1
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal 1, ins.storages.size
+		assert_equal 1, @text_1.storages.size
 	end
 	
 	def test_storages_with_Text2_must_be_of_size_3
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text2))
-		assert_equal 3, ins.storages.size
+		assert_equal 3, @text_2.storages.size
 	end
 	
 	def test_storages_contains_some_storage
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text1))
-		assert_equal true, ins.storages[0].instance_of?(RSokoban::Storage)
+		assert_equal true, @text_1.storages[0].instance_of?(RSokoban::Storage)
 	end
 	
 	def test_storages_positions
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text2))
-		assert_equal 1, ins.storages[0].x
-		assert_equal 1, ins.storages[0].y
+		assert_equal 1, @text_2.storages[0].x
+		assert_equal 1, @text_2.storages[0].y
 		
-		assert_equal 1, ins.storages[1].x
-		assert_equal 2, ins.storages[1].y
+		assert_equal 1, @text_2.storages[1].x
+		assert_equal 2, @text_2.storages[1].y
 		
-		assert_equal 1, ins.storages[2].x
-		assert_equal 3, ins.storages[2].y
+		assert_equal 1, @text_2.storages[2].x
+		assert_equal 3, @text_2.storages[2].y
 	end
 	
 	def test_several_storages_on_a_line
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
-		assert_equal 1, ins.storages[0].x
-		assert_equal 1, ins.storages[0].y
+		assert_equal 1, @text_3.storages[0].x
+		assert_equal 1, @text_3.storages[0].y
 		
-		assert_equal 2, ins.storages[1].x
-		assert_equal 1, ins.storages[1].y
+		assert_equal 2, @text_3.storages[1].x
+		assert_equal 1, @text_3.storages[1].y
 	end
 	
 	def test_equality
-		ins1 = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
-		ins2 = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
-		assert ins1 == ins2
+		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Text3))
+		assert ins == @text_3
 	end
 	
 	Level1 = ['    #####',
@@ -147,8 +137,15 @@ class TC_Level < Test::Unit::TestCase
 '    #######']
 
 	def test_rawLevel
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Level1))
-		assert_equal Level1, ins.map
+		assert_equal Level1, @original_1.map
+	end
+	
+	def test_width
+		assert_equal 19, @original_1.width
+	end
+	
+	def test_height
+		assert_equal 11, @original_1.height
 	end
 	
 	Level1_u = ['    #####',
@@ -164,7 +161,7 @@ class TC_Level < Test::Unit::TestCase
 '    #######']
 
 	def test_rawLevel_after_move_up
-		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', Level1))
+		ins = @original_1
 		ins.move :up
 		assert_equal Level1_u, ins.map
 	end
@@ -741,7 +738,7 @@ class TC_Level < Test::Unit::TestCase
 		assert_equal 'WIN move 1', ins.moveRight
 	end
 	
-	### BUG 1 #######################################
+	### BUGS #######################################
 	
 	# I need a 'crate on storage' in 1, 1. But Level#new don't know how to parse this.
 	# This is the picture I really want to test :
@@ -757,7 +754,7 @@ class TC_Level < Test::Unit::TestCase
 										  '#.#',
 										  '###']
 	
-	def test_bug_1
+	def test_bug_first
 		ins = RSokoban::Level.new(RSokoban::RawLevel.new('1', CannotMoveUpBug1))
 		# Changing 'o' to '*'
 		def ins.addStorage

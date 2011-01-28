@@ -5,6 +5,14 @@ module RSokoban
 	class Level
 		attr_reader :floor, :man, :crates, :storages, :title
 		
+		# Get map width of this level, in cells
+		# @return [Fixnum]
+		attr_reader :width
+		
+		# Get map height of this level, in cells
+		# @return [Fixnum]
+		attr_reader :height
+		
 		# I build the level from a RawLevel object.
 		# @example a RawLevel object
 		#   A RawLevel object have got one title and one 'picture'. A 'picture' is an array of string.
@@ -21,6 +29,7 @@ module RSokoban
 		# @param [RawLevel] rawLevel
 		def initialize rawLevel
 			@title = rawLevel.title
+			init_dimension rawLevel.map
 			@floor = init_floor rawLevel.map
 			@man = init_man rawLevel.map
 			@crates = []
@@ -263,6 +272,15 @@ module RSokoban
 			floor = []
 			map.each {|x| floor.push x.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
 			floor
+		end
+		
+		# Initialize map width and map height of this level
+		def init_dimension map
+			@width = @height = 0
+			map.each do |y|
+				@width = y.size if y.size > @width
+				@height += 1
+			end
 		end
 		
 		# Find the man's position, at the begining of the level.
