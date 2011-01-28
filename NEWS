@@ -3,6 +3,7 @@ version 0.74  2011-??-??
   * Tk GUI
     + add a 'next level' feature
     + undo shortcut change to Ctrl+Z
+    + view description of a level set in the 'load set' dialog box
     + minor improvements in dialog boxes
     
 

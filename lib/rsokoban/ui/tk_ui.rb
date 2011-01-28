@@ -99,14 +99,17 @@ module RSokoban::UI
 		def initialize(root, title)
 			super(root)
 			title(title)
-			minsize(200, 100)
+			width(300)
+			height(400)
 			@state = 'CANCEL'
 			grab
+			self['resizable'] = false, false
 			
 			@xsb = get_xsb
 			$listval = TkVariable.new(@xsb)
 			@value = @xsb[0]
 			
+			# A frame for the listbox
 			@frame_north = TkFrame.new(self) do
 				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
 				padx 10
@@ -114,36 +117,60 @@ module RSokoban::UI
 			end
 			
 			@list = TkListbox.new(@frame_north) do
-				width 20
+				width 40
 			 	height 8
 			 	listvariable $listval
-			 	grid('row'=>0, 'column'=>0)
+			 	grid(:row => 0, :column => 0, :sticky => :we)
 			end
+			
+			@list.bind '<ListboxSelect>', proc{ show_description }
+			@list.bind 'Double-1', proc{ ok_on_clic }
+			@list.bind 'Return', proc{ ok_on_clic }
+
 			
 			scroll = TkScrollbar.new(@frame_north) do
 				orient 'vertical'
 				grid(:row => 0, :column => 1, :sticky => :ns)
 			end
 
-			@list.yscrollcommand(proc { |*args|
-				scroll.set(*args)
-			})
-
-			scroll.command(proc { |*args|
-				@list.yview(*args)
-			}) 
-
+			@list.yscrollcommand(proc { |*args| scroll.set(*args) })
+			scroll.command(proc { |*args| @list.yview(*args) })
 			
+			# A frame for the set description
+			@frame_desc = TkFrame.new(self) do
+				grid(:row => 1, :column => 0, :columnspan => 2, :sticky => :we)
+				padx 10
+				pady 10
+			end
+			
+			@desc = TkText.new(@frame_desc) do
+				borderwidth 1
+				font TkFont.new('times 12')
+				width 40
+				height 10
+				wrap :word
+			 	grid(:row => 0, :column => 0)
+			end
+			
+			scroll2 = TkScrollbar.new(@frame_desc) do
+				orient 'vertical'
+				grid(:row => 0, :column => 1, :sticky => :ns)
+			end
+
+			@desc.yscrollcommand(proc { |*args| scroll2.set(*args) })
+			scroll2.command(proc { |*args| @desc.yview(*args) }) 
+			
+			# The buttons
 			@ok = TkButton.new(self) do
 				text 'OK'
-				grid('row'=>1, 'column'=>0)
+				grid(:row => 2, :column => 0)
 				default :active
 			end
 			@ok.command { ok_on_clic }
 			
 			@cancel = TkButton.new(self) do
 				text 'Cancel'
-				grid('row'=>1, 'column'=>1)
+				grid(:row => 2, :column => 1)
 			end
 			@cancel.command { cancel_on_clic }
 			
@@ -183,6 +210,13 @@ module RSokoban::UI
 			ret = Dir.glob '*.xsb'
 			Dir.chdir current
 			ret
+		end
+		
+		def show_description
+			idx = @list.curselection
+			ll = RSokoban::LevelLoader.new @xsb[idx[0]]
+			@desc.delete '1.0', :end
+			@desc.insert :end, ll.file_description
 		end
 	end
 	

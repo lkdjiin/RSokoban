@@ -1,7 +1,6 @@
 --- v0.74 ---
 
 * tk GUI
-  + view description of level set in 'load set' dialog
   + adjust window size to map size
   + fix bug 1
   + fix bug 2
