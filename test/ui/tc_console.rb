@@ -7,7 +7,9 @@ class TC_Console < Test::Unit::TestCase
 		def @console.public_parse(*args)
 			parse(*args)
 		end
-		
+		# Lets pretend the set of levels used by @console is 99 levels length.
+		@console.instance_variable_set(:@set_total, 99)
+
 		@pa = RSokoban::UI::PlayerAction.new
 	end
 	
