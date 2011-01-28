@@ -93,7 +93,7 @@ module RSokoban::UI
 	
 	# As dialog box, I allow the user to choose a set name.
 	class SetDialog < TkToplevel
-	
+		include RSokoban
 		# Create and show the dialog
 		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
 		# @param [String] title my window title
@@ -215,7 +215,7 @@ module RSokoban::UI
 		
 		def show_description
 			idx = @list.curselection
-			ll = RSokoban::LevelLoader.new @xsb[idx[0]]
+			ll = LevelLoader.new @xsb[idx[0]]
 			@desc.delete '1.0', :end
 			@desc.insert :end, ll.file_description
 		end
@@ -266,9 +266,9 @@ EOS
 	#   and maybe Level and BaseUI.
 	# @todo need some more documentation
 	class TkUI
-	
+		include RSokoban
 		def initialize
-			@level_loader = RSokoban::LevelLoader.new "microban.xsb"
+			@level_loader = LevelLoader.new "microban.xsb"
 			@level_number = 1
 			@level = @level_loader.level(@level_number)
 			@move = 0
@@ -289,7 +289,7 @@ EOS
 		def start_level
 			begin
 				@level = @level_loader.level(@level_number)
-				# For now, map size is restrict to 19x16 on screen.
+				# For now, map size is restricted to 19x16 on screen.
 				if @level.width > 19 or @level.height > 16
 					Tk::messageBox :message => "Sorry, level '#{@level.title}' is too big to be displayed."
 					@level_number = 1
@@ -299,7 +299,7 @@ EOS
 				reset_labels
 				reset_map
 				display_initial
-			rescue RSokoban::LevelNumberTooHighError
+			rescue LevelNumberTooHighError
 				Tk::messageBox :message => "Sorry, no level ##{@level_number} in this set."
 			end
 		end
@@ -316,7 +316,7 @@ EOS
 			d =  SetDialog.new(@tk_root, "Load a set")
 			new_set = d.value
 			if d.ok? and new_set != nil
-				@level_loader = RSokoban::LevelLoader.new new_set
+				@level_loader = LevelLoader.new new_set
 				@level_number = 1
 				start_level
 			end
@@ -331,13 +331,13 @@ EOS
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
 				case @level.map[y][x].chr
-					when RSokoban::WALL then @wall.display_at x, y
-					when RSokoban::FLOOR then @floor.display_at x, y
-					when RSokoban::CRATE then @crate.display_at x, y
-					when RSokoban::STORAGE then @store.display_at x, y
-					when RSokoban::MAN then display_man_at x, y
-					when RSokoban::MAN_ON_STORAGE then display_man_on_storage_at x, y
-					when RSokoban::CRATE_ON_STORAGE then @crate_store.display_at x, y
+					when WALL then @wall.display_at x, y
+					when FLOOR then @floor.display_at x, y
+					when CRATE then @crate.display_at x, y
+					when STORAGE then @store.display_at x, y
+					when MAN then display_man_at x, y
+					when MAN_ON_STORAGE then display_man_on_storage_at x, y
+					when CRATE_ON_STORAGE then @crate_store.display_at x, y
 				end
 			end
 		end
@@ -351,13 +351,13 @@ EOS
 				line = row.strip
 				line.each_char do |char|
 					case char
-						when RSokoban::WALL then @wall.display_at x, y
-						when RSokoban::FLOOR then display_floor_at x, y
-						when RSokoban::CRATE then @crate.display_at x, y
-						when RSokoban::STORAGE then @store.display_at x, y
-						when RSokoban::MAN then display_man_at x, y
-						when RSokoban::MAN_ON_STORAGE then display_man_on_storage_at x, y
-						when RSokoban::CRATE_ON_STORAGE then @crate_store.display_at x, y
+						when WALL then @wall.display_at x, y
+						when FLOOR then display_floor_at x, y
+						when CRATE then @crate.display_at x, y
+						when STORAGE then @store.display_at x, y
+						when MAN then display_man_at x, y
+						when MAN_ON_STORAGE then display_man_on_storage_at x, y
+						when CRATE_ON_STORAGE then @crate_store.display_at x, y
 					end
 					x += 1
 				end
@@ -370,7 +370,7 @@ EOS
 			height = y - 1
 			height.downto(0).each {|row|
 				break if @level.map[row][x].nil?
-				if [RSokoban::WALL, RSokoban::FLOOR, RSokoban::CRATE, RSokoban::STORAGE].include?(@level.map[row][x].chr)
+				if [WALL, FLOOR, CRATE, STORAGE].include?(@level.map[row][x].chr)
 					@floor.display_at x, y
 					break
 				end

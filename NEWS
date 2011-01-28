@@ -6,7 +6,9 @@ version 0.74  2011-??-??
     + view description of a level set in the 'load set' dialog box
     + minor improvements in dialog boxes
   
-  * Fix bug 1
+  * Fix
+  	+ bug 1
+  	+ bug 2
     
 
 version 0.73  2011-01-27

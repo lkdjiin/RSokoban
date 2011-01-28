@@ -1,7 +1,6 @@
 --- v0.74 ---
 
-* tk GUI
-  + fix bug 2
+* remove all logic from TkUI. There's few, but there's too much.
 * redo
 * Level#move must return a hash
 
