@@ -1,5 +1,4 @@
 --- v0.74 ---
-* Bug tk: undo after pushes a crate
 * Level#move must return a hash
 * redo
 

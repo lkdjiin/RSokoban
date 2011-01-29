@@ -72,7 +72,7 @@ module RSokoban::UI
 		end
 		
 		# Update map rendering. We need only to update man's location and north, south, west
-		# and east of it. And because there walls all around the map, there is no needs to check
+		# and east of him. And because there walls all around the map, there is no needs to check
 		# for limits.
 		def display_update
 			x = @game.man_x
@@ -91,6 +91,17 @@ module RSokoban::UI
 			end
 		end
 		
+		def display_update_after_undo
+			x = @game.man_x
+			y = @game.man_y
+			update_array = [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
+			update_array.each do |x, y|
+				next if x < 0 or y < 0
+				next if @game.map[y][x].nil?
+				display_cell_taking_care_of_outside @game.map[y][x].chr, x, y
+			end
+		end
+		
 		# Display the initial map on screen.
 		def display_initial
 			y = 0
@@ -99,18 +110,22 @@ module RSokoban::UI
 				x = row.index(RSokoban::WALL)
 				line = row.strip
 				line.each_char do |char|
-					case char
-						when WALL then @wall.display_at x, y
-						when FLOOR then display_floor_at x, y
-						when CRATE then @crate.display_at x, y
-						when STORAGE then @store.display_at x, y
-						when MAN then display_man_at x, y
-						when MAN_ON_STORAGE then display_man_on_storage_at x, y
-						when CRATE_ON_STORAGE then @crate_store.display_at x, y
-					end
+					display_cell_taking_care_of_outside char, x, y
 					x += 1
 				end
 				y += 1
+			end
+		end
+		
+		def display_cell_taking_care_of_outside char, x, y
+			case char
+				when WALL then @wall.display_at x, y
+				when FLOOR then display_floor_at x, y
+				when CRATE then @crate.display_at x, y
+				when STORAGE then @store.display_at x, y
+				when MAN then display_man_at x, y
+				when MAN_ON_STORAGE then display_man_on_storage_at x, y
+				when CRATE_ON_STORAGE then @crate_store.display_at x, y
 			end
 		end
 		
@@ -289,7 +304,7 @@ module RSokoban::UI
 		def undo
 			result = @game.undo
 			update_move_information
-			display_update
+			display_update_after_undo
 		end
 		
 		# Send the move to Level and process response.
