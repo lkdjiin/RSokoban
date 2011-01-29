@@ -28,6 +28,10 @@ class TC_Level < Test::Unit::TestCase
 		assert_equal true, @text_1.instance_of?(RSokoban::Level), "Must be an instance of RSokoban::Level"
 	end
 	
+	def test_move_number
+		assert_equal 0, @text_1.move_number
+	end
+	
 	def test_floor_with_Text1
 		expected = [ '#####',
             		 '#   #',

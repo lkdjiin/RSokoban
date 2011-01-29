@@ -8,8 +8,9 @@ module RSokoban
 
 		# Construct a new game that you can later run.
 		# @param [:curses|:portable|:tk] ui_as_symbol the user interface for the game
-		def initialize ui_as_symbol
-			@level_loader = LevelLoader.new "microban.xsb"
+		# @param [String] setname only used during testing
+		def initialize ui_as_symbol, setname = 'microban.xsb'
+			@level_loader = LevelLoader.new setname
 			@level_number = 1
 			case ui_as_symbol
 				when :curses
