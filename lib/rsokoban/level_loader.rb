@@ -8,7 +8,6 @@ module RSokoban
 	# @todo give some examples
 	# @todo document and refactor
 	class LevelLoader
-		attr_reader :level, :set
 	
 		# @param [String] filename an xsb filename.
 		#   This file is searched in thedata/ folder.
@@ -51,6 +50,9 @@ module RSokoban
 			end
 		end
 		
+		# Get the level numbered +num+
+		# @param [Fixnum] num a level number in base 1
+		# @return [Level]
 		def level num
 			raise LevelNumberTooHighError if num > @set.rawLevels.size
 			Level.new @set.rawLevels[num-1]
@@ -60,6 +62,18 @@ module RSokoban
 		# @return [String] possibly multi-line
 		def file_description
 			@set.description
+		end
+		
+		# Get number of levels in this set.
+		# @return [Fixnum]
+		def size
+			@set.size
+		end
+		
+		# Get title of this set.
+		# @return [String]
+		def title
+			@set.title
 		end
 		
 	end

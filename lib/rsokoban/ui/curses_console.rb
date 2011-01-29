@@ -1,5 +1,3 @@
-
-
 module RSokoban::UI
 
 	# I am a console user interface using curses library.

@@ -1,336 +1,82 @@
-#require 'tk'
-#require 'tkextlib/tkimg'
-
 module RSokoban::UI
-
-	# I am an image of the game who knows how to display itself on an array
-	# of TkLabel items.
-	# @since 0.73
-	class Image
-		
-		# @param [String] file path of image file
-		# @param [Array<Array<TkLabel>>] output an array to display myself
-		def initialize file, output
-			@box = TkPhotoImage.new('file' => file, 'height' => 0, 'width' => 0)
-			@output = output
-		end
-		
-		# Display myself at x,y coordinate
-		def display_at x, y
-			@output[y][x].configure('image' => @box)
-		end
-		
-	end
-	
-	# As dialog box, I allow the user to choose a specific level number.
-	class LevelDialog < TkToplevel
-	
-		# Create and show the dialog
-		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
-		# @param [String] title my window title
-		def initialize(root, title)
-			super(root)
-			title(title)
-			minsize(200, 100)
-			@state = :cancel
-			grab
-			
-			@frame_north = TkFrame.new(self) do
-				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
-			end
-			
-			$spinval = TkVariable.new
-			@spin = TkSpinbox.new(@frame_north) do
-				textvariable($spinval)
-				width 3
-				grid(:row => 0, :column => 0)
-			end
-			@spin.to(999)
-			@spin.from(1)
-			@spin.focus
-			@spin.bind 'Key-Return', proc{ ok_on_clic }
-			
-			@ok = TkButton.new(self) do
-				text 'OK'
-				grid(:row => 1, :column => 0)
-				default :active
-			end
-			@ok.command { ok_on_clic }
-			
-			@cancel = TkButton.new(self) do
-				text 'Cancel'
-				grid(:row => 1, :column => 1)
-			end
-			@cancel.command { cancel_on_clic }
-			
-			wait_destroy
-		end
-		
-		# @return true if user clicked the OK button
-		def ok?
-			@state == :ok
-		end
-		
-		# @return [Fixnum] level number
-		def value
-			$spinval.to_i
-		end
-		
-		private
-		
-		def ok_on_clic
-			@state = :ok
-			destroy
-		end
-		
-		def cancel_on_clic
-			@state = :cancel
-			destroy
-		end
-	end
-	
-	# As dialog box, I allow the user to choose a set name.
-	class SetDialog < TkToplevel
-		include RSokoban
-		# Create and show the dialog
-		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
-		# @param [String] title my window title
-		def initialize(root, title)
-			super(root)
-			title(title)
-			width(300)
-			height(400)
-			@state = 'CANCEL'
-			grab
-			self['resizable'] = false, false
-			
-			@xsb = get_xsb
-			$listval = TkVariable.new(@xsb)
-			@value = @xsb[0]
-			
-			# A frame for the listbox
-			@frame_north = TkFrame.new(self) do
-				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
-			end
-			
-			@list = TkListbox.new(@frame_north) do
-				width 40
-			 	height 8
-			 	listvariable $listval
-			 	grid(:row => 0, :column => 0, :sticky => :we)
-			end
-			
-			@list.bind '<ListboxSelect>', proc{ show_description }
-			@list.bind 'Double-1', proc{ ok_on_clic }
-			@list.bind 'Return', proc{ ok_on_clic }
-
-			
-			scroll = TkScrollbar.new(@frame_north) do
-				orient 'vertical'
-				grid(:row => 0, :column => 1, :sticky => :ns)
-			end
-
-			@list.yscrollcommand(proc { |*args| scroll.set(*args) })
-			scroll.command(proc { |*args| @list.yview(*args) })
-			
-			# A frame for the set description
-			@frame_desc = TkFrame.new(self) do
-				grid(:row => 1, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
-			end
-			
-			@desc = TkText.new(@frame_desc) do
-				borderwidth 1
-				font TkFont.new('times 12')
-				width 40
-				height 10
-				wrap :word
-			 	grid(:row => 0, :column => 0)
-			end
-			
-			scroll2 = TkScrollbar.new(@frame_desc) do
-				orient 'vertical'
-				grid(:row => 0, :column => 1, :sticky => :ns)
-			end
-
-			@desc.yscrollcommand(proc { |*args| scroll2.set(*args) })
-			scroll2.command(proc { |*args| @desc.yview(*args) }) 
-			
-			# The buttons
-			@ok = TkButton.new(self) do
-				text 'OK'
-				grid(:row => 2, :column => 0)
-				default :active
-			end
-			@ok.command { ok_on_clic }
-			
-			@cancel = TkButton.new(self) do
-				text 'Cancel'
-				grid(:row => 2, :column => 1)
-			end
-			@cancel.command { cancel_on_clic }
-			
-			@list.focus
-			wait_destroy
-		end
-		
-		# @return true if user clicked the OK button
-		def ok?
-			@state == 'OK'
-		end
-		
-		# @return [String] the name of the set
-		def value
-			@value
-		end
-		
-		private
-		
-		def ok_on_clic
-			@state = 'OK'
-			idx = @list.curselection
-			unless idx.empty?
-				@value = @xsb[idx[0]]
-			end
-			destroy
-		end
-		
-		def cancel_on_clic
-			@state = 'CANCEL'
-			destroy
-		end
-		
-		def get_xsb
-			current = Dir.pwd
-			Dir.chdir $RSOKOBAN_DATA_PATH
-			ret = Dir.glob '*.xsb'
-			Dir.chdir current
-			ret
-		end
-		
-		def show_description
-			idx = @list.curselection
-			ll = LevelLoader.new @xsb[idx[0]]
-			@desc.delete '1.0', :end
-			@desc.insert :end, ll.file_description
-		end
-	end
-	
-	# As dialog box, I display some help.
-	class HelpDialog < TkToplevel
-		# Create and show the dialog
-		# @param [TkRoot|TkToplevel] root the Tk widget I belong to
-		# @param [String] title my window title
-		def initialize(root, title)
-			super(root)
-			title(title)
-			minsize(200, 100)
-
-			text = TkText.new(self) do
-				borderwidth 1
-				font TkFont.new('times 12 bold')
-				grid('row' => 0, 'column' => 0)
-			end
-			
-			help=<<EOS
-Welcome to RSokoban !
-
-Goal of Sokoban game is to place each crate on a storage location.
-Move the man using the arrow keys.
-For a more comprehensive help, please visit the wiki at https://github.com/lkdjiin/RSokoban/wiki.
-EOS
-			
-			text.insert 'end', help
-
-			@ok = TkButton.new(self) do
-				text 'OK'
-				grid('row'=>1, 'column'=>0)
-			end
-			@ok.command { ok_on_clic }
-		end
-		
-		def ok_on_clic
-			destroy
-		end
-	end
 	
 	# I am a GUI using tk library.
+	# @param [Game] game Where we get the logic.
 	# @note I need the tk-img extension library.
 	# @since 0.73
-	# @todo a lot of refactoring is needed. There is a lot of duplicated code with Game,
-	#   and maybe Level and BaseUI.
-	# @todo need some more documentation
+	# @todo need documentation
 	class TkUI
 		include RSokoban
-		def initialize
-			@level_loader = LevelLoader.new "microban.xsb"
-			@level_number = 1
-			@level = @level_loader.level(@level_number)
-			@move = 0
+		
+		# @param [Game] game
+		def initialize game
+			@game = game
 			@last_move = :up
 			@tk_map = []
 			init_gui
-			display_initial
+			start_level
 			Tk.mainloop 
 		end
 		
 		private
 		
 		def next_level
-			@level_number += 1
-			start_level
+			begin
+				@game.next_level
+				init_level
+			rescue LevelNumberTooHighError
+				Tk::messageBox :message => "Sorry, no level ##{@game.level_number} in this set."
+			end
 		end
 		
 		def start_level
 			begin
-				@level = @level_loader.level(@level_number)
-				# For now, map size is restricted to 19x16 on screen.
-				if @level.width > 19 or @level.height > 16
-					Tk::messageBox :message => "Sorry, level '#{@level.title}' is too big to be displayed."
-					@level_number = 1
-					start_level
-				end
-				@move = 0
-				reset_labels
-				reset_map
-				display_initial
+				@game.start_level
+				init_level
 			rescue LevelNumberTooHighError
-				Tk::messageBox :message => "Sorry, no level ##{@level_number} in this set."
+				Tk::messageBox :message => "Sorry, no level ##{@game.level_number} in this set."
 			end
 		end
 		
 		def load_level
-			d =  LevelDialog.new(@tk_root, "Load a level")
-			if d.ok?
-				@level_number = d.value
-				start_level
+			d =  TkLevelDialog.new(@tk_root, "Load a level")
+			return unless d.ok?
+			begin
+				@game.load_level d.value
+				init_level
+			rescue LevelNumberTooHighError
+				Tk::messageBox :message => "Sorry, no level ##{@game.level_number} in this set."
 			end
 		end
 		
 		def load_set
 			d =  SetDialog.new(@tk_root, "Load a set")
-			new_set = d.value
-			if d.ok? and new_set != nil
-				@level_loader = LevelLoader.new new_set
-				@level_number = 1
-				start_level
+			return unless d.ok?
+			return if d.value.nil?
+			@game.load_a_new_set d.value
+			init_level
+		end
+		
+		def init_level
+			# For now, map size is restricted to 19x16 on screen.
+			if @game.level_width > 19 or @game.level_height > 16
+				Tk::messageBox :message => "Sorry, level '#{@game.level_title}' is too big to be displayed."
+				@game.restart_set
 			end
+			reset_labels
+			reset_map
+			display_initial
 		end
 		
 		# Update map rendering. We need only to update man's location and north, south, west
 		# and east of it. And because there walls all around the map, there is no needs to check
 		# for limits.
 		def display_update
-			x = @level.man.x
-			y = @level.man.y
+			x = @game.man_x
+			y = @game.man_y
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
-				case @level.map[y][x].chr
+				case @game.map[y][x].chr
 					when WALL then @wall.display_at x, y
 					when FLOOR then @floor.display_at x, y
 					when CRATE then @crate.display_at x, y
@@ -342,10 +88,10 @@ EOS
 			end
 		end
 		
-		# Display the current map (current state of the level) on screen.
+		# Display the initial map on screen.
 		def display_initial
 			y = 0
-			@level.map.each do |row|
+			@game.map.each do |row|
 				# find first wall
 				x = row.index(RSokoban::WALL)
 				line = row.strip
@@ -369,8 +115,8 @@ EOS
 			return if y == 0
 			height = y - 1
 			height.downto(0).each {|row|
-				break if @level.map[row][x].nil?
-				if [WALL, FLOOR, CRATE, STORAGE].include?(@level.map[row][x].chr)
+				break if @game.map[row][x].nil?
+				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map[row][x].chr)
 					@floor.display_at x, y
 					break
 				end
@@ -454,20 +200,19 @@ EOS
 			@tk_label_move = TkLabel.new(@tk_frame_label) do
 				grid('row'=>2, 'column'=>0, 'sticky' => 'w')
 			end
-			reset_labels
 		end
 		
 		def reset_labels
-			@tk_label_set.configure('text' => "Set: #{@level_loader.set.title}")
-			@tk_label_level.configure('text' => "Level: #{@level.title} (#{@level_number}/#{@level_loader.set.size})")
+			@tk_label_set.configure('text' => "Set: #{@game.set_title}")
+			@tk_label_level.configure('text' => "Level: #{@game.level_title} (#{@game.level_number}/#{@game.set_size})")
 			update_move_information
 		end
 		
 		def update_move_information
-			@tk_label_move.configure('text' => "Move: #{@move}")
+			@tk_label_move.configure('text' => "Move: #{@game.move_number}")
 		end
 		
-		# Build the map of labels. Images of the game will be displayed on those labels.
+		# Build the map of labels. TkBoxs of the game will be displayed on those labels.
 		def init_map
 			row_in_grid = 5
 			(0...16).each {|row_index|
@@ -539,8 +284,7 @@ EOS
 		end
 		
 		def undo
-			result = @level.undo
-			@move = get_move_number_from_result_of_last_move result
+			result = @game.undo
 			update_move_information
 			display_update
 		end
@@ -551,9 +295,8 @@ EOS
 		#   with all needed information (status, move number, last move, error message, etc.)
 		def move symb
 			@last_move = symb
-			result = @level.move symb
+			result = @game.move symb
 			unless result.start_with?('ERROR')
-				@move = get_move_number_from_result_of_last_move result
 				update_move_information
 				display_update
 			end
@@ -565,29 +308,22 @@ EOS
 			end
 		end
 		
-		# Assuming that result start with 'OK' or 'WIN'
-		# @return [Fixnum] current move number
-		def get_move_number_from_result_of_last_move result
-			move_index = result =~ /\d+/
-			result[move_index..-1].to_i
-		end
-		
 		def preload_images
 			dir = $RSOKOBAN_PATH + '/skins/default/'
-			@wall = Image.new(dir + 'wall.bmp', @tk_map)
-			@crate = Image.new(dir + 'crate.bmp', @tk_map)
-			@floor = Image.new(dir + 'floor.bmp', @tk_map)
-			@store = Image.new(dir + 'store.bmp', @tk_map)
-			@man_up = Image.new(dir + 'man_up.bmp', @tk_map)
-			@man_down = Image.new(dir + 'man_down.bmp', @tk_map)
-			@man_left = Image.new(dir + 'man_left.bmp', @tk_map)
-			@man_right = Image.new(dir + 'man_right.bmp', @tk_map)
-			@crate_store = Image.new(dir + 'crate_store.bmp', @tk_map)
-			@man_store_up = Image.new(dir + 'man_store_up.bmp', @tk_map)
-			@man_store_down = Image.new(dir + 'man_store_down.bmp', @tk_map)
-			@man_store_left = Image.new(dir + 'man_store_left.bmp', @tk_map)
-			@man_store_right = Image.new(dir + 'man_store_right.bmp', @tk_map)
-			@outside = Image.new(dir + 'outside.bmp', @tk_map)
+			@wall = TkBox.new(dir + 'wall.bmp', @tk_map)
+			@crate = TkBox.new(dir + 'crate.bmp', @tk_map)
+			@floor = TkBox.new(dir + 'floor.bmp', @tk_map)
+			@store = TkBox.new(dir + 'store.bmp', @tk_map)
+			@man_up = TkBox.new(dir + 'man_up.bmp', @tk_map)
+			@man_down = TkBox.new(dir + 'man_down.bmp', @tk_map)
+			@man_left = TkBox.new(dir + 'man_left.bmp', @tk_map)
+			@man_right = TkBox.new(dir + 'man_right.bmp', @tk_map)
+			@crate_store = TkBox.new(dir + 'crate_store.bmp', @tk_map)
+			@man_store_up = TkBox.new(dir + 'man_store_up.bmp', @tk_map)
+			@man_store_down = TkBox.new(dir + 'man_store_down.bmp', @tk_map)
+			@man_store_left = TkBox.new(dir + 'man_store_left.bmp', @tk_map)
+			@man_store_right = TkBox.new(dir + 'man_store_right.bmp', @tk_map)
+			@outside = TkBox.new(dir + 'outside.bmp', @tk_map)
 		end
 		
 		def help

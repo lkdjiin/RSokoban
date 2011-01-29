@@ -1,6 +1,5 @@
 --- v0.74 ---
-
-* remove all logic from TkUI. There's few, but there's too much.
+* Bug tk: undo after pushes a crate
 * redo
 * Level#move must return a hash
 

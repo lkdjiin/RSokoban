@@ -18,25 +18,12 @@ class TC_LevelLoader < Test::Unit::TestCase
 	
 	def test_title_of_set
 		ins = RSokoban::LevelLoader.new "test_file1.xsb"
-		assert_equal 'test level', ins.set.title
+		assert_equal 'test level', ins.title
 	end
 	
 	def test_description_of_set
 		ins = RSokoban::LevelLoader.new "test_file1.xsb"
-		assert_equal "one simple level to test\n", ins.set.description
-	end
-	
-	def test_map
-		ins = RSokoban::LevelLoader.new "test_file1.xsb"
-		expected = [ '#####',
-                 '#.$@#',
-                 '#####']
-    assert_equal expected, ins.set.rawLevels[0].map
-	end
-	
-	def test_title_of_level
-		ins = RSokoban::LevelLoader.new "test_file1.xsb"
-		assert_equal "1", ins.set.rawLevels[0].title
+		assert_equal "one simple level to test\n", ins.file_description
 	end
 	
 	def test_level_1
@@ -87,14 +74,7 @@ class TC_LevelLoader < Test::Unit::TestCase
 	
 	def test_get_size_of_set
 		ins = RSokoban::LevelLoader.new "original.xsb"
-		assert_equal 90, ins.set.size
-	end
-	
-	# There was a bug where size was majored by one when the xsb file
-	# finish by several blank lines.
-	def test_get_size_of_set_buggy
-		ins = RSokoban::LevelLoader.new "test_file2.xsb"
-		assert_equal 6, ins.set.size
+		assert_equal 90, ins.size
 	end
 	
 	def test_get_the_description_of_a_set
@@ -102,4 +82,14 @@ class TC_LevelLoader < Test::Unit::TestCase
 		desc = "Copyright: a\nE-Mail:\nWeb Site:\n\nThe 50 original levels from Sokoban plus the 40 from Extra.\n"
 		assert_equal desc, ins.file_description
 	end
+	
+	####### BUGS ############################
+	
+	# There was a bug where size was majored by one when the xsb file
+	# finish by several blank lines.
+	def test_get_size_of_set_buggy
+		ins = RSokoban::LevelLoader.new "test_file2.xsb"
+		assert_equal 6, ins.size
+	end
+	
 end

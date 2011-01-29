@@ -145,6 +145,13 @@ module RSokoban
 			"OK move #{@move}"
 		end
 		
+		# Get current move number
+		# @return [Fixnum]
+		# @since 0.74
+		def move_number
+			@move
+		end
+		
 		private
 		
 		# @return true if all crates are on a storage location
