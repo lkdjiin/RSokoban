@@ -15,6 +15,9 @@ module RSokoban::UI
 			@tk_map = []
 			init_gui
 			start_level
+		end
+		
+		def run
 			Tk.mainloop 
 		end
 		

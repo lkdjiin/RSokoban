@@ -10,6 +10,7 @@ module RSokoban
 		# @param [:curses|:portable|:tk] ui_as_symbol the user interface for the game
 		# @param [String] setname only used during testing
 		def initialize ui_as_symbol, setname = 'microban.xsb'
+			@ui_as_symbol = ui_as_symbol
 			@level_loader = LevelLoader.new setname
 			@level_number = 1
 			case ui_as_symbol
@@ -27,8 +28,16 @@ module RSokoban
 			end
 		end
 		
-		# I am the game loop.
 		def run
+			if [:curses, :portable].include?(@ui_as_symbol)
+				ui_mainloop
+			else
+				@gui.run
+			end
+		end
+		
+		# I am the game loop for UIs.
+		def ui_mainloop
 			player_action = start_level
 			loop do
 				if player_action.level_number?

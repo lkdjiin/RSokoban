@@ -69,6 +69,4 @@ if option[:ui] == :curses
 end
 
 game = RSokoban::Game.new option[:ui]
-
-# It seems I have somme troubles to unify GUI and non-GUI.
-game.run if [:curses, :portable].include?(option[:ui])
+game.run
