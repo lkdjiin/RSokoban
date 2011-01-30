@@ -193,6 +193,7 @@ module RSokoban::UI
 			file.add :command, :label => 'Load set', :command => proc{load_set}
 			file.add :separator
 			file.add :command, :label => 'Undo', :command => proc{undo}, :accelerator => 'Ctrl+Z'
+			file.add :command, :label => 'Redo', :command => proc{my_redo}, :accelerator => 'Ctrl+Y'
 			file.add :command, :label => 'Restart level', :command => proc{start_level}, :accelerator => 'Ctrl+R'
 			file.add :command, :label => 'Next level', :command => proc{next_level}, :accelerator => 'Ctrl+N'
 			file.add :separator
@@ -265,22 +266,26 @@ module RSokoban::UI
 			end
 			@tk_undo_button = TkButton.new(@tk_frame_button) do
 				text 'Undo'
-				grid('row'=>3, 'column'=>0, 'columnspan' => 3)
+				grid('row'=> 0, 'column'=> 0)
+			end
+			@tk_redo_button = TkButton.new(@tk_frame_button) do
+				text 'Redo'
+				grid('row'=> 0, 'column'=> 1)
 			end
 			
 			@tk_retry_button = TkButton.new(@tk_frame_button) do
 				text 'Retry'
-				grid('row'=>3, 'column'=>3, 'columnspan' => 3)
+				grid('row'=> 0, 'column'=> 2)
 			end
 			
 			@tk_level_button = TkButton.new(@tk_frame_button) do
 				text 'Level'
-				grid('row'=>3, 'column'=>6, 'columnspan' => 3)
+				grid('row'=> 0, 'column'=> 3)
 			end
 			
 			@tk_next_level_button = TkButton.new(@tk_frame_button) do
 				text 'Next'
-				grid('row'=>3, 'column'=>9, 'columnspan' => 3)
+				grid('row'=> 0, 'column'=> 4)
 			end
 		end
 		
@@ -291,11 +296,13 @@ module RSokoban::UI
 			@tk_root.bind('Left') { move :left }
 			@tk_root.bind('Right') { move :right }
 			@tk_root.bind('Control-z') { undo }
+			@tk_root.bind('Control-y') { my_redo }
 			@tk_root.bind('Control-r') { start_level }
 			@tk_root.bind('Control-l') { load_level }
 			@tk_root.bind('Control-n') { next_level }
 			@tk_root.bind('F1') { help }
 			@tk_undo_button.command { undo }
+			@tk_redo_button.command { my_redo }
 			@tk_retry_button.command { start_level }
 			@tk_level_button.command { load_level }
 			@tk_next_level_button.command { next_level }
@@ -303,6 +310,12 @@ module RSokoban::UI
 		
 		def undo
 			result = @game.undo
+			update_move_information
+			display_update_after_undo
+		end
+		
+		def my_redo
+			result = @game.redo
 			update_move_information
 			display_update_after_undo
 		end

@@ -129,10 +129,17 @@ module RSokoban
 		end
 		
 		# Get result of undo last move
-		# @return [Object]
+		# @return [MoveResult]
 		# @since 0.74
 		def undo
 			@level.undo
+		end
+		
+		# Get result of redo last undone move
+		# @return [MoveResult]
+		# @since 0.74
+		def redo
+			@level.redo
 		end
 		
 		# Get title of the current set

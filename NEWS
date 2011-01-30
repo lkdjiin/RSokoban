@@ -1,5 +1,7 @@
 version 0.74  2011-??-??
 
+	* New: redo feature (only available with Tk GUI)
+	
   * Tk GUI
     + add a 'next level' feature
     + undo shortcut change to Ctrl+Z
@@ -7,8 +9,8 @@ version 0.74  2011-??-??
     + minor improvements in dialog boxes
   
   * Fix
-  	+ bug 1
-  	+ bug 2
+  	+ bug#1
+  	+ bug#2
     
 
 version 0.73  2011-01-27

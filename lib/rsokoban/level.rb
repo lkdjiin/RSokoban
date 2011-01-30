@@ -85,6 +85,28 @@ module RSokoban
 			MoveResult.new(:status => :ok, :move_number => @move)
 		end
 		
+		# Redo the last undo
+		# @since 0.74
+		def redo
+			begin
+				case @move_recorder.redo
+					when :up, :UP then direction = :up
+					when :down, :DOWN then direction = :down
+					when :left, :LEFT then direction = :left
+					when :right, :RIGHT then direction = :right
+				end
+				@man.send(direction)
+				@move += 1
+				if @crates.include?(Crate.new(@man.x, @man.y))
+					i = @crates.index(Crate.new(@man.x, @man.y))
+					@crates[i].send(direction)
+				end
+			rescue EmptyRedoError
+				# Nothing to do
+			end
+			MoveResult.new(:status => :ok, :move_number => @move)
+		end
+		
 		# Undo last move
 		def undo
 			begin
