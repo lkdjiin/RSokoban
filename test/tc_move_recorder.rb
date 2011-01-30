@@ -6,6 +6,7 @@ class TC_MoveRecorder < Test::Unit::TestCase
 		# For testing purpose, add a method to reset the queue of moves.
 		def @mr.empty_for_testing
 			@queue = []
+			@redo =[]
 		end
 		
 		# For testing purpose, add a method to fill the queue of moves with known values.
@@ -21,13 +22,6 @@ class TC_MoveRecorder < Test::Unit::TestCase
 	
 	def test_create_instance
 		assert @mr.instance_of?(RSokoban::MoveRecorder)
-	end
-	
-	def test_raise_exception_if_we_undo_an_empty_queue
-		@mr.empty_for_testing
-		assert_raise(RSokoban::EmptyMoveQueueError) do
-			@mr.undo
-		end
 	end
 	
 	def test_record_up
@@ -86,6 +80,15 @@ class TC_MoveRecorder < Test::Unit::TestCase
 		end
 	end
 	
+	### undo ###
+	
+	def test_raise_exception_if_we_undo_an_empty_queue
+		@mr.empty_for_testing
+		assert_raise(RSokoban::EmptyMoveQueueError) do
+			@mr.undo
+		end
+	end
+	
 	def test_undo_give_the_last_move
 		@mr.fill_for_testing [:up, :up, :left]
 		assert_equal :left, @mr.undo
@@ -95,6 +98,37 @@ class TC_MoveRecorder < Test::Unit::TestCase
 		@mr.fill_for_testing [:up, :up, :left]
 		@mr.undo
 		assert_equal [:up, :up], @mr.get_for_testing
+	end
+	
+	### redo ###
+	
+	def test_redo_exception
+		@mr.empty_for_testing
+		assert_raise(RSokoban::EmptyRedoError) do
+			@mr.redo
+		end
+	end
+	
+	def test_redo_give_the_last_undo
+		@mr.fill_for_testing [:up, :up, :left]
+		@mr.undo
+		assert_equal :left, @mr.redo
+	end
+	
+	def test_redo_refill_undo
+		@mr.fill_for_testing [:up, :up, :left]
+		@mr.undo
+		@mr.redo
+		assert_equal :left, @mr.undo
+	end
+	
+	def test_record_reset_redo
+		@mr.fill_for_testing [:up, :up, :left]
+		@mr.undo
+		@mr.record :down
+		assert_raise(RSokoban::EmptyRedoError) do
+			@mr.redo
+		end
 	end
 	
 end
