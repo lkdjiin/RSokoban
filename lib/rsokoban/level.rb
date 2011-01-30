@@ -72,7 +72,6 @@ module RSokoban
 			return MoveResult.new(:status => :error, :message => 'wall behind crate') if wall_behind_crate?(direction)
 			return MoveResult.new(:status => :error, :message => 'double crate') if double_crate?(direction)
 			@move += 1
-			
 			@man.send(direction)
 			if @crates.include?(Crate.new(@man.x, @man.y))
 				i = @crates.index(Crate.new(@man.x, @man.y))
@@ -81,6 +80,7 @@ module RSokoban
 			else
 				@move_recorder.record direction
 			end
+			
 			return MoveResult.new(:status => :win, :move_number => @move) if win?
 			MoveResult.new(:status => :ok, :move_number => @move)
 		end

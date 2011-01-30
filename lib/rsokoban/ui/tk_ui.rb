@@ -97,7 +97,7 @@ module RSokoban::UI
 			update_array = [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
 			update_array.each do |x, y|
 				next if x < 0 or y < 0
-				next if @game.map[y][x].nil?
+				next if @game.map[y].nil? or @game.map[y][x].nil?
 				display_cell_taking_care_of_outside @game.map[y][x].chr, x, y
 			end
 		end
@@ -308,9 +308,7 @@ module RSokoban::UI
 		end
 		
 		# Send the move to Level and process response.
-		# @todo the last move is recorded here to permit the display of the man
-		#   in the 4 direction. This is a bad thing ! Level#move should returns a hash
-		#   with all needed information (status, move number, last move, error message, etc.)
+		# @param [:ip, :down, :left, :right]
 		def move symb
 			@last_move = symb
 			result = @game.move symb
