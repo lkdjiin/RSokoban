@@ -1,4 +1,5 @@
 --- v0.74 ---
+* use rake
 * Level#move must return a hash
 * redo
 
@@ -7,6 +8,7 @@
 * tk: use one image for rendering, not an array (if possible ?)
 * don't restrict map size
 * gnome GUI (gtk only to be windows compatible ?)
+* give a try to rubygame ?
 * skining
   + load skin
   + several size of tiles or resizing ?)
