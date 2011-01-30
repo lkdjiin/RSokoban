@@ -1,5 +1,4 @@
 --- v0.74 ---
-* use rake
 * Level#move must return a hash
 * redo
 

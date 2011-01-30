@@ -64,37 +64,14 @@ module RSokoban
 			@map
 		end
 		
-		# Move the man one box up.
+		# Move the man one box +direction+.
+		# @param [:up|:down|:right|:left] direction
 		# @return [String] the move's result
 		#   ["ERROR wall"] if the player is stopped by a wall
 		#   ['ERROR wall behind crate'] si le joueur est stoppé par une caisse suivie d'un mur
 		#   ['ERROR double crate'] if the player is stopped by a crate followed by a wall
 		#   ['OK move ?'] if the move is accepted (? is replaced by the number of the move)
 		#   ['WIN move ?'] if the level is completed (? is replaced by the number of the move)
-		def moveUp
-			move :up
-		end
-		
-		# Move the man one box down.
-		# @see #moveUp for more explanation
-		def moveDown
-			move :down
-		end
-		
-		# Move the man one box left.
-		# @see #moveUp for more explanation
-		def moveLeft
-			move :left
-		end
-		
-		# Move the man one box right.
-		# @see #moveUp for more explanation
-		def moveRight
-			move :right
-		end
-		
-		# Move the man one box +direction+.
-		# @see #moveUp for more explanation
 		def move direction
 			return 'ERROR wall' if wall?(direction)
 			return 'ERROR wall behind crate' if wall_behind_crate?(direction)
