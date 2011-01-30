@@ -314,11 +314,11 @@ module RSokoban::UI
 		def move symb
 			@last_move = symb
 			result = @game.move symb
-			unless result.start_with?('ERROR')
+			unless result.error?
 				update_move_information
 				display_update
 			end
-			if result.start_with?('WIN')
+			if result.win?
 				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
 	    						:icon => 'question', :title => 'You win !', :parent => @tk_root, :default => 'yes'
 	    	next_level if response == 'yes'

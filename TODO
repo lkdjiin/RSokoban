@@ -1,6 +1,7 @@
 --- v0.74 ---
 * Level#move must return a hash
 * redo
+* functionnal tests
 
 --- next ---
 

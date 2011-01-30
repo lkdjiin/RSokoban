@@ -60,15 +60,13 @@ module RSokoban
 					result = @level.undo
 				end
 				
-				move_index = result =~ /\d+/
-				if result.start_with?('WIN')
-					player_action = @ui.get_action(:type=>:win, :map=>@level.map, :move=>result[move_index..-1])
+				#move_index = result =~ /\d+/
+				if result[:status] == :win
+					player_action = @ui.get_action(:type=>:win, :map=>@level.map, :move=>result[:move_number])
+				elsif result[:status] == :ok
+					player_action = @ui.get_action(:type=>:display, :map=>@level.map, :move=>result[:move_number])
 				else
-					if move_index
-						player_action = @ui.get_action(:type=>:display, :map=>@level.map, :move=>result[move_index..-1])
-					else
-						player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result)
-					end
+					player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result[:message])
 				end
 			end
 		end

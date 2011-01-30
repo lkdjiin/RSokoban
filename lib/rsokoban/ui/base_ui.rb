@@ -13,9 +13,6 @@ module RSokoban::UI
 		# my childs permit the user to do, they can only return an 
 		# ActionPlayer object.
 		# 
-		# @param [Hash] hash
-		#   :type => type of message, :win or :start or :display or :end_of_set
-		#   :map => current game map
 		# @param [Hash] hash the options passed to the UI.
 		# @option hash [:win|:start|:display|:end_of_set] :type The type of the message (always +requiered+)
 		# @option hash [Map] :map The current map of the game (always +requiered+)

@@ -66,16 +66,11 @@ module RSokoban
 		
 		# Move the man one box +direction+.
 		# @param [:up|:down|:right|:left] direction
-		# @return [String] the move's result
-		#   ["ERROR wall"] if the player is stopped by a wall
-		#   ['ERROR wall behind crate'] si le joueur est stoppé par une caisse suivie d'un mur
-		#   ['ERROR double crate'] if the player is stopped by a crate followed by a wall
-		#   ['OK move ?'] if the move is accepted (? is replaced by the number of the move)
-		#   ['WIN move ?'] if the level is completed (? is replaced by the number of the move)
+		# @return [MoveResult] the move's result
 		def move direction
-			return 'ERROR wall' if wall?(direction)
-			return 'ERROR wall behind crate' if wall_behind_crate?(direction)
-			return 'ERROR double crate' if double_crate?(direction)
+			return MoveResult.new(:status => :error, :message => 'wall') if wall?(direction)
+			return MoveResult.new(:status => :error, :message => 'wall behind crate') if wall_behind_crate?(direction)
+			return MoveResult.new(:status => :error, :message => 'double crate') if double_crate?(direction)
 			@move += 1
 			
 			@man.send(direction)
@@ -86,8 +81,8 @@ module RSokoban
 			else
 				@move_recorder.record direction
 			end
-			return "WIN move #{@move}" if win?
-			"OK move #{@move}"
+			return MoveResult.new(:status => :win, :move_number => @move) if win?
+			MoveResult.new(:status => :ok, :move_number => @move)
 		end
 		
 		# Undo last move
@@ -119,7 +114,7 @@ module RSokoban
 			rescue EmptyMoveQueueError
 				# Nothing to do
 			end
-			"OK move #{@move}"
+			MoveResult.new(:status => :ok, :move_number => @move)
 		end
 		
 		# Get current move number
