@@ -33,5 +33,5 @@ end
 # Documentation
 desc 'Generate yard documentation'
 task :doc do 
-	exec 'yardoc --title "RSokoban Documentation"'
+	exec 'yardoc --title "RSokoban Documentation" - NEWS COPYING VERSION'
 end

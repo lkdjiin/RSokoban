@@ -1,6 +1,6 @@
 = Welcome to RSokoban !
 
-RSokoban is a clone of the famous {http://en.wikipedia.org/wiki/Sokoban Sokoban} game.
+RSokoban is a clone of the famous {Sokoban}[http://en.wikipedia.org/wiki/Sokoban] game.
 I wrote this program just to improve my skills in Ruby.
 
 *Features*
