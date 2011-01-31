@@ -22,6 +22,20 @@ task :portable do
   exec "./bin/rsokoban --portable"
 end
 
+# Build & Install RSokoban
+
+desc 'Build the gem'
+task :build do
+  exec "gem build rsokoban.gemspec"
+end
+
+desc 'Install the gem (maybe you have to be root)'
+task :install do
+	require 'rake'
+	f = FileList['RSokoban*gem'].to_a
+	exec "gem install #{f.first}"
+end
+
 # Testing RSokoban
 
 desc 'Unit tests'
