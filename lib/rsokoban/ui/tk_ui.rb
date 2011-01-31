@@ -1,14 +1,14 @@
 module RSokoban::UI
 	
 	# I am a GUI using tk library.
-	# @param [Game] game Where we get the logic.
 	# @note I need the tk-img extension library.
 	# @since 0.73
-	# @todo need documentation
+	# @todo need some examples and more documentation for private methods
 	class TkUI
 		include RSokoban
 		
-		# @param [Game] game
+		# Build and initialize a GUI with the Tk tool kit.
+		# @param [Game] game Where we get the logic.
 		def initialize game
 			@game = game
 			@last_move = :up
@@ -17,6 +17,8 @@ module RSokoban::UI
 			start_level
 		end
 		
+		# Start the event loop.
+		# @since 0.74
 		def run
 			Tk.mainloop 
 		end
@@ -60,8 +62,8 @@ module RSokoban::UI
 			init_level
 		end
 		
+		# For now, map size is restricted to 19x16 on screen.
 		def init_level
-			# For now, map size is restricted to 19x16 on screen.
 			if @game.level_width > 19 or @game.level_height > 16
 				Tk::messageBox :message => "Sorry, level '#{@game.level_title}' is too big to be displayed."
 				@game.restart_set

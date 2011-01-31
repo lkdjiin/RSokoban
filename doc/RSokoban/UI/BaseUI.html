@@ -258,24 +258,6 @@ the user to do, they can only return an ActionPlayer object.
       
         &mdash;
         <div class='inline'><p>
-:type =&gt; type of message, :win or :start or :display or :end_of_set :map
-=&gt; current game map
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-        <span class='name'>hash</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
 the options passed to the UI.
 </p>
 </div>
@@ -315,7 +297,7 @@ The current map of the game (always <tt>requiered</tt>)
         </tr>
       
         <li>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="name">:title</span>
           <span class="default">
             
@@ -327,7 +309,7 @@ The level&#8217;s title (requiered if type==:start)
         </tr>
       
         <li>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="name">:set</span>
           <span class="default">
             
@@ -375,7 +357,7 @@ The move&#8217;s number (requiered when type is :display or :win)
         </tr>
       
         <li>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="name">:error</span>
           <span class="default">
             
@@ -431,12 +413,12 @@ the user&#8217;s action
       <pre class="lines">
 
 
-31
-32
-33</pre>
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/base_ui.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/base_ui.rb', line 28</span>
 
 <span class='def def kw'>def</span> <span class='get_action identifier id'>get_action</span><span class='lparen token'>(</span><span class='hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='string val'>&quot;Please implement me !&quot;</span>
@@ -452,7 +434,7 @@ the user&#8217;s action
 </div>
     
     <div id="footer">
-  Generated on Thu Jan 27 11:16:49 2011 by 
+  Generated on Mon Jan 31 09:46:21 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.3 (ruby-1.8.7).
 </div>

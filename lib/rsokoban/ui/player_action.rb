@@ -18,7 +18,7 @@ module RSokoban::UI
 		
 		@@Allowed_symbols = [ :up, :down, :left, :right, :quit, :next, :retry, :undo ]
 		
-		# You can the the {class description}[PlayerAction] for an allowed list of value.
+		# You can look to {PlayerAction} for an allowed list of value.
 		# @param [Object] value optional initial action
 		# @raise ArgumentError if value is not allowed
 		def initialize value = nil
@@ -30,8 +30,8 @@ module RSokoban::UI
 		end
 		
 		# Set the player action.
-		# You can the the {class description}[PlayerAction] for an allowed list of value.
 		# @param [Object] value the player action
+		# @raise ArgumentError if value is not allowed
 		def action=(value)
 			if value.instance_of?(Symbol)
 				raise ArgumentError unless @@Allowed_symbols.include?(value)

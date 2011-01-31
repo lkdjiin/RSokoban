@@ -1,5 +1,5 @@
-desc 'All tests'
-task :default => :test
+desc 'Unit tests'
+task :default => :unit
 
 # Running RSokoban with the different (G)UIs
 
@@ -24,8 +24,14 @@ end
 
 # Testing RSokoban
 
-desc 'All tests'
-task :test do 
+desc 'Unit tests'
+task :unit do 
 	Dir.chdir 'test'
 	exec "./test.rb"
+end
+
+# Documentation
+desc 'Generate yard documentation'
+task :doc do 
+	exec 'yardoc --title "RSokoban Documentation"'
 end

@@ -70,11 +70,15 @@
     
   
     
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></dd>
+      
+    
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rsokoban/ui/tk_ui.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/rsokoban/ui/tk_ui.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -85,16 +89,7 @@
   <div class="note todo">
     <strong>TODO:</strong> 
     <div class='inline'><p>
-a lot of refactoring is needed. There is a lot of duplicated code with
-Game, and maybe Level and BaseUI.
-</p>
-</div>
-  </div>
-
-  <div class="note todo">
-    <strong>TODO:</strong> 
-    <div class='inline'><p>
-need some more documentation
+need documentation
 </p>
 </div>
   </div>
@@ -135,6 +130,16 @@ I am a GUI using tk library.
 </ul>
 
 </div>
+  <h2>Constant Summary</h2>
+  
+
+
+  
+  
+  
+  
+  <h3 class="inherited">Constants included from <span class='object_link'><a href="../../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../RSokoban.html#CRATE-constant" title="RSokoban::CRATE (constant)">CRATE</a></span>, <span class='object_link'><a href="../../RSokoban.html#CRATE_ON_STORAGE-constant" title="RSokoban::CRATE_ON_STORAGE (constant)">CRATE_ON_STORAGE</a></span>, <span class='object_link'><a href="../../RSokoban.html#FLOOR-constant" title="RSokoban::FLOOR (constant)">FLOOR</a></span>, <span class='object_link'><a href="../../RSokoban.html#MAN-constant" title="RSokoban::MAN (constant)">MAN</a></span>, <span class='object_link'><a href="../../RSokoban.html#MAN_ON_STORAGE-constant" title="RSokoban::MAN_ON_STORAGE (constant)">MAN_ON_STORAGE</a></span>, <span class='object_link'><a href="../../RSokoban.html#STORAGE-constant" title="RSokoban::STORAGE (constant)">STORAGE</a></span>, <span class='object_link'><a href="../../RSokoban.html#WALL-constant" title="RSokoban::WALL (constant)">WALL</a></span></p>
 
 
   
@@ -148,7 +153,7 @@ I am a GUI using tk library.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (TkUI) <strong>initialize</strong> </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (TkUI) <strong>initialize</strong>(game) </a>
     
 
     
@@ -164,7 +169,31 @@ I am a GUI using tk library.
 
   
     <span class="summary_desc"><div class='inline'><p>
-A new instance of TkUI.
+Build and initialize a GUI with the Tk tool kit.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">- (Object) <strong>run</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Start the event loop.
 </p>
 </div></span>
   
@@ -174,20 +203,118 @@ A new instance of TkUI.
     </ul>
   
 
-<div id="constructor_details" class="method_details_list">
+
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="RSokoban::UI::TkUI (class)">TkUI</a></span></tt>) <strong>initialize</strong> 
+    - (<tt><span class='object_link'><a href="" title="RSokoban::UI::TkUI (class)">TkUI</a></span></tt>) <strong>initialize</strong>(game) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     <p>
-A new instance of TkUI
+Build and initialize a GUI with the Tk tool kit.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Game.html" title="RSokoban::Game (class)">Game</a></span></tt>)</span>
+      
+      
+        <span class='name'>game</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Where we get the logic.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+0.73
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 12</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span> <span class='game identifier id'>game</span>
+  <span class='@game ivar id'>@game</span> <span class='assign token'>=</span> <span class='game identifier id'>game</span>
+  <span class='@last_move ivar id'>@last_move</span> <span class='assign token'>=</span> <span class='symbol val'>:up</span>
+  <span class='@tk_map ivar id'>@tk_map</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='init_gui identifier id'>init_gui</span>
+  <span class='start_level identifier id'>start_level</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="run-instance_method">
+  
+    - (<tt>Object</tt>) <strong>run</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Start the event loop.
 </p>
 
 
@@ -218,30 +345,14 @@ A new instance of TkUI
       <pre class="lines">
 
 
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 21</span>
 
-<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
-  <span class='@level_loader ivar id'>@level_loader</span> <span class='assign token'>=</span> <span class='RSokoban constant id'>RSokoban</span><span class='colon2 op'>::</span><span class='LevelLoader constant id'>LevelLoader</span><span class='dot token'>.</span><span class='new identifier id'>new</span> <span class='string val'>&quot;microban.xsb&quot;</span>
-  <span class='@level_number ivar id'>@level_number</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
-  <span class='@level ivar id'>@level</span> <span class='assign token'>=</span> <span class='@level_loader ivar id'>@level_loader</span><span class='dot token'>.</span><span class='level identifier id'>level</span><span class='lparen token'>(</span><span class='@level_number ivar id'>@level_number</span><span class='rparen token'>)</span>
-  <span class='@move ivar id'>@move</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
-  <span class='@last_move ivar id'>@last_move</span> <span class='assign token'>=</span> <span class='symbol val'>:up</span>
-  <span class='@tk_map ivar id'>@tk_map</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='init_gui identifier id'>init_gui</span>
-  <span class='display identifier id'>display</span>
+<span class='def def kw'>def</span> <span class='run identifier id'>run</span>
   <span class='Tk constant id'>Tk</span><span class='dot token'>.</span><span class='mainloop identifier id'>mainloop</span> 
 <span class='end end kw'>end</span>
 </pre>
@@ -249,14 +360,13 @@ A new instance of TkUI
   </tr>
 </table>
 </div>
-  
-</div>
-
+    
+  </div>
 
 </div>
     
     <div id="footer">
-  Generated on Thu Jan 27 11:17:01 2011 by 
+  Generated on Mon Jan 31 09:46:17 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.3 (ruby-1.8.7).
 </div>

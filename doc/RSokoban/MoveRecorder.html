@@ -155,6 +155,27 @@ Record the move <tt>direction</tt>.
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#redo-instance_method" title="#redo (instance method)">- (:up, ...) <strong>redo</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#undo-instance_method" title="#undo (instance method)">- (:up, ...) <strong>undo</strong> </a>
     
 
@@ -205,13 +226,15 @@ A new instance of MoveRecorder
 
 8
 9
-10</pre>
+10
+11</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rsokoban/move_recorder.rb', line 8</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span>
   <span class='@queue ivar id'>@queue</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='@redo ivar id'>@redo</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -302,23 +325,25 @@ ArgumentError if <tt>direction</tt> is not included in [:up, :down, :left,
       <pre class="lines">
 
 
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34</pre>
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/move_recorder.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/move_recorder.rb', line 35</span>
 
 <span class='def def kw'>def</span> <span class='record identifier id'>record</span> <span class='direction identifier id'>direction</span><span class='comma token'>,</span> <span class='push identifier id'>push</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
   <span class='raise identifier id'>raise</span> <span class='ArgumentError constant id'>ArgumentError</span> <span class='unless unless_mod kw'>unless</span> <span class='lbrack token'>[</span><span class='symbol val'>:up</span><span class='comma token'>,</span> <span class='symbol val'>:down</span><span class='comma token'>,</span> <span class='symbol val'>:left</span><span class='comma token'>,</span> <span class='symbol val'>:right</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+  <span class='@redo ivar id'>@redo</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='if if kw'>if</span> <span class='push identifier id'>push</span>
     <span class='@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='push identifier id'>push</span> <span class='symbol val'>:UP</span> <span class='if if_mod kw'>if</span> <span class='direction identifier id'>direction</span> <span class='eq op'>==</span> <span class='symbol val'>:up</span>
     <span class='@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='push identifier id'>push</span> <span class='symbol val'>:DOWN</span> <span class='if if_mod kw'>if</span> <span class='direction identifier id'>direction</span> <span class='eq op'>==</span> <span class='symbol val'>:down</span>
@@ -327,6 +352,96 @@ ArgumentError if <tt>direction</tt> is not included in [:up, :down, :left,
   <span class='else else kw'>else</span>
     <span class='@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='push identifier id'>push</span> <span class='direction identifier id'>direction</span>
   <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="redo-instance_method">
+  
+    - (<tt>:up</tt>, ...) <strong>redo</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>:up</tt>, <tt>:down</tt>, <tt>:left</tt>, <tt>:right</tt>, <tt>:UP</tt>, <tt>:DOWN</tt>, <tt>:LEFT</tt>, <tt>:RIGHT</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+EmptyRedoError
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+0.74
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/move_recorder.rb', line 25</span>
+
+<span class='def def kw'>def</span> <span class='redo redo kw'>redo</span>
+  <span class='raise identifier id'>raise</span> <span class='EmptyRedoError constant id'>EmptyRedoError</span> <span class='if if_mod kw'>if</span> <span class='@redo ivar id'>@redo</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='@queue ivar id'>@queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='@redo ivar id'>@redo</span><span class='dot token'>.</span><span class='pop identifier id'>pop</span>
+  <span class='@queue ivar id'>@queue</span><span class='lbrack token'>[</span><span class='integer val'>-1</span><span class='rbrack token'>]</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -353,7 +468,7 @@ ArgumentError if <tt>direction</tt> is not included in [:up, :down, :left,
   
     <li>
       
-        <span class='type'>(<tt>:up</tt>, <tt>:down</tt>, <tt>:left</tt>, <tt>:right</tt>)</span>
+        <span class='type'>(<tt>:up</tt>, <tt>:down</tt>, <tt>:left</tt>, <tt>:right</tt>, <tt>:UP</tt>, <tt>:DOWN</tt>, <tt>:LEFT</tt>, <tt>:RIGHT</tt>)</span>
       
       
       
@@ -404,17 +519,19 @@ EmptyMoveQueueError
       <pre class="lines">
 
 
-15
 16
 17
-18</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/move_recorder.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/move_recorder.rb', line 16</span>
 
 <span class='def def kw'>def</span> <span class='undo identifier id'>undo</span>
   <span class='raise identifier id'>raise</span> <span class='EmptyMoveQueueError constant id'>EmptyMoveQueueError</span> <span class='if if_mod kw'>if</span> <span class='@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
-  <span class='@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='pop identifier id'>pop</span>
+  <span class='@redo ivar id'>@redo</span> <span class='lshft op'>&lt;&lt;</span> <span class='@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='pop identifier id'>pop</span>
+  <span class='@redo ivar id'>@redo</span><span class='lbrack token'>[</span><span class='integer val'>-1</span><span class='rbrack token'>]</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -427,7 +544,7 @@ EmptyMoveQueueError
 </div>
     
     <div id="footer">
-  Generated on Thu Jan 27 11:17:02 2011 by 
+  Generated on Mon Jan 31 09:46:13 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.3 (ruby-1.8.7).
 </div>

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta name="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: RSokoban::UI::Image</title>
+<title>Class: RSokoban::UI::TkBox</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -23,10 +23,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (I)</a> &raquo; 
+    <a href="../../_index.html">Index (T)</a> &raquo; 
     <span class='title'><span class='object_link'><a href="../../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../UI.html" title="RSokoban::UI (module)">UI</a></span></span>
      &raquo; 
-    <span class="title">Image</span>
+    <span class="title">TkBox</span>
   
   
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -43,7 +43,7 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Class: RSokoban::UI::Image
+    <div id="content"><h1>Class: RSokoban::UI::TkBox
   
   
   
@@ -58,7 +58,7 @@
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">RSokoban::UI::Image</li>
+            <li class="next">RSokoban::UI::TkBox</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -74,7 +74,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rsokoban/ui/tk_ui.rb</dd>
+    <dd class="r2 last">lib/rsokoban/ui/tk_box.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -146,7 +146,7 @@ Display myself at x,y coordinate.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Image) <strong>initialize</strong>(file, output) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (TkBox) <strong>initialize</strong>(file, output) </a>
     
 
     
@@ -162,7 +162,7 @@ Display myself at x,y coordinate.
 
   
     <span class="summary_desc"><div class='inline'><p>
-A new instance of Image.
+A new instance of TkBox.
 </p>
 </div></span>
   
@@ -178,14 +178,14 @@ A new instance of Image.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="RSokoban::UI::Image (class)">Image</a></span></tt>) <strong>initialize</strong>(file, output) 
+    - (<tt><span class='object_link'><a href="" title="RSokoban::UI::TkBox (class)">TkBox</a></span></tt>) <strong>initialize</strong>(file, output) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     <p>
-A new instance of Image
+A new instance of TkBox
 </p>
 
 
@@ -197,7 +197,7 @@ A new instance of Image
   
     <li>
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
         <span class='name'>file</span>
@@ -254,13 +254,13 @@ an array to display myself
       <pre class="lines">
 
 
-13
-14
-15
-16</pre>
+10
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_box.rb', line 10</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span> <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='output identifier id'>output</span>
   <span class='@box ivar id'>@box</span> <span class='assign token'>=</span> <span class='TkPhotoImage constant id'>TkPhotoImage</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'file'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='file identifier id'>file</span><span class='comma token'>,</span> <span class='string val'>'height'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='string val'>'width'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
@@ -320,12 +320,12 @@ Display myself at x,y coordinate
       <pre class="lines">
 
 
-19
-20
-21</pre>
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_box.rb', line 16</span>
 
 <span class='def def kw'>def</span> <span class='display_at identifier id'>display_at</span> <span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='y identifier id'>y</span>
   <span class='@output ivar id'>@output</span><span class='lbrack token'>[</span><span class='y identifier id'>y</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='x identifier id'>x</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='configure identifier id'>configure</span><span class='lparen token'>(</span><span class='string val'>'image'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='@box ivar id'>@box</span><span class='rparen token'>)</span>
@@ -341,7 +341,7 @@ Display myself at x,y coordinate
 </div>
     
     <div id="footer">
-  Generated on Thu Jan 27 11:17:01 2011 by 
+  Generated on Mon Jan 31 09:46:12 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.3 (ruby-1.8.7).
 </div>

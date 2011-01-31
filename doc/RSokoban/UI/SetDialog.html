@@ -72,16 +72,41 @@
     
   
     
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></dd>
+      
+    
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/rsokoban/ui/tk_ui.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/rsokoban/ui/tk_dialogs.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+As dialog box, I allow the user to choose a set name.
+</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+
+
+  
+  
+  
+  
+  <h3 class="inherited">Constants included from <span class='object_link'><a href="../../RSokoban.html" title="RSokoban (module)">RSokoban</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../RSokoban.html#CRATE-constant" title="RSokoban::CRATE (constant)">CRATE</a></span>, <span class='object_link'><a href="../../RSokoban.html#CRATE_ON_STORAGE-constant" title="RSokoban::CRATE_ON_STORAGE (constant)">CRATE_ON_STORAGE</a></span>, <span class='object_link'><a href="../../RSokoban.html#FLOOR-constant" title="RSokoban::FLOOR (constant)">FLOOR</a></span>, <span class='object_link'><a href="../../RSokoban.html#MAN-constant" title="RSokoban::MAN (constant)">MAN</a></span>, <span class='object_link'><a href="../../RSokoban.html#MAN_ON_STORAGE-constant" title="RSokoban::MAN_ON_STORAGE (constant)">MAN_ON_STORAGE</a></span>, <span class='object_link'><a href="../../RSokoban.html#STORAGE-constant" title="RSokoban::STORAGE (constant)">STORAGE</a></span>, <span class='object_link'><a href="../../RSokoban.html#WALL-constant" title="RSokoban::WALL (constant)">WALL</a></span></p>
 
   
 
@@ -92,48 +117,6 @@
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#cancel_on_clic-instance_method" title="#cancel_on_clic (instance method)">- (Object) <strong>cancel_on_clic</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#get_xsb-instance_method" title="#get_xsb (instance method)">- (Object) <strong>get_xsb</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -154,7 +137,7 @@
 
   
     <span class="summary_desc"><div class='inline'><p>
-A new instance of SetDialog.
+Create and show the dialog.
 </p>
 </div></span>
   
@@ -177,7 +160,10 @@ A new instance of SetDialog.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+True if user clicked the OK button.
+</p>
+</div></span>
   
 </li>
 
@@ -185,7 +171,7 @@ A new instance of SetDialog.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ok_on_clic-instance_method" title="#ok_on_clic (instance method)">- (Object) <strong>ok_on_clic</strong> </a>
+      <a href="#value-instance_method" title="#value (instance method)">- (String) <strong>value</strong> </a>
     
 
     
@@ -198,28 +184,10 @@ A new instance of SetDialog.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#value-instance_method" title="#value (instance method)">- (Object) <strong>value</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+The name of the set.
+</p>
+</div></span>
   
 </li>
 
@@ -228,6 +196,11 @@ A new instance of SetDialog.
   
 
 
+  
+  
+  
+  
+  
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -241,22 +214,58 @@ A new instance of SetDialog.
 </p><div class="docstring">
   <div class="discussion">
     <p>
-A new instance of SetDialog
+Create and show the dialog
 </p>
 
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>TkRoot|TkToplevel</tt>)</span>
+      
+      
+        <span class='name'>root</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the Tk widget I belong to
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>title</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+my window title
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-76
-77
 78
 79
 80
@@ -286,41 +295,141 @@ A new instance of SetDialog
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_dialogs.rb', line 78</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='root identifier id'>root</span><span class='comma token'>,</span> <span class='title identifier id'>title</span><span class='rparen token'>)</span>
   <span class='super super kw'>super</span><span class='lparen token'>(</span><span class='root identifier id'>root</span><span class='rparen token'>)</span>
   <span class='title identifier id'>title</span><span class='lparen token'>(</span><span class='title identifier id'>title</span><span class='rparen token'>)</span>
-  <span class='minsize identifier id'>minsize</span><span class='lparen token'>(</span><span class='integer val'>200</span><span class='comma token'>,</span> <span class='integer val'>100</span><span class='rparen token'>)</span>
+  <span class='width identifier id'>width</span><span class='lparen token'>(</span><span class='integer val'>300</span><span class='rparen token'>)</span>
+  <span class='height identifier id'>height</span><span class='lparen token'>(</span><span class='integer val'>400</span><span class='rparen token'>)</span>
   <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='string val'>'CANCEL'</span>
   <span class='grab identifier id'>grab</span>
+  <span class='self self kw'>self</span><span class='lbrack token'>[</span><span class='string val'>'resizable'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='false false kw'>false</span><span class='comma token'>,</span> <span class='false false kw'>false</span>
   
-  <span class='@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
   <span class='@xsb ivar id'>@xsb</span> <span class='assign token'>=</span> <span class='get_xsb identifier id'>get_xsb</span>
   <span class='$listval gvar id'>$listval</span> <span class='assign token'>=</span> <span class='TkVariable constant id'>TkVariable</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@xsb ivar id'>@xsb</span><span class='rparen token'>)</span>
-
-  <span class='@list ivar id'>@list</span> <span class='assign token'>=</span> <span class='TkListbox constant id'>TkListbox</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
-    <span class='width identifier id'>width</span> <span class='integer val'>20</span>
-     <span class='height identifier id'>height</span> <span class='integer val'>8</span>
-     <span class='listvariable identifier id'>listvariable</span> <span class='$listval gvar id'>$listval</span>
-     <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='string val'>'row'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='string val'>'column'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='@xsb ivar id'>@xsb</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+  
+  <span class='comment val'># A frame for the listbox</span>
+  <span class='@frame_north ivar id'>@frame_north</span> <span class='assign token'>=</span> <span class='TkFrame constant id'>TkFrame</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:columnspan</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>2</span><span class='comma token'>,</span> <span class='symbol val'>:sticky</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:we</span><span class='rparen token'>)</span>
+    <span class='padx identifier id'>padx</span> <span class='integer val'>10</span>
+    <span class='pady identifier id'>pady</span> <span class='integer val'>10</span>
   <span class='end end kw'>end</span>
   
+  <span class='@list ivar id'>@list</span> <span class='assign token'>=</span> <span class='TkListbox constant id'>TkListbox</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@frame_north ivar id'>@frame_north</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='width identifier id'>width</span> <span class='integer val'>40</span>
+     <span class='height identifier id'>height</span> <span class='integer val'>8</span>
+     <span class='listvariable identifier id'>listvariable</span> <span class='$listval gvar id'>$listval</span>
+     <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:sticky</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:we</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  
+  <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='bind identifier id'>bind</span> <span class='string val'>'&lt;ListboxSelect&gt;'</span><span class='comma token'>,</span> <span class='proc identifier id'>proc</span><span class='lbrace token'>{</span> <span class='show_description identifier id'>show_description</span> <span class='rbrace token'>}</span>
+  <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='bind identifier id'>bind</span> <span class='string val'>'Double-1'</span><span class='comma token'>,</span> <span class='proc identifier id'>proc</span><span class='lbrace token'>{</span> <span class='ok_on_clic identifier id'>ok_on_clic</span> <span class='rbrace token'>}</span>
+  <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='bind identifier id'>bind</span> <span class='string val'>'Return'</span><span class='comma token'>,</span> <span class='proc identifier id'>proc</span><span class='lbrace token'>{</span> <span class='ok_on_clic identifier id'>ok_on_clic</span> <span class='rbrace token'>}</span>
+
+  
+  <span class='scroll identifier id'>scroll</span> <span class='assign token'>=</span> <span class='TkScrollbar constant id'>TkScrollbar</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@frame_north ivar id'>@frame_north</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='orient identifier id'>orient</span> <span class='string val'>'vertical'</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='symbol val'>:sticky</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:ns</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='yscrollcommand identifier id'>yscrollcommand</span><span class='lparen token'>(</span><span class='proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='bitor op'>|</span> <span class='scroll identifier id'>scroll</span><span class='dot token'>.</span><span class='set identifier id'>set</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='scroll identifier id'>scroll</span><span class='dot token'>.</span><span class='command identifier id'>command</span><span class='lparen token'>(</span><span class='proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='bitor op'>|</span> <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='yview identifier id'>yview</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+  <span class='comment val'># A frame for the set description</span>
+  <span class='@frame_desc ivar id'>@frame_desc</span> <span class='assign token'>=</span> <span class='TkFrame constant id'>TkFrame</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:columnspan</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>2</span><span class='comma token'>,</span> <span class='symbol val'>:sticky</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:we</span><span class='rparen token'>)</span>
+    <span class='padx identifier id'>padx</span> <span class='integer val'>10</span>
+    <span class='pady identifier id'>pady</span> <span class='integer val'>10</span>
+  <span class='end end kw'>end</span>
+  
+  <span class='@desc ivar id'>@desc</span> <span class='assign token'>=</span> <span class='TkText constant id'>TkText</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@frame_desc ivar id'>@frame_desc</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='borderwidth identifier id'>borderwidth</span> <span class='integer val'>1</span>
+    <span class='font identifier id'>font</span> <span class='TkFont constant id'>TkFont</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>'times 12'</span><span class='rparen token'>)</span>
+    <span class='width identifier id'>width</span> <span class='integer val'>40</span>
+    <span class='height identifier id'>height</span> <span class='integer val'>10</span>
+    <span class='wrap identifier id'>wrap</span> <span class='symbol val'>:word</span>
+     <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  
+  <span class='scroll2 identifier id'>scroll2</span> <span class='assign token'>=</span> <span class='TkScrollbar constant id'>TkScrollbar</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@frame_desc ivar id'>@frame_desc</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+    <span class='orient identifier id'>orient</span> <span class='string val'>'vertical'</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='symbol val'>:sticky</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:ns</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+
+  <span class='@desc ivar id'>@desc</span><span class='dot token'>.</span><span class='yscrollcommand identifier id'>yscrollcommand</span><span class='lparen token'>(</span><span class='proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='bitor op'>|</span> <span class='scroll2 identifier id'>scroll2</span><span class='dot token'>.</span><span class='set identifier id'>set</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='scroll2 identifier id'>scroll2</span><span class='dot token'>.</span><span class='command identifier id'>command</span><span class='lparen token'>(</span><span class='proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='bitor op'>|</span> <span class='@desc ivar id'>@desc</span><span class='dot token'>.</span><span class='yview identifier id'>yview</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span> 
+  
+  <span class='comment val'># The buttons</span>
   <span class='@ok ivar id'>@ok</span> <span class='assign token'>=</span> <span class='TkButton constant id'>TkButton</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
     <span class='text identifier id'>text</span> <span class='string val'>'OK'</span>
-    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='string val'>'row'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>'column'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>0</span><span class='rparen token'>)</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>2</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+    <span class='default identifier id'>default</span> <span class='symbol val'>:active</span>
   <span class='end end kw'>end</span>
   <span class='@ok ivar id'>@ok</span><span class='dot token'>.</span><span class='command identifier id'>command</span> <span class='lbrace token'>{</span> <span class='ok_on_clic identifier id'>ok_on_clic</span> <span class='rbrace token'>}</span>
   
   <span class='@cancel ivar id'>@cancel</span> <span class='assign token'>=</span> <span class='TkButton constant id'>TkButton</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
     <span class='text identifier id'>text</span> <span class='string val'>'Cancel'</span>
-    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='string val'>'row'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>'column'</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='integer val'>1</span><span class='rparen token'>)</span>
+    <span class='grid identifier id'>grid</span><span class='lparen token'>(</span><span class='symbol val'>:row</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>2</span><span class='comma token'>,</span> <span class='symbol val'>:column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
   <span class='end end kw'>end</span>
   <span class='@cancel ivar id'>@cancel</span><span class='dot token'>.</span><span class='command identifier id'>command</span> <span class='lbrace token'>{</span> <span class='cancel_on_clic identifier id'>cancel_on_clic</span> <span class='rbrace token'>}</span>
   
+  <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='focus identifier id'>focus</span>
   <span class='wait_destroy identifier id'>wait_destroy</span>
 <span class='end end kw'>end</span>
 </pre>
@@ -337,75 +446,7 @@ A new instance of SetDialog
     
     
       <div class="method_details first">
-  <p class="signature first" id="cancel_on_clic-instance_method">
-  
-    - (<tt>Object</tt>) <strong>cancel_on_clic</strong> 
-  
-
-  
-</p><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-118
-119
-120
-121</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 118</span>
-
-<span class='def def kw'>def</span> <span class='cancel_on_clic identifier id'>cancel_on_clic</span>
-  <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='string val'>'CANCEL'</span>
-  <span class='destroy identifier id'>destroy</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="get_xsb-instance_method">
-  
-    - (<tt>Object</tt>) <strong>get_xsb</strong> 
-  
-
-  
-</p><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-131
-132
-133
-134
-135
-136
-137</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 131</span>
-
-<span class='def def kw'>def</span> <span class='get_xsb identifier id'>get_xsb</span>
-  <span class='current identifier id'>current</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='pwd identifier id'>pwd</span>
-  <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='chdir identifier id'>chdir</span> <span class='string val'>'../data'</span>
-  <span class='ret identifier id'>ret</span> <span class='assign token'>=</span> <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='glob identifier id'>glob</span> <span class='string val'>'*.xsb'</span>
-  <span class='Dir constant id'>Dir</span><span class='dot token'>.</span><span class='chdir identifier id'>chdir</span> <span class='current identifier id'>current</span>
-  <span class='ret identifier id'>ret</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="ok?-instance_method">
+  <p class="signature first" id="ok?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>ok?</strong> 
   
@@ -413,7 +454,10 @@ A new instance of SetDialog
   
 </p><div class="docstring">
   <div class="discussion">
-    
+    <p>
+True if user clicked the OK button
+</p>
+
 
   </div>
 </div>
@@ -428,6 +472,12 @@ A new instance of SetDialog
       
       
       
+        &mdash;
+        <div class='inline'><p>
+true if user clicked the OK button
+</p>
+</div>
+      
     </li>
   
 </ul>
@@ -438,12 +488,12 @@ A new instance of SetDialog
       <pre class="lines">
 
 
-123
-124
-125</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_dialogs.rb', line 161</span>
 
 <span class='def def kw'>def</span> <span class='ok? fid id'>ok?</span>
   <span class='@state ivar id'>@state</span> <span class='eq op'>==</span> <span class='string val'>'OK'</span>
@@ -455,63 +505,54 @@ A new instance of SetDialog
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="ok_on_clic-instance_method">
-  
-    - (<tt>Object</tt>) <strong>ok_on_clic</strong> 
-  
-
-  
-</p><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-109
-110
-111
-112
-113
-114
-115
-116</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 109</span>
-
-<span class='def def kw'>def</span> <span class='ok_on_clic identifier id'>ok_on_clic</span>
-  <span class='@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='string val'>'OK'</span>
-  <span class='idx identifier id'>idx</span> <span class='assign token'>=</span> <span class='@list ivar id'>@list</span><span class='dot token'>.</span><span class='curselection identifier id'>curselection</span>
-  <span class='unless unless kw'>unless</span> <span class='idx identifier id'>idx</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
-    <span class='@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='@xsb ivar id'>@xsb</span><span class='lbrack token'>[</span><span class='idx identifier id'>idx</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
-  <span class='end end kw'>end</span>
-  <span class='destroy identifier id'>destroy</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <p class="signature " id="value-instance_method">
   
-    - (<tt>Object</tt>) <strong>value</strong> 
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>value</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+The name of the set
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the name of the set
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-127
-128
-129</pre>
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_ui.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/ui/tk_dialogs.rb', line 166</span>
 
 <span class='def def kw'>def</span> <span class='value identifier id'>value</span>
   <span class='@value ivar id'>@value</span>
@@ -527,7 +568,7 @@ A new instance of SetDialog
 </div>
     
     <div id="footer">
-  Generated on Thu Jan 27 11:16:51 2011 by 
+  Generated on Mon Jan 31 09:46:20 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.3 (ruby-1.8.7).
 </div>

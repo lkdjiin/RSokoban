@@ -153,6 +153,33 @@ Returns the value of attribute floor.
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#height-instance_method" title="#height (instance method)">- (Fixnum) <strong>height</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Get map height of this level, in cells.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#man-instance_method" title="#man (instance method)">- (Object) <strong>man</strong> </a>
     
 
@@ -225,6 +252,33 @@ Returns the value of attribute storages.
   
     <span class="summary_desc"><div class='inline'><p>
 Returns the value of attribute title.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#width-instance_method" title="#width (instance method)">- (Fixnum) <strong>width</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Get map width of this level, in cells.
 </p>
 </div></span>
   
@@ -344,7 +398,7 @@ Get an instant map of the game.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#move-instance_method" title="#move (instance method)">- (Object) <strong>move</strong>(direction) </a>
+      <a href="#move-instance_method" title="#move (instance method)">- (MoveResult) <strong>move</strong>(direction) </a>
     
 
     
@@ -368,7 +422,7 @@ Move the man one box <tt>direction</tt>.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#moveDown-instance_method" title="#moveDown (instance method)">- (Object) <strong>moveDown</strong> </a>
+      <a href="#move_number-instance_method" title="#move_number (instance method)">- (Fixnum) <strong>move_number</strong> </a>
     
 
     
@@ -382,7 +436,7 @@ Move the man one box <tt>direction</tt>.
 
   
     <span class="summary_desc"><div class='inline'><p>
-Move the man one box down.
+Get current move number.
 </p>
 </div></span>
   
@@ -392,7 +446,7 @@ Move the man one box down.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#moveLeft-instance_method" title="#moveLeft (instance method)">- (Object) <strong>moveLeft</strong> </a>
+      <a href="#redo-instance_method" title="#redo (instance method)">- (Object) <strong>redo</strong> </a>
     
 
     
@@ -406,55 +460,7 @@ Move the man one box down.
 
   
     <span class="summary_desc"><div class='inline'><p>
-Move the man one box left.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#moveRight-instance_method" title="#moveRight (instance method)">- (Object) <strong>moveRight</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Move the man one box right.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#moveUp-instance_method" title="#moveUp (instance method)">- (String) <strong>moveUp</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Move the man one box up.
+Redo the last undo.
 </p>
 </div></span>
   
@@ -564,23 +570,25 @@ a RawLevel object
       <pre class="lines">
 
 
-22
-23
-24
-25
-26
-27
-28
-29
 30
 31
-32</pre>
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 30</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span> <span class='rawLevel identifier id'>rawLevel</span>
   <span class='@title ivar id'>@title</span> <span class='assign token'>=</span> <span class='rawLevel identifier id'>rawLevel</span><span class='dot token'>.</span><span class='title identifier id'>title</span>
+  <span class='init_dimension identifier id'>init_dimension</span> <span class='rawLevel identifier id'>rawLevel</span><span class='dot token'>.</span><span class='map identifier id'>map</span>
   <span class='@floor ivar id'>@floor</span> <span class='assign token'>=</span> <span class='init_floor identifier id'>init_floor</span> <span class='rawLevel identifier id'>rawLevel</span><span class='dot token'>.</span><span class='map identifier id'>map</span>
   <span class='@man ivar id'>@man</span> <span class='assign token'>=</span> <span class='init_man identifier id'>init_man</span> <span class='rawLevel identifier id'>rawLevel</span><span class='dot token'>.</span><span class='map identifier id'>map</span>
   <span class='@crates ivar id'>@crates</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -680,6 +688,62 @@ Returns the value of attribute floor
 
 <span class='def def kw'>def</span> <span class='floor identifier id'>floor</span>
   <span class='@floor ivar id'>@floor</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="height-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="height-instance_method">
+  
+    - (<tt>Fixnum</tt>) <strong>height</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Get map height of this level, in cells
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 14</span>
+
+<span class='def def kw'>def</span> <span class='height identifier id'>height</span>
+  <span class='@height ivar id'>@height</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -816,6 +880,62 @@ Returns the value of attribute title
 </table>
 </div>
     
+      
+      <span id=""></span>
+      <span id="width-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="width-instance_method">
+  
+    - (<tt>Fixnum</tt>) <strong>width</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Get map width of this level, in cells
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 10</span>
+
+<span class='def def kw'>def</span> <span class='width identifier id'>width</span>
+  <span class='@width ivar id'>@width</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -876,13 +996,13 @@ Two Level objects are equals if their @title, @floor, @man, @crates and
       <pre class="lines">
 
 
-37
-38
-39
-40</pre>
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 46</span>
 
 <span class='def def kw'>def</span> <span class='eq op'>==</span><span class='lparen token'>(</span><span class='obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='return return kw'>return</span> <span class='false false kw'>false</span> <span class='unless unless_mod kw'>unless</span> <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='Level constant id'>Level</span><span class='rparen token'>)</span>
@@ -938,12 +1058,12 @@ Synonym of #==
       <pre class="lines">
 
 
-44
-45
-46</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 53</span>
 
 <span class='def def kw'>def</span> <span class='eql? fid id'>eql?</span><span class='lparen token'>(</span><span class='obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='self self kw'>self</span> <span class='eq op'>==</span> <span class='obj identifier id'>obj</span>
@@ -997,16 +1117,16 @@ the map, after X turns of game.
       <pre class="lines">
 
 
-50
-51
-52
-53
-54
-55
-56</pre>
+59
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 59</span>
 
 <span class='def def kw'>def</span> <span class='map identifier id'>map</span>
   <span class='@map ivar id'>@map</span> <span class='assign token'>=</span> <span class='init_floor identifier id'>init_floor</span> <span class='@floor ivar id'>@floor</span>
@@ -1024,7 +1144,7 @@ the map, after X turns of game.
       <div class="method_details ">
   <p class="signature " id="move-instance_method">
   
-    - (<tt>Object</tt>) <strong>move</strong>(direction) 
+    - (<tt><span class='object_link'><a href="MoveResult.html" title="RSokoban::MoveResult (class)">MoveResult</a></span></tt>) <strong>move</strong>(direction) 
   
 
   
@@ -1038,13 +1158,40 @@ Move the man one box <tt>direction</tt>.
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#moveUp-instance_method" title="RSokoban::Level#moveUp (method)">for more explanation</a></span></li>
-    
-  </ul>
+    <li>
+      
+        <span class='type'>(<tt>:up|:down|:right|:left</tt>)</span>
+      
+      
+        <span class='name'>direction</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MoveResult.html" title="RSokoban::MoveResult (class)">MoveResult</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the move&#8217;s result
+</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1052,7 +1199,161 @@ Move the man one box <tt>direction</tt>.
       <pre class="lines">
 
 
-89
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 70</span>
+
+<span class='def def kw'>def</span> <span class='move identifier id'>move</span> <span class='direction identifier id'>direction</span>
+  <span class='return return kw'>return</span> <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:error</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'wall'</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='wall? fid id'>wall?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:error</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'wall behind crate'</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='wall_behind_crate? fid id'>wall_behind_crate?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:error</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'double crate'</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='double_crate? fid id'>double_crate?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+  <span class='@move ivar id'>@move</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+  <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='@crates ivar id'>@crates</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='Crate constant id'>Crate</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='y identifier id'>y</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='i identifier id'>i</span> <span class='assign token'>=</span> <span class='@crates ivar id'>@crates</span><span class='dot token'>.</span><span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='Crate constant id'>Crate</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='y identifier id'>y</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='@crates ivar id'>@crates</span><span class='lbrack token'>[</span><span class='i identifier id'>i</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+    <span class='@move_recorder ivar id'>@move_recorder</span><span class='dot token'>.</span><span class='record identifier id'>record</span> <span class='direction identifier id'>direction</span><span class='comma token'>,</span> <span class='symbol val'>:push</span>
+  <span class='else else kw'>else</span>
+    <span class='@move_recorder ivar id'>@move_recorder</span><span class='dot token'>.</span><span class='record identifier id'>record</span> <span class='direction identifier id'>direction</span>
+  <span class='end end kw'>end</span>
+  
+  <span class='return return kw'>return</span> <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:win</span><span class='comma token'>,</span> <span class='symbol val'>:move_number</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='@move ivar id'>@move</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='win? fid id'>win?</span>
+  <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:ok</span><span class='comma token'>,</span> <span class='symbol val'>:move_number</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='@move ivar id'>@move</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="move_number-instance_method">
+  
+    - (<tt>Fixnum</tt>) <strong>move_number</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Get current move number
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+0.74
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 145</span>
+
+<span class='def def kw'>def</span> <span class='move_number identifier id'>move_number</span>
+  <span class='@move ivar id'>@move</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="redo-instance_method">
+  
+    - (<tt>Object</tt>) <strong>redo</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Redo the last undo
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Since:</h3>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+0.74
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 90
 91
 92
@@ -1068,244 +1369,32 @@ Move the man one box <tt>direction</tt>.
 102
 103
 104
-105</pre>
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 90</span>
 
-<span class='def def kw'>def</span> <span class='move identifier id'>move</span> <span class='direction identifier id'>direction</span>
-  <span class='return return kw'>return</span> <span class='string val'>'ERROR wall'</span> <span class='if if_mod kw'>if</span> <span class='wall? fid id'>wall?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
-  <span class='return return kw'>return</span> <span class='string val'>'ERROR wall behind crate'</span> <span class='if if_mod kw'>if</span> <span class='wall_behind_crate? fid id'>wall_behind_crate?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
-  <span class='return return kw'>return</span> <span class='string val'>'ERROR double crate'</span> <span class='if if_mod kw'>if</span> <span class='double_crate? fid id'>double_crate?</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
-  <span class='@move ivar id'>@move</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
-  
-  <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
-  <span class='if if kw'>if</span> <span class='@crates ivar id'>@crates</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='Crate constant id'>Crate</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='y identifier id'>y</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='i identifier id'>i</span> <span class='assign token'>=</span> <span class='@crates ivar id'>@crates</span><span class='dot token'>.</span><span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='Crate constant id'>Crate</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='y identifier id'>y</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='@crates ivar id'>@crates</span><span class='lbrack token'>[</span><span class='i identifier id'>i</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
-    <span class='@move_recorder ivar id'>@move_recorder</span><span class='dot token'>.</span><span class='record identifier id'>record</span> <span class='direction identifier id'>direction</span><span class='comma token'>,</span> <span class='symbol val'>:push</span>
-  <span class='else else kw'>else</span>
-    <span class='@move_recorder ivar id'>@move_recorder</span><span class='dot token'>.</span><span class='record identifier id'>record</span> <span class='direction identifier id'>direction</span>
+<span class='def def kw'>def</span> <span class='redo redo kw'>redo</span>
+  <span class='begin begin kw'>begin</span>
+    <span class='case case kw'>case</span> <span class='@move_recorder ivar id'>@move_recorder</span><span class='dot token'>.</span><span class='redo identifier id'>redo</span>
+      <span class='when when kw'>when</span> <span class='symbol val'>:up</span><span class='comma token'>,</span> <span class='symbol val'>:UP</span> <span class='then then kw'>then</span> <span class='direction identifier id'>direction</span> <span class='assign token'>=</span> <span class='symbol val'>:up</span>
+      <span class='when when kw'>when</span> <span class='symbol val'>:down</span><span class='comma token'>,</span> <span class='symbol val'>:DOWN</span> <span class='then then kw'>then</span> <span class='direction identifier id'>direction</span> <span class='assign token'>=</span> <span class='symbol val'>:down</span>
+      <span class='when when kw'>when</span> <span class='symbol val'>:left</span><span class='comma token'>,</span> <span class='symbol val'>:LEFT</span> <span class='then then kw'>then</span> <span class='direction identifier id'>direction</span> <span class='assign token'>=</span> <span class='symbol val'>:left</span>
+      <span class='when when kw'>when</span> <span class='symbol val'>:right</span><span class='comma token'>,</span> <span class='symbol val'>:RIGHT</span> <span class='then then kw'>then</span> <span class='direction identifier id'>direction</span> <span class='assign token'>=</span> <span class='symbol val'>:right</span>
+    <span class='end end kw'>end</span>
+    <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+    <span class='@move ivar id'>@move</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+    <span class='if if kw'>if</span> <span class='@crates ivar id'>@crates</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='Crate constant id'>Crate</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='y identifier id'>y</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='i identifier id'>i</span> <span class='assign token'>=</span> <span class='@crates ivar id'>@crates</span><span class='dot token'>.</span><span class='index identifier id'>index</span><span class='lparen token'>(</span><span class='Crate constant id'>Crate</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='x identifier id'>x</span><span class='comma token'>,</span> <span class='@man ivar id'>@man</span><span class='dot token'>.</span><span class='y identifier id'>y</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='@crates ivar id'>@crates</span><span class='lbrack token'>[</span><span class='i identifier id'>i</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='direction identifier id'>direction</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='EmptyRedoError constant id'>EmptyRedoError</span>
+    <span class='comment val'># Nothing to do</span>
   <span class='end end kw'>end</span>
-  <span class='return return kw'>return</span> <span class='dstring node'>&quot;WIN move #{@move}&quot;</span> <span class='if if_mod kw'>if</span> <span class='win? fid id'>win?</span>
-  <span class='dstring node'>&quot;OK move #{@move}&quot;</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="moveDown-instance_method">
-  
-    - (<tt>Object</tt>) <strong>moveDown</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-Move the man one box down.
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#moveUp-instance_method" title="RSokoban::Level#moveUp (method)">for more explanation</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-71
-72
-73</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 71</span>
-
-<span class='def def kw'>def</span> <span class='moveDown identifier id'>moveDown</span>
-  <span class='move identifier id'>move</span> <span class='symbol val'>:down</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="moveLeft-instance_method">
-  
-    - (<tt>Object</tt>) <strong>moveLeft</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-Move the man one box left.
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#moveUp-instance_method" title="RSokoban::Level#moveUp (method)">for more explanation</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-77
-78
-79</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 77</span>
-
-<span class='def def kw'>def</span> <span class='moveLeft identifier id'>moveLeft</span>
-  <span class='move identifier id'>move</span> <span class='symbol val'>:left</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="moveRight-instance_method">
-  
-    - (<tt>Object</tt>) <strong>moveRight</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-Move the man one box right.
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#moveUp-instance_method" title="RSokoban::Level#moveUp (method)">for more explanation</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-83
-84
-85</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 83</span>
-
-<span class='def def kw'>def</span> <span class='moveRight identifier id'>moveRight</span>
-  <span class='move identifier id'>move</span> <span class='symbol val'>:right</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="moveUp-instance_method">
-  
-    - (<tt>String</tt>) <strong>moveUp</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-Move the man one box up.
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the move&#8217;s result
-</p>
-<dl>
-<dt>&quot;ERROR wall&quot;</dt><dd>if the player is stopped by a wall
-
-</dd>
-<dt>&#8216;ERROR wall behind crate&#8217;</dt><dd>si le joueur est stoppé par une caisse suivie d&#8217;un mur
-
-</dd>
-<dt>&#8216;ERROR double crate&#8217;</dt><dd>if the player is stopped by a crate followed by a wall
-
-</dd>
-<dt>&#8216;OK move ?&#8217;</dt><dd>if the move is accepted (? is replaced by the number of the move)
-
-</dd>
-<dt>&#8216;WIN move ?&#8217;</dt><dd>if the level is completed (? is replaced by the number of the move)
-
-</dd>
-</dl>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-65
-66
-67</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 65</span>
-
-<span class='def def kw'>def</span> <span class='moveUp identifier id'>moveUp</span>
-  <span class='move identifier id'>move</span> <span class='symbol val'>:up</span>
+  <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:ok</span><span class='comma token'>,</span> <span class='symbol val'>:move_number</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='@move ivar id'>@move</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -1337,9 +1426,6 @@ Undo last move
       <pre class="lines">
 
 
-108
-109
-110
 111
 112
 113
@@ -1366,10 +1452,13 @@ Undo last move
 134
 135
 136
-137</pre>
+137
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/rsokoban/level.rb', line 111</span>
 
 <span class='def def kw'>def</span> <span class='undo identifier id'>undo</span>
   <span class='begin begin kw'>begin</span>
@@ -1399,7 +1488,7 @@ Undo last move
   <span class='rescue rescue kw'>rescue</span> <span class='EmptyMoveQueueError constant id'>EmptyMoveQueueError</span>
     <span class='comment val'># Nothing to do</span>
   <span class='end end kw'>end</span>
-  <span class='dstring node'>&quot;OK move #{@move}&quot;</span>
+  <span class='MoveResult constant id'>MoveResult</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:ok</span><span class='comma token'>,</span> <span class='symbol val'>:move_number</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='@move ivar id'>@move</span><span class='rparen token'>)</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -1412,7 +1501,7 @@ Undo last move
 </div>
     
     <div id="footer">
-  Generated on Thu Jan 27 11:16:59 2011 by 
+  Generated on Mon Jan 31 09:46:24 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.3 (ruby-1.8.7).
 </div>

@@ -47,7 +47,7 @@ module RSokoban::UI
 		
 		def ask_for_next_level
 			printf "Play next level ? "
-			line = readline.chomp
+			line = gets.chomp
 			if ['yes', 'ye', 'y', 'YES', 'YE', 'Y'].include?(line)
 				PlayerAction.new(:next)
 			else
@@ -57,7 +57,7 @@ module RSokoban::UI
 		
 		def ask_player
 			printf "Your choice ? "
-			line = readline.chomp
+			line = gets.chomp
 			response = parse line
 			if response.nil?
 				puts "Error : #{line}"

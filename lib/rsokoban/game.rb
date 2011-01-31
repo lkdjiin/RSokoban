@@ -28,6 +28,12 @@ module RSokoban
 			end
 		end
 		
+		# Start the game loop.
+		#
+		# For GUI game (like Tk), the tool kit provide its own event-loop. In that case, I simply
+		# call this event-loop via the run() method (for example see {RSokoban::UI::TkUI#run}.
+		#
+		# For UI game (like Curses) which are text based, Game provide the loop.
 		def run
 			if [:curses, :portable].include?(@ui_as_symbol)
 				ui_mainloop
@@ -60,7 +66,6 @@ module RSokoban
 					result = @level.undo
 				end
 				
-				#move_index = result =~ /\d+/
 				if result[:status] == :win
 					player_action = @ui.get_action(:type=>:win, :map=>@level.map, :move=>result[:move_number])
 				elsif result[:status] == :ok
@@ -69,6 +74,7 @@ module RSokoban
 					player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result[:message])
 				end
 			end
+			true
 		end
 		
 		# @return [Fixnum]
@@ -157,7 +163,7 @@ module RSokoban
 		end
 		
 		# Start a level, according to some instance members.
-		# @return [PlayerAction|nil] the user's {action}[Console#get_action] for console window
+		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def start_level
 			begin
@@ -176,7 +182,7 @@ module RSokoban
 		end
 	
 		# Load and start the next level of the set
-		# @return [PlayerAction|nil] the user's {action}[Console#get_action] for console window
+		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def next_level
 			@level_number += 1
@@ -185,7 +191,7 @@ module RSokoban
 		
 		# Load a level from the current set.
 		# @param [Fixnum] num the number of the set (base 1)
-		# @return [PlayerAction|nil] the user's {action}[Console#get_action] for console window
+		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def load_level num
 			@level_number = num
@@ -193,7 +199,7 @@ module RSokoban
 		end
 		
 		# Restart from level 1.
-		# @return [PlayerAction|nil] the user's {action}[Console#get_action] for console window
+		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def restart_set
 			@level_number = 1
@@ -202,7 +208,7 @@ module RSokoban
 		
 		# Load a new set of levels and start its first level.
 		# @param [String] setname the name of the set (with .xsb extension)
-		# @return [PlayerAction|nil] the user's {action}[Console#get_action] for console window
+		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def load_a_new_set setname 
 			begin
