@@ -23,17 +23,17 @@ module RSokoban
 		attr_accessor :title
 		# @param [String] description get/set the description of this level set.
 		attr_accessor :description
-		# @param [Array<RawLevel>] rawLevels get/set the raw levels of this set
-		attr_accessor :rawLevels
+		# @param [Array<RawLevel>] raw_levels get/set the raw levels of this set
+		attr_accessor :raw_levels
 		
 		def initialize
 			@title = 'Unknown set title'
 			@description = 'Empty description'
-			@rawLevels = []
+			@raw_levels = []
 		end
 		
 		def size
-			@rawLevels.size
+			@raw_levels.size
 		end
 		
 	end

@@ -31,19 +31,19 @@ class TC_LevelSet < Test::Unit::TestCase
 	def test_raw_levels_list_accessors
 		ins = RSokoban::LevelSet.new
 		list = [].push(RSokoban::RawLevel.new('title', ['###']))
-		ins.rawLevels = list
-		assert_equal list, ins.rawLevels
+		ins.raw_levels = list
+		assert_equal list, ins.raw_levels
 	end
 	
 	def test_default_raw_levels_list
 		ins = RSokoban::LevelSet.new
-		assert_equal [], ins.rawLevels
+		assert_equal [], ins.raw_levels
 	end
 	
 	def test_get_size
 		ins = RSokoban::LevelSet.new
 		list = [].push(RSokoban::RawLevel.new('title', ['###']))
-		ins.rawLevels = list
+		ins.raw_levels = list
 		assert_equal 1, ins.size
 	end
 	

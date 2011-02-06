@@ -37,7 +37,7 @@ module RSokoban
 						line = file.readline.chomp
 					end
 					line = line.get_xsb_info_line_chomp
-					@set.rawLevels.push RawLevel.new(line, raw) unless raw.empty?
+					@set.raw_levels.push RawLevel.new(line, raw) unless raw.empty?
 					
 					line = file.readline
 					while line[0, 1] == ';'
@@ -54,8 +54,8 @@ module RSokoban
 		# @param [Fixnum] num a level number in base 1
 		# @return [Level]
 		def level num
-			raise LevelNumberTooHighError if num > @set.rawLevels.size
-			Level.new @set.rawLevels[num-1]
+			raise LevelNumberTooHighError if num > @set.raw_levels.size
+			Level.new @set.raw_levels[num-1]
 		end
 		
 		# Get the description field of the loaded set of levels.
