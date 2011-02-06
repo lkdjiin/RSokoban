@@ -26,15 +26,15 @@ module RSokoban
 		# * '@' is the man
 		# * ' ' is an empty floor
 		#
-		# @param [RawLevel] rawLevel
-		def initialize rawLevel
-			@title = rawLevel.title
-			init_dimension rawLevel.map
-			@floor = init_floor rawLevel.map
-			@man = init_man rawLevel.map
+		# @param [RawLevel] raw_level
+		def initialize raw_level
+			@title = raw_level.title
+			init_dimension raw_level.map
+			@floor = init_floor raw_level.map
+			@man = init_man raw_level.map
 			@crates = []
 			@storages = []
-			init_crates_and_storages rawLevel.map
+			init_crates_and_storages raw_level.map
 			@move = 0
 			@map = nil
 			@move_recorder = MoveRecorder.new
@@ -151,8 +151,8 @@ module RSokoban
 		# @return true if all crates are on a storage location
 		def win?
 			return false if @crates.size == 0 # needed for testing purpose.
-			@crates.each {|c|
-				return false unless @storages.include?(c)
+			@crates.each {|crate|
+				return false unless @storages.include?(crate)
 			}
 			true
 		end
@@ -181,18 +181,18 @@ module RSokoban
 			case direction
 				when :up
 					near = crate?(@man.x, @man.y-1)
-					boxBehind = what_is_on(@man.x, @man.y-2)
+					box_behind = what_is_on(@man.x, @man.y-2)
 				when :down
 					near = crate?(@man.x, @man.y+1)
-					boxBehind = what_is_on(@man.x, @man.y+2)
+					box_behind = what_is_on(@man.x, @man.y+2)
 				when :left
 					near = crate?(@man.x-1, @man.y)
-					boxBehind = what_is_on(@man.x-2, @man.y)
+					box_behind = what_is_on(@man.x-2, @man.y)
 				when :right
 					near = crate?(@man.x+1, @man.y)
-					boxBehind = what_is_on(@man.x+2, @man.y)
+					box_behind = what_is_on(@man.x+2, @man.y)
 			end
-			return(near and boxBehind == WALL)
+			return(near and box_behind == WALL)
 		end
 		
 		# Is there a crate followed by a crate near the man, in the direction pointed to by +direction+ ?
@@ -211,12 +211,12 @@ module RSokoban
 			end
 		end
 		
-		# Is there a crate ('o' or '*') in the box pointed to by x, y ?
-		# @param [Fixnum] x x coordinate in the map
-		# @param [Fixnum] y y coordinate in the map
+		# Is there a crate ('o' or '*') in the box pointed to by x_coord, y_coord ?
+		# @param [Fixnum] x_coord x coordinate in the map
+		# @param [Fixnum] y_coord y coordinate in the map
 		# @return [true|false]
-		def crate?(x, y)
-			box = what_is_on(x, y)
+		def crate?(x_coord, y_coord)
+			box = what_is_on(x_coord, y_coord)
 			box == CRATE or box == CRATE_ON_STORAGE
 		end
 		
@@ -245,20 +245,20 @@ module RSokoban
 			@storages.each {|st| @map[st.y][st.x] = what_is_on(st.x, st.y) }
 		end
 
-		# Get the content of box x, y
-		# @param [Fixnum] x x coordinate in the map
-		# @param [Fixnum] y y coordinate in the map
+		# Get the content of box x_coord, y_coord
+		# @param [Fixnum] x_coord x coordinate in the map
+		# @param [Fixnum] y_coord y coordinate in the map
 		# @return [' ' | '#' | '.' | 'o' | '*']
-		def what_is_on x, y
-			box = (@floor[y][x]).chr
+		def what_is_on x_coord, y_coord
+			box = (@floor[y_coord][x_coord]).chr
 			if box == FLOOR
-				s = Storage.new(x, y)
-				c = Crate.new(x, y)
-				if @storages.include?(s) and @crates.include?(c)
+				storage = Storage.new(x_coord, y_coord)
+				crate = Crate.new(x_coord, y_coord)
+				if @storages.include?(storage) and @crates.include?(crate)
 					box = CRATE_ON_STORAGE 
-				elsif @storages.include?(s)
+				elsif @storages.include?(storage)
 					box = STORAGE
-				elsif @crates.include?(c)
+				elsif @crates.include?(crate)
 					box = CRATE
 				end
 			end
@@ -271,14 +271,14 @@ module RSokoban
 		# @return [Map] map with only walls and floor
 		def init_floor map
 			floor = []
-			map.each {|x| floor.push x.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
+			map.each {|row| floor.push row.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
 			floor
 		end
 		
 		# Initialize map width and map height of this level
 		def init_dimension map
 			@width = 0
-			map.each {|y| @width = y.size if y.size > @width }
+			map.each {|row| @width = row.size if row.size > @width }
 			@height = map.size
 		end
 		
@@ -287,34 +287,34 @@ module RSokoban
 		# @param [Map] map
 		# @return [Man] an initialised man
 		def init_man map
-			x = y = 0
-			map.each {|line| 
-				if line.include?(MAN)
-					x = line.index(MAN)
+			x_coord = y_coord = 0
+			map.each {|row| 
+				if row.include?(MAN)
+					x_coord = row.index(MAN)
 					break
 				end
-				y += 1
+				y_coord += 1
 			}
-			Man.new x, y
+			Man.new x_coord, y_coord
 		end
 		
 		# Find position of crates and storages, at the begining of the level.
 		#
 		# @param [Map] map
 		def init_crates_and_storages map
-			y = 0
+			y_coord = 0
 			map.each do |line| 
 				count = 0
-				line.each_char do |c| 
-					@crates.push Crate.new(count, y) if c == CRATE
-					@storages.push Storage.new(count, y) if c == STORAGE
-					if c == CRATE_ON_STORAGE
-						@crates.push Crate.new(count, y)
-						@storages.push Storage.new(count, y)
+				line.each_char do |char| 
+					@crates.push Crate.new(count, y_coord) if char == CRATE
+					@storages.push Storage.new(count, y_coord) if char == STORAGE
+					if char == CRATE_ON_STORAGE
+						@crates.push Crate.new(count, y_coord)
+						@storages.push Storage.new(count, y_coord)
 					end
 					count += 1
 				end
-				y += 1
+				y_coord += 1
 			end
 		end
 		
