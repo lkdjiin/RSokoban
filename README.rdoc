@@ -5,7 +5,8 @@ I wrote this program just to improve my skills in Ruby.
 
 *Features*
 * Graphical user interface with Tk
-* Two console user interface (curses and straight text mode)
+* Two console user interfaces (curses and straight text mode)
+* 200+ levels
 * Undo/redo
 * Use xsb file format to load sets of levels
 
@@ -26,7 +27,8 @@ Ruby >= 1.8.7
 
 == Installing RSokoban
 
-*First method* To install RSokoban from the source, go to the RSokoban folder and build the gem:
+*First method*
+To install RSokoban from the source, go to the RSokoban folder and build the gem:
 
  gem build rsokoban.gemspec
 
@@ -43,12 +45,14 @@ If you prefer using rake to build and install:
  rake build
  rake install
 
-*Second method* Or install via RubyGem in one command (you need ruby 1.9 or higher).
+*Second method*
+Or install via RubyGem in one command (you need ruby 1.9 or higher).
 Note that I don't certify you will get the latest release:
 
  gem install RSokoban
 
-*Third method* Or you can play without installing it. Go to the RSokoban/bin folder and type:
+*Third method*
+Or you can play without installing it. Go to the RSokoban/bin folder and type:
 
  ./rsokoban
 
