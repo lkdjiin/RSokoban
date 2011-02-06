@@ -67,12 +67,12 @@ class Option
 		print_help_output if @options[:help_output]
 	end
 	
-	def [](k)
-		@options[k]
+	def [](key)
+		@options[key]
 	end
 	
-	def interface=(k)
-		@options[:ui] = k
+	def interface=(value)
+		@options[:ui] = value
 	end
 	
 private

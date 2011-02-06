@@ -13,8 +13,8 @@ module RSokoban
 			@hash = hash
 		end
 		
-		def [](k)
-			@hash[k]
+		def [](key)
+			@hash[key]
 		end
 		
 		# @return true if move is ok

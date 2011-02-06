@@ -16,7 +16,7 @@ module RSokoban::UI
 		# @param [Object] the action
 		attr_reader :action
 		
-		@@Allowed_symbols = [ :up, :down, :left, :right, :quit, :next, :retry, :undo ]
+		ALLOWED_SYMBOLS = [ :up, :down, :left, :right, :quit, :next, :retry, :undo ]
 		
 		# You can look to {PlayerAction} for an allowed list of value.
 		# @param [Object] value optional initial action
@@ -34,7 +34,7 @@ module RSokoban::UI
 		# @raise ArgumentError if value is not allowed
 		def action=(value)
 			if value.instance_of?(Symbol)
-				raise ArgumentError unless @@Allowed_symbols.include?(value)
+				raise ArgumentError unless ALLOWED_SYMBOLS.include?(value)
 			end
 			if value.instance_of?(String)
 				raise ArgumentError unless value =~ /\.xsb$/

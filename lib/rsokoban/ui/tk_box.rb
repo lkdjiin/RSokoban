@@ -12,9 +12,9 @@ module RSokoban::UI
 			@output = output
 		end
 		
-		# Display myself at x,y coordinate
-		def display_at x, y
-			@output[y][x].configure('image' => @box)
+		# Display myself
+		def display_at x_coord, y_coord
+			@output[y_coord][x_coord].configure('image' => @box)
 		end
 	end
 
