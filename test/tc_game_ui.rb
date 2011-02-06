@@ -1,8 +1,9 @@
-class TC_Game < Test::Unit::TestCase
+class TC_GameUI < Test::Unit::TestCase
+	include RSokoban
 
 	#~ def setup
 		#~ $RSOKOBAN_DATA_PATH = File.expand_path(File.dirname(__FILE__))
-		#~ @game = RSokoban::Game.new :portable, 'original.xsb'
+		#~ @game = RSokoban::GameUI.new :portable, 'original.xsb'
 		#~ # Make Game@ui nil to not start the ui.
 		#~ @game.instance_variable_set(:@ui, nil)
 		#~ # Load the first level, without starting ui (see previous line)
@@ -24,5 +25,4 @@ class TC_Game < Test::Unit::TestCase
 	#~ def test_man_x
 		#~ assert_equal 11, @game.man_x
 	#~ end
-	
 end
