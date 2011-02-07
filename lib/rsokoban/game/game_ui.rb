@@ -35,13 +35,14 @@ module RSokoban
 					result = @level.undo
 				end
 				
-				if result[:status] == :win
-					player_action = @ui.get_action(:type=>:win, :map=>@level.map, :move=>result[:move_number])
-				elsif result[:status] == :ok
-					player_action = @ui.get_action(:type=>:display, :map=>@level.map, :move=>result[:move_number])
-				else
-					player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result[:message])
+				hash = {:map=>@level.map, :move=>result[:move_number]}
+				case result[:status]
+					when :win then player_action = @ui.get_action(hash.merge({:type=>:win}))
+					when :ok then player_action = @ui.get_action(hash.merge({:type=>:display}))
+					else
+						player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result[:message])
 				end
+				
 			end
 			true
 		end
@@ -60,13 +61,18 @@ module RSokoban
 		def load_a_new_set setname 
 			begin
 				super(setname)
-				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.title,
-						:number=>@level_number, :total=>@level_loader.size)
+				@ui.get_action(get_hash_after_loading_set)
 			rescue NoFileError
 				error = "Error, no such file : #{setname}"
-				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :error=>error, :set=>@level_loader.title,
-						:number=>@level_number, :total=>@level_loader.size)
+				@ui.get_action(get_hash_after_loading_set.merge({:error=>error}))
 			end
+		end
+		
+		private
+		
+		def get_hash_after_loading_set
+			{:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.title,
+						:number=>@level_number, :total=>@level_loader.size}
 		end
 		
 	end
