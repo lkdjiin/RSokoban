@@ -14,12 +14,7 @@ require "rsokoban/move_recorder"
 require "rsokoban/map"
 require "rsokoban/move_result"
 require "rsokoban/game"
-require "rsokoban/game_ui"
-require "rsokoban/game_gui"
-require "rsokoban/game_factory"
-require "rsokoban/game_portable"
-require "rsokoban/game_curses"
-require "rsokoban/game_tk"
+
 
 # I am the main module of the game.
 module RSokoban	
