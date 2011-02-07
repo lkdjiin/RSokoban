@@ -34,14 +34,8 @@ module RSokoban
 		#
 		# For UI game (like Curses) which are text based, Game provide the loop.
 		def run
-			#~ if [:curses, :portable].include?(@ui_as_symbol)
-				#~ ui_mainloop
-			#~ else
-				#~ @gui.run
-			#~ end
+			raise NotImplementedError
 		end
-		
-		
 		
 		# @return [Fixnum]
 		def level_width
@@ -60,6 +54,7 @@ module RSokoban
 		
 		# Get current map of the game
 		# @return [Map]
+		# @todo must really return a Map, but currently returns Array
 		def map
 			@level.map
 		end
@@ -117,6 +112,7 @@ module RSokoban
 		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def start_level
+			raise NotImplementedError
 			#~ begin
 				#~ @level = @level_loader.level(@level_number)
 				#~ if @ui
@@ -162,14 +158,9 @@ module RSokoban
 		# @return [PlayerAction|nil] the user's action for console window
 		#    interface, or nil for GUI.
 		def load_a_new_set setname 
-			begin
 				@level_loader = LevelLoader.new setname
 				@level_number = 1
 				@level = @level_loader.level(@level_number)
-				title = @level.title
-			rescue NoFileError
-				error = "Error, no such file : #{setname}"
-			end
 		end
 		
 	end
