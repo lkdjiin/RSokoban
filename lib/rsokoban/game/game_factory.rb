@@ -11,9 +11,6 @@ module RSokoban
 			elsif GameCurses == a_class
 				GameCurses.new(ui, level_set)
 			elsif GameTk == a_class
-				require "rsokoban/ui/tk_ui"
-				require "rsokoban/ui/tk_box"
-				require "rsokoban/ui/tk_dialogs"
 				GameTk.new(ui, level_set)
 			else
 				raise ArgumentError

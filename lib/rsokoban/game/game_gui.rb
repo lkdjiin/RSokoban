@@ -4,6 +4,8 @@ module RSokoban
 	module GameGUI
 		include Game
 		
+		attr_writer :ui
+		
 		def initialize ui, setname = 'microban.xsb'
 			super(ui, setname)
 		end
