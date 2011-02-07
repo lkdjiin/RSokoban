@@ -56,7 +56,8 @@ module RSokoban
 		def load_a_new_set setname 
 			begin
 				super(setname)
-				error = 'No error'
+				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.title,
+						:number=>@level_number, :total=>@level_loader.size)
 			rescue NoFileError
 				error = "Error, no such file : #{setname}"
 				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :error=>error, :set=>@level_loader.title,

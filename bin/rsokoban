@@ -68,5 +68,16 @@ if option[:ui] == :curses
 	end
 end
 
-game = RSokoban::Game.new option[:ui]
+case option[:ui]
+	when :curses
+		require "rsokoban/ui/curses_console"
+		ui = RSokoban::UI::CursesConsole.new
+		game = RSokoban::GameFactory.create RSokoban::GameCurses, ui
+	when :portable
+		require "rsokoban/ui/console"
+		ui = RSokoban::UI::Console.new
+		game = RSokoban::GameFactory.create RSokoban::GamePortable, ui
+end
+
+
 game.run
