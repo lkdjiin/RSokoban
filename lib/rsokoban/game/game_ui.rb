@@ -1,5 +1,8 @@
 module RSokoban
 
+	# I extends/implements the API of module Game, to run the game
+	# in a console window. I don't define the user interface, you can use me
+	# to run game with curses, n-curses, straight text-mode, etc.
 	# @since 0.74.1
 	module GameUI
 		include Game
@@ -43,6 +46,7 @@ module RSokoban
 			true
 		end
 		
+		# @return [PlayerAction]
 		def start_level
 			begin
 				@level = @level_loader.level(@level_number)

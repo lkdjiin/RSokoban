@@ -1,10 +1,11 @@
 module RSokoban
 
-	# or module ?
 	# @since 0.74.1
-	class GameFactory
-		private_class_method :new
+	module GameFactory
 		
+		# @param [GamePortable|GameCurses|GameTk] a_class
+		# @param [UI] ui associated user interface
+		# @param [String] level_set set to start playing with
 		def self.create a_class, ui, level_set = 'microban.xsb'
 			if GamePortable == a_class
 				GamePortable.new(ui, level_set)

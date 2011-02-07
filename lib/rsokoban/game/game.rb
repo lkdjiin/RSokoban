@@ -1,38 +1,23 @@
 module RSokoban
 
-	# Basic game.
+	# I provide the basic API to run a game.
+	# I am user interface agnostic.
 	# @since 0.74.1
 	module Game
 		# @return [Fixnum]
 		attr_reader :level_number
 
 		# Construct a new game that you can later run.
-		# @param [String] setname only used during testing
+		# @param [UI] the user interface associated to this game
+		# @param [String] setname The set of levels to begin with
 		def initialize ui, setname = 'microban.xsb'
 			@level_loader = LevelLoader.new setname
 			@level_number = 1
 			@ui = ui
-			#~ case ui_as_symbol
-				#~ when :curses
-					#~ require "rsokoban/ui/curses_console"
-					#~ @ui = UI::CursesConsole.new
-				#~ when :portable
-					#~ require "rsokoban/ui/console"
-					#~ @ui = UI::Console.new
-				#~ when :tk
-					#~ require "rsokoban/ui/tk_ui"
-					#~ require "rsokoban/ui/tk_box"
-					#~ require "rsokoban/ui/tk_dialogs"
-					#~ @gui = UI::TkUI.new self
-			#~ end
 		end
 		
 		# Start the game loop.
-		#
-		# For GUI game (like Tk), the tool kit provide its own event-loop. In that case, I simply
-		# call this event-loop via the run() method (for example see {RSokoban::UI::TkUI#run}.
-		#
-		# For UI game (like Curses) which are text based, Game provide the loop.
+		# @note You must override me in a concrete class.
 		def run
 			raise NotImplementedError
 		end
@@ -54,7 +39,7 @@ module RSokoban
 		
 		# Get current map of the game
 		# @return [Map]
-		# @todo must really return a Map, but currently returns Array
+		# @todo should really return a Map, but currently returns an Array
 		def map
 			@level.map
 		end
@@ -108,29 +93,13 @@ module RSokoban
 			@level_loader.size
 		end
 		
-		# Start a level, according to some instance members.
-		# @return [PlayerAction|nil] the user's action for console window
-		#    interface, or nil for GUI.
+		# @note You must override me.
 		def start_level
 			raise NotImplementedError
-			#~ begin
-				#~ @level = @level_loader.level(@level_number)
-				#~ if @ui
-					#~ @ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.title,
-										#~ :number=>@level_number, :total=>@level_loader.size)
-				#~ end
-			#~ rescue LevelNumberTooHighError
-				#~ if @ui
-					#~ @ui.get_action(:type=>:end_of_set, :map=>Map.new)
-				#~ else
-					#~ raise LevelNumberTooHighError
-				#~ end
-			#~ end
 		end
 	
 		# Load and start the next level of the set
-		# @return [PlayerAction|nil] the user's action for console window
-		#    interface, or nil for GUI.
+		# @return See the implementation of start_level in a descendant module (GameUI or GameGUI).
 		def next_level
 			@level_number += 1
 			start_level
@@ -138,16 +107,14 @@ module RSokoban
 		
 		# Load a level from the current set.
 		# @param [Fixnum] num the number of the set (base 1)
-		# @return [PlayerAction|nil] the user's action for console window
-		#    interface, or nil for GUI.
+		# @return See the implementation of start_level in a descendant module (GameUI or GameGUI).
 		def load_level num
 			@level_number = num
 			start_level
 		end
 		
-		# Restart from level 1.
-		# @return [PlayerAction|nil] the user's action for console window
-		#    interface, or nil for GUI.
+		# Restart current set from level 1.
+		# @return See the implementation of start_level in a descendant module (GameUI or GameGUI).
 		def restart_set
 			@level_number = 1
 			start_level
@@ -155,8 +122,6 @@ module RSokoban
 		
 		# Load a new set of levels and start its first level.
 		# @param [String] setname the name of the set (with .xsb extension)
-		# @return [PlayerAction|nil] the user's action for console window
-		#    interface, or nil for GUI.
 		def load_a_new_set setname 
 				@level_loader = LevelLoader.new setname
 				@level_number = 1
