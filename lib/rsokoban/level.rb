@@ -74,8 +74,8 @@ module RSokoban
 			@move += 1
 			@man.send(direction)
 			if @crates.include?(Crate.new(@man.x, @man.y))
-				i = @crates.index(Crate.new(@man.x, @man.y))
-				@crates[i].send(direction)
+				idx = @crates.index(Crate.new(@man.x, @man.y))
+				@crates[idx].send(direction)
 				@move_recorder.record direction, :push
 			else
 				@move_recorder.record direction
@@ -98,8 +98,8 @@ module RSokoban
 				@man.send(direction)
 				@move += 1
 				if @crates.include?(Crate.new(@man.x, @man.y))
-					i = @crates.index(Crate.new(@man.x, @man.y))
-					@crates[i].send(direction)
+					idx = @crates.index(Crate.new(@man.x, @man.y))
+					@crates[idx].send(direction)
 				end
 			rescue EmptyRedoError
 				# Nothing to do
@@ -180,19 +180,19 @@ module RSokoban
 		def wall_behind_crate?(direction)
 			case direction
 				when :up
-					near = crate?(@man.x, @man.y-1)
+					near = crate_up?
 					box_behind = what_is_on(@man.x, @man.y-2)
 				when :down
-					near = crate?(@man.x, @man.y+1)
+					near = crate_down?
 					box_behind = what_is_on(@man.x, @man.y+2)
 				when :left
-					near = crate?(@man.x-1, @man.y)
+					near = crate_left?
 					box_behind = what_is_on(@man.x-2, @man.y)
 				when :right
-					near = crate?(@man.x+1, @man.y)
+					near = crate_right?
 					box_behind = what_is_on(@man.x+2, @man.y)
 			end
-			return(near and box_behind == WALL)
+			near and box_behind == WALL
 		end
 		
 		# Is there a crate followed by a crate near the man, in the direction pointed to by +direction+ ?
@@ -200,14 +200,10 @@ module RSokoban
 		# @return [true|nil]
 		def double_crate?(direction)
 			case direction
-				when :up
-					true if crate?(@man.x, @man.y-1) and crate?(@man.x, @man.y-2)
-				when :down
-					true if crate?(@man.x, @man.y+1) and crate?(@man.x, @man.y+2)
-				when :left
-					true if crate?(@man.x-1, @man.y) and crate?(@man.x-2, @man.y)
-				when :right
-					true if crate?(@man.x+1, @man.y) and crate?(@man.x+2, @man.y)
+				when :up then crate_up? and crate_two_steps_up?
+				when :down then crate_down? and crate_two_steps_down?
+				when :left then crate_left? and crate_two_steps_left?
+				when :right then crate_right? and crate_two_steps_right?
 			end
 		end
 		
@@ -218,6 +214,38 @@ module RSokoban
 		def crate?(x_coord, y_coord)
 			box = what_is_on(x_coord, y_coord)
 			box == CRATE or box == CRATE_ON_STORAGE
+		end
+		
+		def crate_up?
+			crate?(@man.x, @man.y-1)
+		end
+		
+		def crate_two_steps_up?
+			crate?(@man.x, @man.y-2)
+		end
+		
+		def crate_down?
+			crate?(@man.x, @man.y+1)
+		end
+		
+		def crate_two_steps_down?
+			crate?(@man.x, @man.y+2)
+		end
+		
+		def crate_left?
+			crate?(@man.x-1, @man.y)
+		end
+		
+		def crate_two_steps_left?
+			crate?(@man.x-2, @man.y)
+		end
+		
+		def crate_right?
+			crate?(@man.x+1, @man.y)
+		end
+		
+		def crate_two_steps_right?
+			crate?(@man.x+2, @man.y)
 		end
 		
 		# Draw the man for map output
