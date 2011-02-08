@@ -12,40 +12,64 @@ module RSokoban::UI
 		end
 		
 		def get_action(hash)
+			initialize_members hash
+			display hash
+			ask_player hash
+		end
+		
+		private
+		
+		def initialize_members hash
 			if hash[:type] == :start
 				@level_title = hash[:title] 
 				@set_title = hash[:set]
 				@level_number = hash[:number]
 				@set_total = hash[:total]
 			end
-			display hash
-			if [:display, :start].include?(hash[:type])
-				ask_player
-			else
-				# assuming type == 'WIN'
-				ask_for_next_level
-			end
 		end
 		
-		private
-		
 		def display hash
-			blankConsole = "\n" * 24 # assuming a console window of 24 lines height
-			puts blankConsole
+			clear_screen
+			display_header
+			display_move_number hash[:move]
+			display_map hash[:map]
+		end
+		
+		# Assuming a console window of 24 lines height
+		def clear_screen
+			puts "\n" * 24 
+		end
+		
+		def display_header
 			puts "Set: #{@set_title}"
 			puts "Level: #{@level_title} (#{@level_number}/#{@set_total})"
 			puts "--------------------"
-			unless hash[:move].nil?
-				puts "move #{hash[:move]}"
+		end
+		
+		def display_move_number number
+			unless number.nil?
+				puts "move #{number}"
 			else
 				puts ''
 			end
+		end
+		
+		def display_map map
 			puts ''
-			hash[:map].each {|line| puts line }
+			map.each {|line| puts line }
 			puts ''
 		end
 		
-		def ask_for_next_level
+		def ask_player hash
+			if [:display, :start].include?(hash[:type])
+				ask_for_action
+			else
+				# assuming type == 'WIN'
+				ask_for_next_level_or_quit
+			end
+		end
+		
+		def ask_for_next_level_or_quit
 			printf "Play next level ? "
 			line = gets.chomp
 			if ['yes', 'ye', 'y', 'YES', 'YE', 'Y'].include?(line)
@@ -55,19 +79,22 @@ module RSokoban::UI
 			end
 		end
 		
-		def ask_player
-			printf "Your choice ? "
-			line = gets.chomp
-			response = parse line
+		def ask_for_action
+			response = get_playerinput
 			if response.nil?
 				puts "Error : #{line}"
-				ask_player
 			elsif response.instance_of?(Symbol) and response == :help
 				display_help
-				ask_player
 			else
-				response
+				return response
 			end
+			ask_for_action
+		end
+		
+		def get_playerinput
+			printf "Your choice ? "
+			line = gets.chomp
+			parse line
 		end
 		
 		def parse str
@@ -81,7 +108,7 @@ module RSokoban::UI
 				when 'd' then PlayerAction.new(:right)
 				when '1'..'999'
 					if str.to_i > @set_total
-						ask_player
+						ask_for_action
 					else
 					 	PlayerAction.new(str.to_i)
 					 end
