@@ -1,3 +1,4 @@
+* what_is_on? duplicated in level and layered_map
 * big refactoring
 * tk: use one image for rendering, not an array (if possible ?)
 

@@ -1,9 +1,7 @@
 module RSokoban
 
 	# I am a level of the game.
-	# To complete a level, place each crate ('$') on a storage location ('.').
 	class Level
-		attr_reader :floor, :man, :crates, :storages
 		attr_reader :title
 		
 		# Get map width of this level, in cells
@@ -15,39 +13,39 @@ module RSokoban
 		attr_reader :height
 		
 		# I build the level from a RawLevel object.
-		# @example a RawLevel object
-		#   A RawLevel object have got one title and one 'picture'. A 'picture' is an array of string.
-		#   Each string contain one line of the level map.
-		#	  'Level 1', ['#####', '#.o@#', '#####']
-		# 
-		# * '#' is a wal
-		# * '.' is a storage location
-		# * '$' is a crate
-		# * '*' is a crate on storage location
-		# * '@' is the man
-		# * ' ' is an empty floor
-		#
-		# @param [RawLevel] raw_level
+		# @param [RawLevel] raw_level A RawLevel object, containing a title and a map.
 		def initialize raw_level
 			@title = raw_level.title
 			@width = raw_level.map.width
 			@height = raw_level.map.height
-			@floor = init_floor raw_level.map
-			@man = init_man raw_level.map
-			@crates = []
-			@storages = []
-			init_crates_and_storages raw_level.map
+			@layered_map = LayeredMap.new raw_level.map
 			@move = 0
 			@map = nil
 			@move_recorder = MoveRecorder.new
 		end
 		
-		# Two Level objects are equals if their @title, @floor, @man, @crates and @storages are equals.
+		def storages
+			@layered_map.storages
+		end
+		
+		def floor
+			@layered_map.floor
+		end
+		
+		def man
+			@layered_map.man
+		end
+		
+		def crates
+			@layered_map.crates
+		end
+		
+		# Two Level objects are equals if their @title, @floor, @layered_map.man, @layered_map.crates and @layered_map.storages are equals.
 		# @param [Object] obj
 		# @return [false|true]
 		def ==(obj)
 			return false unless obj.kind_of?(Level)
-			@floor == obj.floor and @man == obj.man and @crates == obj.crates and @storages == obj.storages and @title == obj.title
+			@layered_map.floor == obj.floor and @layered_map.man == obj.man and @layered_map.crates == obj.crates and @layered_map.storages == obj.storages and @title == obj.title
 		end
 		
 		# Synonym of #==
@@ -59,11 +57,7 @@ module RSokoban
 		# Get an instant map of the game.
 		# @return [Map] the map, after X turns of game.
 		def map_as_array
-			@map = init_floor @floor
-			draw_crates
-			draw_storages
-			draw_man
-			@map
+			@layered_map.map_as_array
 		end
 		
 		# Move the man one box +direction+.
@@ -74,10 +68,10 @@ module RSokoban
 			return MoveResult.new(:status => :error, :message => 'wall behind crate') if wall_behind_crate?(direction)
 			return MoveResult.new(:status => :error, :message => 'double crate') if double_crate?(direction)
 			@move += 1
-			@man.send(direction)
-			if @crates.include?(Crate.new(@man.x, @man.y))
-				idx = @crates.index(Crate.new(@man.x, @man.y))
-				@crates[idx].send(direction)
+			@layered_map.man.send(direction)
+			if @layered_map.crates.include?(Crate.new(@layered_map.man.x, @layered_map.man.y))
+				idx = @layered_map.crates.index(Crate.new(@layered_map.man.x, @layered_map.man.y))
+				@layered_map.crates[idx].send(direction)
 				@move_recorder.record direction, :push
 			else
 				@move_recorder.record direction
@@ -97,11 +91,11 @@ module RSokoban
 					when :left, :LEFT then direction = :left
 					when :right, :RIGHT then direction = :right
 				end
-				@man.send(direction)
+				@layered_map.man.send(direction)
 				@move += 1
-				if @crates.include?(Crate.new(@man.x, @man.y))
-					idx = @crates.index(Crate.new(@man.x, @man.y))
-					@crates[idx].send(direction)
+				if @layered_map.crates.include?(Crate.new(@layered_map.man.x, @layered_map.man.y))
+					idx = @layered_map.crates.index(Crate.new(@layered_map.man.x, @layered_map.man.y))
+					@layered_map.crates[idx].send(direction)
 				end
 			rescue EmptyRedoError
 				# Nothing to do
@@ -113,26 +107,26 @@ module RSokoban
 		def undo
 			begin
 				case @move_recorder.undo
-					when :up then @man.down
-					when :down then @man.up
-					when :left then @man.right
-					when :right then @man.left
+					when :up then @layered_map.man.down
+					when :down then @layered_map.man.up
+					when :left then @layered_map.man.right
+					when :right then @layered_map.man.left
 					when :UP
-						idx = @crates.index(Crate.new(@man.x, @man.y-1))
-						@crates[idx].down
-						@man.down
+						idx = @layered_map.crates.index(Crate.new(@layered_map.man.x, @layered_map.man.y-1))
+						@layered_map.crates[idx].down
+						@layered_map.man.down
 					when :DOWN
-						idx = @crates.index(Crate.new(@man.x, @man.y+1))
-						@crates[idx].up
-						@man.up
+						idx = @layered_map.crates.index(Crate.new(@layered_map.man.x, @layered_map.man.y+1))
+						@layered_map.crates[idx].up
+						@layered_map.man.up
 					when :LEFT
-						idx = @crates.index(Crate.new(@man.x-1, @man.y))
-						@crates[idx].right
-						@man.right
+						idx = @layered_map.crates.index(Crate.new(@layered_map.man.x-1, @layered_map.man.y))
+						@layered_map.crates[idx].right
+						@layered_map.man.right
 					when :RIGHT
-						idx = @crates.index(Crate.new(@man.x+1, @man.y))
-						@crates[idx].left
-						@man.left
+						idx = @layered_map.crates.index(Crate.new(@layered_map.man.x+1, @layered_map.man.y))
+						@layered_map.crates[idx].left
+						@layered_map.man.left
 				end
 				@move -= 1
 			rescue EmptyMoveQueueError
@@ -152,9 +146,9 @@ module RSokoban
 		
 		# @return true if all crates are on a storage location
 		def win?
-			return false if @crates.size == 0 # needed for testing purpose.
-			@crates.each {|crate|
-				return false unless @storages.include?(crate)
+			return false if @layered_map.crates.size == 0 # needed for testing purpose.
+			@layered_map.crates.each {|crate|
+				return false unless @layered_map.storages.include?(crate)
 			}
 			true
 		end
@@ -165,13 +159,13 @@ module RSokoban
 		def wall? direction
 			case direction
 				when :up
-					box = what_is_on(@man.x, @man.y-1)
+					box = what_is_on(@layered_map.man.x, @layered_map.man.y-1)
 				when :down
-					box = what_is_on(@man.x, @man.y+1)
+					box = what_is_on(@layered_map.man.x, @layered_map.man.y+1)
 				when :left
-					box = what_is_on(@man.x-1, @man.y)
+					box = what_is_on(@layered_map.man.x-1, @layered_map.man.y)
 				when :right
-					box = what_is_on(@man.x+1, @man.y)
+					box = what_is_on(@layered_map.man.x+1, @layered_map.man.y)
 			end
 			return(box == WALL)
 		end
@@ -183,16 +177,16 @@ module RSokoban
 			case direction
 				when :up
 					near = crate_up?
-					box_behind = what_is_on(@man.x, @man.y-2)
+					box_behind = what_is_on(@layered_map.man.x, @layered_map.man.y-2)
 				when :down
 					near = crate_down?
-					box_behind = what_is_on(@man.x, @man.y+2)
+					box_behind = what_is_on(@layered_map.man.x, @layered_map.man.y+2)
 				when :left
 					near = crate_left?
-					box_behind = what_is_on(@man.x-2, @man.y)
+					box_behind = what_is_on(@layered_map.man.x-2, @layered_map.man.y)
 				when :right
 					near = crate_right?
-					box_behind = what_is_on(@man.x+2, @man.y)
+					box_behind = what_is_on(@layered_map.man.x+2, @layered_map.man.y)
 			end
 			near and box_behind == WALL
 		end
@@ -219,60 +213,35 @@ module RSokoban
 		end
 		
 		def crate_up?
-			crate?(@man.x, @man.y-1)
+			crate?(@layered_map.man.x, @layered_map.man.y-1)
 		end
 		
 		def crate_two_steps_up?
-			crate?(@man.x, @man.y-2)
+			crate?(@layered_map.man.x, @layered_map.man.y-2)
 		end
 		
 		def crate_down?
-			crate?(@man.x, @man.y+1)
+			crate?(@layered_map.man.x, @layered_map.man.y+1)
 		end
 		
 		def crate_two_steps_down?
-			crate?(@man.x, @man.y+2)
+			crate?(@layered_map.man.x, @layered_map.man.y+2)
 		end
 		
 		def crate_left?
-			crate?(@man.x-1, @man.y)
+			crate?(@layered_map.man.x-1, @layered_map.man.y)
 		end
 		
 		def crate_two_steps_left?
-			crate?(@man.x-2, @man.y)
+			crate?(@layered_map.man.x-2, @layered_map.man.y)
 		end
 		
 		def crate_right?
-			crate?(@man.x+1, @man.y)
+			crate?(@layered_map.man.x+1, @layered_map.man.y)
 		end
 		
 		def crate_two_steps_right?
-			crate?(@man.x+2, @man.y)
-		end
-		
-		# Draw the man for map output
-		def draw_man
-			box = what_is_on @man.x, @man.y
-			put_man_in_map if box == FLOOR
-			put_man_on_storage_in_map if box == STORAGE
-		end
-		
-		def put_man_in_map
-			@map[@man.y][@man.x] = MAN
-		end
-		
-		def put_man_on_storage_in_map
-			@map[@man.y][@man.x] = MAN_ON_STORAGE
-		end
-		
-		# Draw the crates for map output
-		def draw_crates
-			@crates.each {|crate| @map[crate.y][crate.x] = what_is_on(crate.x, crate.y) }
-		end
-		
-		# Draw the storages location for map output
-		def draw_storages
-			@storages.each {|st| @map[st.y][st.x] = what_is_on(st.x, st.y) }
+			crate?(@layered_map.man.x+2, @layered_map.man.y)
 		end
 
 		# Get the content of box x_coord, y_coord
@@ -280,65 +249,19 @@ module RSokoban
 		# @param [Fixnum] y_coord y coordinate in the map
 		# @return [' ' | '#' | '.' | 'o' | '*']
 		def what_is_on x_coord, y_coord
-			box = (@floor[y_coord][x_coord]).chr
+			box = (@layered_map.floor[y_coord][x_coord]).chr
 			if box == FLOOR
 				storage = Storage.new(x_coord, y_coord)
 				crate = Crate.new(x_coord, y_coord)
-				if @storages.include?(storage) and @crates.include?(crate)
+				if @layered_map.storages.include?(storage) and @layered_map.crates.include?(crate)
 					box = CRATE_ON_STORAGE 
-				elsif @storages.include?(storage)
+				elsif @layered_map.storages.include?(storage)
 					box = STORAGE
-				elsif @crates.include?(crate)
+				elsif @layered_map.crates.include?(crate)
 					box = CRATE
 				end
 			end
 			box
-		end
-		
-		# Removes all storages locations, all crates and the man, leaving only walls and floor.
-		#
-		# @param [Map] map 
-		# @return [Map] map with only walls and floor
-		def init_floor map
-			floor = []
-			map.each {|row| floor.push row.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
-			floor
-		end
-		
-		# Find the man's position, at the begining of the level.
-		#
-		# @param [Map] map
-		# @return [Man] an initialised man
-		def init_man map
-			x_coord = y_coord = 0
-			map.each {|row| 
-				if row.include?(MAN)
-					x_coord = row.index(MAN)
-					break
-				end
-				y_coord += 1
-			}
-			Man.new x_coord, y_coord
-		end
-		
-		# Find position of crates and storages, at the begining of the level.
-		#
-		# @param [Map] map
-		def init_crates_and_storages map
-			y_coord = 0
-			map.each do |line| 
-				count = 0
-				line.each_char do |char| 
-					@crates.push Crate.new(count, y_coord) if char == CRATE
-					@storages.push Storage.new(count, y_coord) if char == STORAGE
-					if char == CRATE_ON_STORAGE
-						@crates.push Crate.new(count, y_coord)
-						@storages.push Storage.new(count, y_coord)
-					end
-					count += 1
-				end
-				y_coord += 1
-			end
 		end
 		
 	end

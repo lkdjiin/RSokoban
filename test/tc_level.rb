@@ -835,7 +835,7 @@ class TC_Level < Test::Unit::TestCase
 		ins = Level.new(RawLevel.new('1', CannotMoveUpBug1))
 		# Changing 'o' to '*'
 		def ins.addStorage
-			@storages.push Storage.new(1, 1)
+			@layered_map.storages.push Storage.new(1, 1)
 		end
 		ins.addStorage
 		
