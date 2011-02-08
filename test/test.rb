@@ -6,7 +6,7 @@ require "rsokoban"
 require "test/unit"
 
 require "../test/tc_level"
-require "../test/tc_level_loader"
+require "../test/tc_set_loader"
 require "../test/tc_level_set"
 require "../test/tc_raw_level"
 require "../test/tc_position"

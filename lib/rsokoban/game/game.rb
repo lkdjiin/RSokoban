@@ -11,7 +11,7 @@ module RSokoban
 		# @param [UI] the user interface associated to this game
 		# @param [String] setname The set of levels to begin with
 		def initialize ui, setname = 'microban.xsb'
-			@level_loader = LevelLoader.new setname
+			@level_loader = SetLoader.new setname
 			@level_number = 1
 			@ui = ui
 		end
@@ -122,7 +122,7 @@ module RSokoban
 		# Load a new set of levels and start its first level.
 		# @param [String] setname the name of the set (with .xsb extension)
 		def load_a_new_set setname 
-				@level_loader = LevelLoader.new setname
+				@level_loader = SetLoader.new setname
 				@level_number = 1
 				@level = @level_loader.level(@level_number)
 		end

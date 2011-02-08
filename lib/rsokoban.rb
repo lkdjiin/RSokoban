@@ -1,6 +1,6 @@
 require "rsokoban/extensions"
 require "rsokoban/level"
-require "rsokoban/level_loader"
+require "rsokoban/set_loader"
 require "rsokoban/exception"
 require "rsokoban/position"
 require "rsokoban/man"

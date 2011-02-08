@@ -1,13 +1,12 @@
 module RSokoban
 
-	# I load a file containing the levels of the game. On instanciation,
+	# I load a file containing a bunch of levels for the game. On instanciation,
 	# you give me a filename (in xsb file format) containing one or more levels.
 	#
 	# You can then ask for a particular level (a Level object). You can use me too
 	# to find the description of a level.
 	# @todo give some examples
-	# @todo This class is misnammed, SetLoader would be much appropriate
-	class LevelLoader
+	class SetLoader
 	
 		# @param [String] filename an xsb filename.
 		#   This file is searched in the data/ folder.

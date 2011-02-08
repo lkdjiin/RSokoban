@@ -193,7 +193,7 @@ module RSokoban::UI
 		
 		def show_description
 			idx = @list.curselection
-			ll = LevelLoader.new @xsb[idx[0]]
+			ll = SetLoader.new @xsb[idx[0]]
 			@desc.delete '1.0', :end
 			@desc.insert :end, ll.file_description
 		end
