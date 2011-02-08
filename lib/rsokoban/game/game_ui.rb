@@ -35,12 +35,12 @@ module RSokoban
 					result = @level.undo
 				end
 				
-				hash = {:map=>@level.map, :move=>result[:move_number]}
+				hash = {:map=>@level.map_as_array, :move=>result[:move_number]}
 				case result[:status]
 					when :win then player_action = @ui.get_action(hash.merge({:type=>:win}))
 					when :ok then player_action = @ui.get_action(hash.merge({:type=>:display}))
 					else
-						player_action = @ui.get_action(:type=>:display, :map=>@level.map, :error=>result[:message])
+						player_action = @ui.get_action(:type=>:display, :map=>@level.map_as_array, :error=>result[:message])
 				end
 				
 			end
@@ -51,7 +51,7 @@ module RSokoban
 		def start_level
 			begin
 				@level = @level_loader.level(@level_number)
-				@ui.get_action(:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.title,
+				@ui.get_action(:type=>:start, :map=>@level.map_as_array, :title=>@level.title, :set=>@level_loader.title,
 										:number=>@level_number, :total=>@level_loader.size)
 			rescue LevelNumberTooHighError
 				@ui.get_action(:type=>:end_of_set, :map=>Map.new)
@@ -71,7 +71,7 @@ module RSokoban
 		private
 		
 		def get_hash_after_loading_set
-			{:type=>:start, :map=>@level.map, :title=>@level.title, :set=>@level_loader.title,
+			{:type=>:start, :map=>@level.map_as_array, :title=>@level.title, :set=>@level_loader.title,
 						:number=>@level_number, :total=>@level_loader.size}
 		end
 		

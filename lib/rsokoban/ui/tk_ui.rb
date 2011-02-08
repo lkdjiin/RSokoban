@@ -81,7 +81,7 @@ module RSokoban::UI
 			y = @game.man_y
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
-				case @game.map[y][x].chr
+				case @game.map_as_array[y][x].chr
 					when WALL then @wall.display_at x, y
 					when FLOOR then @floor.display_at x, y
 					when CRATE then @crate.display_at x, y
@@ -99,15 +99,15 @@ module RSokoban::UI
 			update_array = [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
 			update_array.each do |x, y|
 				next if x < 0 or y < 0
-				next if @game.map[y].nil? or @game.map[y][x].nil?
-				display_cell_taking_care_of_outside @game.map[y][x].chr, x, y
+				next if @game.map_as_array[y].nil? or @game.map_as_array[y][x].nil?
+				display_cell_taking_care_of_outside @game.map_as_array[y][x].chr, x, y
 			end
 		end
 		
 		# Display the initial map on screen.
 		def display_initial
 			y = 0
-			@game.map.each do |row|
+			@game.map_as_array.each do |row|
 				# find first wall
 				x = row.index(RSokoban::WALL)
 				line = row.strip
@@ -135,8 +135,8 @@ module RSokoban::UI
 			return if y == 0
 			height = y - 1
 			height.downto(0).each {|row|
-				break if @game.map[row][x].nil?
-				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map[row][x].chr)
+				break if @game.map_as_array[row][x].nil?
+				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map_as_array[row][x].chr)
 					@floor.display_at x, y
 					break
 				end

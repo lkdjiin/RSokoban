@@ -9,7 +9,11 @@ module RSokoban
 		
 		def initialize title = 'Unknown level title', map = Map.new
 			@title = title
-			@map = map
+			if map.instance_of?(Map)
+				@map = map
+			else
+				@map = Map.new map
+			end
 		end
 		
 		def map=(val)

@@ -56,7 +56,7 @@ module RSokoban
 		
 		# Get an instant map of the game.
 		# @return [Map] the map, after X turns of game.
-		def map
+		def map_as_array
 			@map = init_floor @floor
 			draw_crates
 			draw_storages
@@ -305,9 +305,12 @@ module RSokoban
 		
 		# Initialize map width and map height of this level
 		def init_dimension map
-			@width = 0
-			map.each {|row| @width = row.size if row.size > @width }
-			@height = map.size
+			#~ @width = 0
+			#~ map.each {|row| @width = row.size if row.size > @width }
+			#~ @height = map.size
+			
+			@width = map.width
+			@height = map.height
 		end
 		
 		# Find the man's position, at the begining of the level.

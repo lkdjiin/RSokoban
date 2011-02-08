@@ -52,9 +52,9 @@ class TC_GameUI < Test::Unit::TestCase
 		assert_equal '1', @game.level_title
 	end
 	
-	#~ def test_map_must_return_a_map
-		#~ assert_equal Map, @game.map.class
-	#~ end
+	def test_map_as_array_must_return_an_array
+		assert_equal Array, @game.map_as_array.class
+	end
 	
 	def test_man_x
 		assert_equal 11, @game.man_x

@@ -87,7 +87,7 @@ module RSokoban
 						line = @file.readline.chomp
 					end
 					line = line.get_xsb_info_line_chomp
-					@set.raw_levels.push RawLevel.new(line, raw) unless raw.empty?
+					@set.raw_levels.push RawLevel.new(line, Map.new(raw)) unless raw.empty?
 					
 					line = @file.readline
 					while line[0, 1] == ';'

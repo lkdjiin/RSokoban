@@ -37,11 +37,10 @@ module RSokoban
 			@level.title
 		end
 		
-		# Get current map of the game
-		# @return [Map]
-		# @todo should really return a Map, but currently returns an Array
-		def map
-			@level.map
+		# Get current map of the game as an array of strings
+		# @return [Array<String>]
+		def map_as_array
+			@level.map_as_array
 		end
 		
 		# Get x coordinate of the man
