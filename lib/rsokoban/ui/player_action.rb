@@ -33,13 +33,19 @@ module RSokoban::UI
 		# @param [Object] value the player action
 		# @raise ArgumentError if value is not allowed
 		def action=(value)
-			if value.instance_of?(Symbol)
-				raise ArgumentError unless ALLOWED_SYMBOLS.include?(value)
-			end
-			if value.instance_of?(String)
-				raise ArgumentError unless value =~ /\.xsb$/
-			end
+			check_allowed_symbol(value) if value.instance_of?(Symbol)
+			check_allowed_string(value) if value.instance_of?(String)
 			@action = value
+		end
+		
+		# @raise ArgumentError if value is not an allowed symbol
+		def check_allowed_symbol symb
+			raise ArgumentError unless ALLOWED_SYMBOLS.include?(symb)
+		end
+		
+		# @raise ArgumentError if string is not an xsb filename
+		def check_allowed_string string
+			raise ArgumentError unless string =~ /\.xsb$/
 		end
 		
 		def level_number?
