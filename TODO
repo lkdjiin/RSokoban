@@ -1,5 +1,4 @@
 * big refactoring
-* check @todo
 * tk: use one image for rendering, not an array (if possible ?)
 
 * don't restrict map size

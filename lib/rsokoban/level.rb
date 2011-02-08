@@ -3,7 +3,8 @@ module RSokoban
 	# I am a level of the game.
 	# To complete a level, place each crate ('$') on a storage location ('.').
 	class Level
-		attr_reader :floor, :man, :crates, :storages, :title
+		attr_reader :floor, :man, :crates, :storages
+		attr_reader :title
 		
 		# Get map width of this level, in cells
 		# @return [Fixnum]
@@ -117,20 +118,20 @@ module RSokoban
 					when :left then @man.right
 					when :right then @man.left
 					when :UP
-						i = @crates.index(Crate.new(@man.x, @man.y-1))
-						@crates[i].down
+						idx = @crates.index(Crate.new(@man.x, @man.y-1))
+						@crates[idx].down
 						@man.down
 					when :DOWN
-						i = @crates.index(Crate.new(@man.x, @man.y+1))
-						@crates[i].up
+						idx = @crates.index(Crate.new(@man.x, @man.y+1))
+						@crates[idx].up
 						@man.up
 					when :LEFT
-						i = @crates.index(Crate.new(@man.x-1, @man.y))
-						@crates[i].right
+						idx = @crates.index(Crate.new(@man.x-1, @man.y))
+						@crates[idx].right
 						@man.right
 					when :RIGHT
-						i = @crates.index(Crate.new(@man.x+1, @man.y))
-						@crates[i].left
+						idx = @crates.index(Crate.new(@man.x+1, @man.y))
+						@crates[idx].left
 						@man.left
 				end
 				@move -= 1
