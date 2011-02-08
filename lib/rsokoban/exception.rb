@@ -1,5 +1,5 @@
 module RSokoban
-	# @todo look if ruby doesn't already have got this kind of class.
+	# Used when we try to load a file that doesn't exist.
 	class NoFileError < ArgumentError
 	end
 	

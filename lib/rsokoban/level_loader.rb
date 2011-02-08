@@ -6,7 +6,6 @@ module RSokoban
 	# You can then ask for a particular level (a Level object). You can use me too
 	# to find the description of a level.
 	# @todo give some examples
-	# @todo document and refactor
 	# @todo This class is misnammed, SetLoader would be much appropriate
 	class LevelLoader
 	
@@ -61,8 +60,8 @@ module RSokoban
 		def get_title_of_the_set
 			@set.title = @file.readline.get_xsb_info_line_chomp
 			# After the title, there must be a blank line
-			# @todo verify this is a blank line
-			@file.readline 
+			line = @file.readline 
+			raise "Must be a blank line" unless line.strip.empty?
 		end
 		
 		def get_description_of_the_set
@@ -74,7 +73,7 @@ module RSokoban
 			end
 			@set.description = desc
 			# After the description, there must be a blank line
-			# @todo verify that the last line is a blank one
+			raise "Must be a blank line" unless line.strip.empty?
 		end
 		
 		def get_levels_of_the_set
@@ -94,7 +93,7 @@ module RSokoban
 						line = @file.readline
 					end
 					# must be a blank line here
-					# @todo verify this is a blank line
+					raise "Must be a blank line" unless line.strip.empty?
 				rescue EOFError
 					break
 				end

@@ -17,9 +17,9 @@ module RSokoban
 			@ui.run
 		end
 		
-		# @todo check if it's important to return the level
 		def start_level
 			@level = @level_loader.level(@level_number)
+			nil
 		end
 		
 	end

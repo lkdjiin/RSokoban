@@ -29,7 +29,8 @@ module RSokoban
 		# @param [RawLevel] raw_level
 		def initialize raw_level
 			@title = raw_level.title
-			init_dimension raw_level.map
+			@width = raw_level.map.width
+			@height = raw_level.map.height
 			@floor = init_floor raw_level.map
 			@man = init_man raw_level.map
 			@crates = []
@@ -301,16 +302,6 @@ module RSokoban
 			floor = []
 			map.each {|row| floor.push row.tr("#{STORAGE}#{CRATE}#{MAN}#{CRATE_ON_STORAGE}", FLOOR) }
 			floor
-		end
-		
-		# Initialize map width and map height of this level
-		def init_dimension map
-			#~ @width = 0
-			#~ map.each {|row| @width = row.size if row.size > @width }
-			#~ @height = map.size
-			
-			@width = map.width
-			@height = map.height
 		end
 		
 		# Find the man's position, at the begining of the level.

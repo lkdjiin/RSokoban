@@ -1,7 +1,6 @@
 module RSokoban
 
 	# I represent an x,y coordinate.
-	# @todo document
 	class Position
 		attr_reader :x, :y
 		
