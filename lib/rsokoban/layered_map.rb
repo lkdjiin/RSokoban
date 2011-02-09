@@ -20,6 +20,7 @@ module RSokoban
 			raise ArgumentError unless [Map, Array].include?(map.class)
 			@map = map
 			@floor = nil
+			@map_array = []
 			@man = nil
 			@crates = []
 			@storages = []
@@ -29,7 +30,7 @@ module RSokoban
 		end
 		
 		# Get an instant map of the game.
-		# @return [Map] the map, after X turns of game.
+		# @return [Array<String>] the map, after X turns of game.
 		def map_as_array
 			@map_array = init_floor
 			draw_crates
@@ -45,19 +46,18 @@ module RSokoban
 		# @todo I think we can optimize this algo
 		# @todo should accept too only one argument: a Position (or an object inherited from Position)
 		def what_is_on x_coord, y_coord
-			box = (@floor[y_coord][x_coord]).chr
-			return box if box == WALL
-			storage = Storage.new(x_coord, y_coord)
-			crate = Crate.new(x_coord, y_coord)
-			if @storages.include?(storage) and @crates.include?(crate)
+			return WALL if (@floor[y_coord][x_coord]).chr == WALL
+			
+			position = Position.new(x_coord, y_coord)
+			if @storages.include?(position) 
+				return STORAGE unless @crates.include?(position)
 				CRATE_ON_STORAGE 
-			elsif @storages.include?(storage)
-				STORAGE
-			elsif @crates.include?(crate)
+			elsif @crates.include?(position)
 				CRATE
 			else
 				FLOOR
 			end
+			
 		end
 		
 		private

@@ -14,6 +14,9 @@ module RSokoban::UI
 		# Cell size in pixels, a cell is a square
 		CELL_SIZE = 30
 		
+		X_COORDS = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540]
+		Y_COORDS = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450]
+		
 		# Build and initialize a GUI with the Tk tool kit.
 		# @param [Game] game Where we get the logic.
 		def initialize game
@@ -114,7 +117,7 @@ module RSokoban::UI
 		end
 		
 		# Update map rendering. We need only to update man's location and north, south, west
-		# and east of him. And because there walls all around the map, there is no needs to check
+		# and east of him. And because they are walls all around the map, there is no needs to check
 		# for limits.
 		def display_update
 			x = @game.man_x
@@ -122,15 +125,19 @@ module RSokoban::UI
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
 				case @game.map_as_array[y][x].chr
-					when WALL then @container.copy(@images[:wall], :to => [x * CELL_SIZE, y * CELL_SIZE])
-					when FLOOR then @container.copy(@images[:floor], :to => [x * CELL_SIZE, y * CELL_SIZE])
-					when CRATE then @container.copy(@images[:crate], :to => [x * CELL_SIZE, y * CELL_SIZE])
-					when STORAGE then @container.copy(@images[:store], :to => [x * CELL_SIZE, y * CELL_SIZE])
+					when WALL then display_cell :wall, x, y
+					when FLOOR then display_cell :floor, x, y
+					when CRATE then display_cell :crate, x, y
+					when STORAGE then display_cell :store, x, y
 					when MAN then display_man_at x, y
 					when MAN_ON_STORAGE then display_man_on_storage_at x, y
-					when CRATE_ON_STORAGE then @container.copy(@images[:crate_store], :to => [x * CELL_SIZE, y * CELL_SIZE])
+					when CRATE_ON_STORAGE then display_cell :crate_store, x, y
 				end
 			end
+		end
+		
+		def display_cell image, x, y
+			@container.copy(@images[image], :to => [X_COORDS[x], Y_COORDS[y]])
 		end
 		
 		def display_update_after_undo
@@ -161,45 +168,47 @@ module RSokoban::UI
 		
 		def display_cell_taking_care_of_outside char, x_coord, y_coord
 			case char
-				when WALL then @container.copy(@images[:wall], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when WALL then display_cell :wall, x_coord, y_coord
 				when FLOOR then display_floor_at x_coord, y_coord
-				when CRATE then @container.copy(@images[:crate], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
-				when STORAGE then @container.copy(@images[:store], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when CRATE then display_cell :crate, x_coord, y_coord
+				when STORAGE then display_cell :store, x_coord, y_coord
 				when MAN then display_man_at x_coord, y_coord
 				when MAN_ON_STORAGE then display_man_on_storage_at x_coord, y_coord
-				when CRATE_ON_STORAGE then @container.copy(@images[:crate_store], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when CRATE_ON_STORAGE then display_cell :crate_store, x_coord, y_coord
 			end
 		end
 		
+		# @todo optimize: @game.map_as_array outside of the loop and see if (0..height) is faster than height.downto(0)
 		def display_floor_at x_coord, y_coord
 			return if y_coord == 0
 			height = y_coord - 1
 			height.downto(0).each {|row|
-				break if @game.map_as_array[row][x_coord].nil?
-				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map_as_array[row][x_coord].chr)
-					@container.copy(@images[:floor], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				cell = @game.map_as_array[row][x_coord]
+				break if cell.nil?
+				if [WALL, FLOOR, CRATE, STORAGE].include?(cell.chr)
+					display_cell :floor, x_coord, y_coord
 					break
 				end
 			}
 		end
 		
-		def display_man_at x_coord, y_coord
+		def display_man_at x, y
 			case @last_move
-				when :up then @container.copy(@images[:man_up], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
-				when :down then @container.copy(@images[:man_down], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
-				when :left then @container.copy(@images[:man_left], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when :up then display_cell :man_up, x, y
+				when :down then display_cell :man_down, x, y
+				when :left then display_cell :man_left, x, y
 				else
-					@container.copy(@images[:man_right], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+					display_cell :man_right, x, y
 			end
 		end
 		
-		def display_man_on_storage_at x_coord, y_coord
+		def display_man_on_storage_at x, y
 			case @last_move
-				when :up then @container.copy(@images[:man_store_up], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
-				when :down then @container.copy(@images[:man_store_down], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
-				when :left then @container.copy(@images[:man_store_left], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when :up then display_cell :man_store_up, x, y
+				when :down then display_cell :man_store_down, x, y
+				when :left then display_cell :man_store_left, x, y
 				else
-					@container.copy(@images[:man_store_right], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+					display_cell :man_store_right, x, y
 			end
 		end
 		
