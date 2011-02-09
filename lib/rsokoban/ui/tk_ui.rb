@@ -195,7 +195,7 @@ module RSokoban::UI
 			@tk_frame_label = FrameOfLabels.new @tk_root
 			preload_images
 			init_map
-			init_buttons
+			@tk_frame_button = FrameOfButtons.new @tk_root
 			make_binding
 		end
 		
@@ -234,37 +234,6 @@ module RSokoban::UI
 			}
 		end
 		
-		def init_buttons
-			@tk_frame_button = TkFrame.new(@tk_root) do
-				grid('row' => 1, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
-				padx 5
-				pady 5
-			end
-			@tk_undo_button = TkButton.new(@tk_frame_button) do
-				text 'Undo'
-				grid('row'=> 0, 'column'=> 0)
-			end
-			@tk_redo_button = TkButton.new(@tk_frame_button) do
-				text 'Redo'
-				grid('row'=> 0, 'column'=> 1)
-			end
-			
-			@tk_retry_button = TkButton.new(@tk_frame_button) do
-				text 'Retry'
-				grid('row'=> 0, 'column'=> 2)
-			end
-			
-			@tk_level_button = TkButton.new(@tk_frame_button) do
-				text 'Level'
-				grid('row'=> 0, 'column'=> 3)
-			end
-			
-			@tk_next_level_button = TkButton.new(@tk_frame_button) do
-				text 'Next'
-				grid('row'=> 0, 'column'=> 4)
-			end
-		end
-		
 		# Bind user's actions
 		def make_binding
 			@tk_root.bind('Up') { move :up }
@@ -277,11 +246,11 @@ module RSokoban::UI
 			@tk_root.bind('Control-l') { load_level }
 			@tk_root.bind('Control-n') { next_level }
 			@tk_root.bind('F1') { help }
-			@tk_undo_button.command { undo }
-			@tk_redo_button.command { my_redo }
-			@tk_retry_button.command { start_level }
-			@tk_level_button.command { load_level }
-			@tk_next_level_button.command { next_level }
+			@tk_frame_button.undo_button.command { undo }
+			@tk_frame_button.redo_button.command { my_redo }
+			@tk_frame_button.retry_button.command { start_level }
+			@tk_frame_button.level_button.command { load_level }
+			@tk_frame_button.next_level_button.command { next_level }
 		end
 		
 		# Send the move to Level and process response.
@@ -385,6 +354,42 @@ module RSokoban::UI
 			@label_move.configure('text' => "Move: #{game.move_number}")
 		end
 		
+	end
+	
+	# @since 0.74.1
+	class FrameOfButtons
+		attr_reader :undo_button, :redo_button, :retry_button, :level_button, :next_level_button
+		
+		def initialize tk_root
+			@frame = TkFrame.new(tk_root) do
+				grid('row' => 1, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+				padx 5
+				pady 5
+			end
+			@undo_button = TkButton.new(@frame) do
+				text 'Undo'
+				grid('row'=> 0, 'column'=> 0)
+			end
+			@redo_button = TkButton.new(@frame) do
+				text 'Redo'
+				grid('row'=> 0, 'column'=> 1)
+			end
+			
+			@retry_button = TkButton.new(@frame) do
+				text 'Retry'
+				grid('row'=> 0, 'column'=> 2)
+			end
+			
+			@level_button = TkButton.new(@frame) do
+				text 'Level'
+				grid('row'=> 0, 'column'=> 3)
+			end
+			
+			@next_level_button = TkButton.new(@frame) do
+				text 'Next'
+				grid('row'=> 0, 'column'=> 4)
+			end
+		end
 	end
 	
 end
