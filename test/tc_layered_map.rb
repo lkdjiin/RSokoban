@@ -6,6 +6,12 @@ class TC_LayeredMap < Test::Unit::TestCase
 	          '#$$#',
 	          '#@ #',
 	          '####']
+						
+	MAP_2 = [ '####',
+	          '#*.#',
+	          '# $#',
+	          '#@ #',
+	          '####']
 	
 	FLOOR_1 = [ '####',
 	          '#  #',
@@ -67,6 +73,11 @@ class TC_LayeredMap < Test::Unit::TestCase
 	
 	def test_expected_storage
 		assert_equal STORAGE, @lay_map.what_is_on(1, 1)
+	end
+	
+	def test_expected_crate_on_storage
+		lay_map = LayeredMap.new(Map.new(MAP_2))
+		assert_equal CRATE_ON_STORAGE, lay_map.what_is_on(1, 1)
 	end
 	
 end

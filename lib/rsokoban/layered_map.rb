@@ -43,20 +43,21 @@ module RSokoban
 		# @param [Fixnum] y_coord y coordinate in the map
 		# @return [' ' | '#' | '.' | 'o' | '*']
 		# @todo I think we can optimize this algo
+		# @todo should accept too only one argument: a Position (or an object inherited from Position)
 		def what_is_on x_coord, y_coord
 			box = (@floor[y_coord][x_coord]).chr
-			if box == FLOOR
-				storage = Storage.new(x_coord, y_coord)
-				crate = Crate.new(x_coord, y_coord)
-				if @storages.include?(storage) and @crates.include?(crate)
-					box = CRATE_ON_STORAGE 
-				elsif @storages.include?(storage)
-					box = STORAGE
-				elsif @crates.include?(crate)
-					box = CRATE
-				end
+			return box if box == WALL
+			storage = Storage.new(x_coord, y_coord)
+			crate = Crate.new(x_coord, y_coord)
+			if @storages.include?(storage) and @crates.include?(crate)
+				CRATE_ON_STORAGE 
+			elsif @storages.include?(storage)
+				STORAGE
+			elsif @crates.include?(crate)
+				CRATE
+			else
+				FLOOR
 			end
-			box
 		end
 		
 		private
