@@ -79,7 +79,6 @@ case option[:ui]
 		game = RSokoban::GameFactory.create RSokoban::GamePortable, ui
 	when :tk
 		require "rsokoban/ui/tk_ui"
-		require "rsokoban/ui/tk_box"
 		require "rsokoban/ui/tk_dialogs"
 		game = RSokoban::GameFactory.create RSokoban::GameTk, 'fake ui'
 		game.ui = RSokoban::UI::TkUI.new(game)

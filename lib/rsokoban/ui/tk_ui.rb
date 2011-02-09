@@ -228,9 +228,6 @@ module RSokoban::UI
 		# @todo little improvement : reload @images[:outside] image only if there is something else
 		#   in the current map.
 		def reset_map
-			#~ @tk_map.each_index {|y_coord|
-				#~ @tk_map[y_coord].each_index {|x_coord| @images[:outside].display_at(x_coord, y_coord) }
-			#~ }
 			width = MAP_WIDTH * CELL_SIZE - 1
 			height = MAP_HEIGHT * CELL_SIZE - 1
 			@container.copy(@images[:outside], :to => [0, 0, width, height])
