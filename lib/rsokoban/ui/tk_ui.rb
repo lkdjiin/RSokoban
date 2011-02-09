@@ -381,4 +381,10 @@ module RSokoban::UI
 		
 	end
 	
+	# I am a frame attached to tk gui. I display information through some labels.
+	# @since 0.74.1
+	class FrameOfLabels
+	
+	end
+	
 end
