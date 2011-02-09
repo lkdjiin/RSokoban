@@ -1,6 +1,7 @@
 * tk: use one image for rendering, not an array (if possible ?)
 
 * big refactoring
+* tk: if using one image to render map, allow a big image for background/outside
 * don't restrict map size
 * gnome GUI (gtk only to be windows compatible ?)
 * give a try to rubygame ?
