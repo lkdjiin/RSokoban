@@ -1,11 +1,21 @@
 module RSokoban
 
-	# I separate element of the map from the floor/wall.
+	# I separate elements of the map from the floor/wall.
 	# @since 0.74.1
 	class LayeredMap
-	
-		attr_reader :floor, :man, :crates, :storages
+		# @return [Array<String>] map with only walls and floor
+		attr_reader :floor
 		
+		# @return [Man]
+		attr_reader :man
+		
+		# @return [Array<Crate>]
+		attr_reader :crates
+		
+		# @return [Array<Storage>]
+		attr_reader :storages
+		
+		# @param [Map|Array<String>] map
 		def initialize map
 			raise ArgumentError unless [Map, Array].include?(map.class)
 			@map = map
@@ -32,6 +42,7 @@ module RSokoban
 		# @param [Fixnum] x_coord x coordinate in the map
 		# @param [Fixnum] y_coord y coordinate in the map
 		# @return [' ' | '#' | '.' | 'o' | '*']
+		# @todo I think we can optimize this algo
 		def what_is_on x_coord, y_coord
 			box = (@floor[y_coord][x_coord]).chr
 			if box == FLOOR
