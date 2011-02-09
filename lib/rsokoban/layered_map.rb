@@ -28,6 +28,26 @@ module RSokoban
 			@map_array
 		end
 		
+		# Get the content of box x_coord, y_coord
+		# @param [Fixnum] x_coord x coordinate in the map
+		# @param [Fixnum] y_coord y coordinate in the map
+		# @return [' ' | '#' | '.' | 'o' | '*']
+		def what_is_on x_coord, y_coord
+			box = (@floor[y_coord][x_coord]).chr
+			if box == FLOOR
+				storage = Storage.new(x_coord, y_coord)
+				crate = Crate.new(x_coord, y_coord)
+				if @storages.include?(storage) and @crates.include?(crate)
+					box = CRATE_ON_STORAGE 
+				elsif @storages.include?(storage)
+					box = STORAGE
+				elsif @crates.include?(crate)
+					box = CRATE
+				end
+			end
+			box
+		end
+		
 		private
 		
 		# Draw the crates for map output
@@ -53,26 +73,6 @@ module RSokoban
 		
 		def put_man_on_storage_in_map
 			@map_array[@man.y][@man.x] = MAN_ON_STORAGE
-		end
-		
-		# Get the content of box x_coord, y_coord
-		# @param [Fixnum] x_coord x coordinate in the map
-		# @param [Fixnum] y_coord y coordinate in the map
-		# @return [' ' | '#' | '.' | 'o' | '*']
-		def what_is_on x_coord, y_coord
-			box = (@floor[y_coord][x_coord]).chr
-			if box == FLOOR
-				storage = Storage.new(x_coord, y_coord)
-				crate = Crate.new(x_coord, y_coord)
-				if @storages.include?(storage) and @crates.include?(crate)
-					box = CRATE_ON_STORAGE 
-				elsif @storages.include?(storage)
-					box = STORAGE
-				elsif @crates.include?(crate)
-					box = CRATE
-				end
-			end
-			box
 		end
 		
 		# Removes all storages locations, all crates and the man, leaving only walls and floor.

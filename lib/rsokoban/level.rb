@@ -159,13 +159,13 @@ module RSokoban
 		def wall? direction
 			case direction
 				when :up
-					box = what_is_on(@layered_map.man.x, @layered_map.man.y-1)
+					box = @layered_map.what_is_on(@layered_map.man.x, @layered_map.man.y-1)
 				when :down
-					box = what_is_on(@layered_map.man.x, @layered_map.man.y+1)
+					box = @layered_map.what_is_on(@layered_map.man.x, @layered_map.man.y+1)
 				when :left
-					box = what_is_on(@layered_map.man.x-1, @layered_map.man.y)
+					box = @layered_map.what_is_on(@layered_map.man.x-1, @layered_map.man.y)
 				when :right
-					box = what_is_on(@layered_map.man.x+1, @layered_map.man.y)
+					box = @layered_map.what_is_on(@layered_map.man.x+1, @layered_map.man.y)
 			end
 			return(box == WALL)
 		end
@@ -177,16 +177,16 @@ module RSokoban
 			case direction
 				when :up
 					near = crate_up?
-					box_behind = what_is_on(@layered_map.man.x, @layered_map.man.y-2)
+					box_behind = @layered_map.what_is_on(@layered_map.man.x, @layered_map.man.y-2)
 				when :down
 					near = crate_down?
-					box_behind = what_is_on(@layered_map.man.x, @layered_map.man.y+2)
+					box_behind = @layered_map.what_is_on(@layered_map.man.x, @layered_map.man.y+2)
 				when :left
 					near = crate_left?
-					box_behind = what_is_on(@layered_map.man.x-2, @layered_map.man.y)
+					box_behind = @layered_map.what_is_on(@layered_map.man.x-2, @layered_map.man.y)
 				when :right
 					near = crate_right?
-					box_behind = what_is_on(@layered_map.man.x+2, @layered_map.man.y)
+					box_behind = @layered_map.what_is_on(@layered_map.man.x+2, @layered_map.man.y)
 			end
 			near and box_behind == WALL
 		end
@@ -208,7 +208,7 @@ module RSokoban
 		# @param [Fixnum] y_coord y coordinate in the map
 		# @return [true|false]
 		def crate?(x_coord, y_coord)
-			box = what_is_on(x_coord, y_coord)
+			box = @layered_map.what_is_on(x_coord, y_coord)
 			box == CRATE or box == CRATE_ON_STORAGE
 		end
 		
@@ -242,26 +242,6 @@ module RSokoban
 		
 		def crate_two_steps_right?
 			crate?(@layered_map.man.x+2, @layered_map.man.y)
-		end
-
-		# Get the content of box x_coord, y_coord
-		# @param [Fixnum] x_coord x coordinate in the map
-		# @param [Fixnum] y_coord y coordinate in the map
-		# @return [' ' | '#' | '.' | 'o' | '*']
-		def what_is_on x_coord, y_coord
-			box = (@layered_map.floor[y_coord][x_coord]).chr
-			if box == FLOOR
-				storage = Storage.new(x_coord, y_coord)
-				crate = Crate.new(x_coord, y_coord)
-				if @layered_map.storages.include?(storage) and @layered_map.crates.include?(crate)
-					box = CRATE_ON_STORAGE 
-				elsif @layered_map.storages.include?(storage)
-					box = STORAGE
-				elsif @layered_map.crates.include?(crate)
-					box = CRATE
-				end
-			end
-			box
 		end
 		
 	end

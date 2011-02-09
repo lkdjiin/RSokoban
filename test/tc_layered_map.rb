@@ -53,4 +53,20 @@ class TC_LayeredMap < Test::Unit::TestCase
 		assert_equal MAP_1, @lay_map.map_as_array
 	end
 	
+	def test_expected_wall
+		assert_equal WALL, @lay_map.what_is_on(0, 0)
+	end
+	
+	def test_expected_floor
+		assert_equal FLOOR, @lay_map.what_is_on(2, 3)
+	end
+	
+	def test_expected_crate
+		assert_equal CRATE, @lay_map.what_is_on(1, 2)
+	end
+	
+	def test_expected_storage
+		assert_equal STORAGE, @lay_map.what_is_on(1, 1)
+	end
+	
 end
