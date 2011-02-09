@@ -2,8 +2,8 @@ module RSokoban::UI
 	
 	# I am a GUI using tk library.
 	# @note I need the tk-img extension library.
+	# @note This code is untestable and untested. In fact, I don't know HOW to test it !
 	# @since 0.73
-	# @todo need some examples and more documentation for private methods
 	class TkUI
 		include RSokoban
 		
@@ -13,6 +13,7 @@ module RSokoban::UI
 			@game = game
 			@last_move = :up
 			@tk_map = []
+			@images = {}
 			init_gui
 			start_level
 		end
@@ -23,7 +24,30 @@ module RSokoban::UI
 			Tk.mainloop 
 		end
 		
-		private
+		def undo
+			result = @game.undo
+			update_move_information
+			display_update_after_undo
+		end
+		
+		def my_redo
+			result = @game.redo
+			update_move_information
+			display_update_after_undo
+		end
+		
+		def help
+			HelpDialog.new(@tk_root, "RSokoban Help")
+		end
+		
+		def about
+			text = "RSokoban #{File.read($RSOKOBAN_PATH + '/VERSION').strip} \n"
+			text += "This is free software !\n"
+			text += "Copyright 2011, Xavier Nayrac\n"
+			text += "Licensed under the GPL-3\n"
+			text += "Contact: xavier.nayrac@gmail.com"
+			Tk::messageBox :message => text, :title => 'About'
+		end
 		
 		def next_level
 			begin
@@ -44,10 +68,10 @@ module RSokoban::UI
 		end
 		
 		def load_level
-			d =  TkLevelDialog.new(@tk_root, "Load a level")
-			return unless d.ok?
+			dial =  TkLevelDialog.new(@tk_root, "Load a level")
+			return unless dial.ok?
 			begin
-				@game.load_level d.value
+				@game.load_level dial.value
 				init_level
 			rescue LevelNumberTooHighError
 				Tk::messageBox :message => "Sorry, no level ##{@game.level_number} in this set."
@@ -55,12 +79,14 @@ module RSokoban::UI
 		end
 		
 		def load_set
-			d =  SetDialog.new(@tk_root, "Load a set")
-			return unless d.ok?
-			return if d.value.nil?
-			@game.load_a_new_set d.value
+			dial =  SetDialog.new(@tk_root, "Load a set")
+			return unless dial.ok?
+			return if dial.value.nil?
+			@game.load_a_new_set dial.value
 			init_level
 		end
+		
+		private
 		
 		# For now, map size is restricted to 19x16 on screen.
 		def init_level
@@ -82,13 +108,13 @@ module RSokoban::UI
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
 				case @game.map_as_array[y][x].chr
-					when WALL then @wall.display_at x, y
-					when FLOOR then @floor.display_at x, y
-					when CRATE then @crate.display_at x, y
-					when STORAGE then @store.display_at x, y
+					when WALL then @images[:wall].display_at x, y
+					when FLOOR then @images[:floor].display_at x, y
+					when CRATE then @images[:crate].display_at x, y
+					when STORAGE then @images[:store].display_at x, y
 					when MAN then display_man_at x, y
 					when MAN_ON_STORAGE then display_man_on_storage_at x, y
-					when CRATE_ON_STORAGE then @crate_store.display_at x, y
+					when CRATE_ON_STORAGE then @images[:crate_store].display_at x, y
 				end
 			end
 		end
@@ -106,66 +132,66 @@ module RSokoban::UI
 		
 		# Display the initial map on screen.
 		def display_initial
-			y = 0
+			y_coord = 0
 			@game.map_as_array.each do |row|
 				# find first wall
-				x = row.index(RSokoban::WALL)
+				x_coord = row.index(RSokoban::WALL)
 				line = row.strip
 				line.each_char do |char|
-					display_cell_taking_care_of_outside char, x, y
-					x += 1
+					display_cell_taking_care_of_outside char, x_coord, y_coord
+					x_coord += 1
 				end
-				y += 1
+				y_coord += 1
 			end
 		end
 		
-		def display_cell_taking_care_of_outside char, x, y
+		def display_cell_taking_care_of_outside char, x_coord, y_coord
 			case char
-				when WALL then @wall.display_at x, y
-				when FLOOR then display_floor_at x, y
-				when CRATE then @crate.display_at x, y
-				when STORAGE then @store.display_at x, y
-				when MAN then display_man_at x, y
-				when MAN_ON_STORAGE then display_man_on_storage_at x, y
-				when CRATE_ON_STORAGE then @crate_store.display_at x, y
+				when WALL then @images[:wall].display_at x_coord, y_coord
+				when FLOOR then display_floor_at x_coord, y_coord
+				when CRATE then @images[:crate].display_at x_coord, y_coord
+				when STORAGE then @images[:store].display_at x_coord, y_coord
+				when MAN then display_man_at x_coord, y_coord
+				when MAN_ON_STORAGE then display_man_on_storage_at x_coord, y_coord
+				when CRATE_ON_STORAGE then @images[:crate_store].display_at x_coord, y_coord
 			end
 		end
 		
-		def display_floor_at x, y
-			return if y == 0
-			height = y - 1
+		def display_floor_at x_coord, y_coord
+			return if y_coord == 0
+			height = y_coord - 1
 			height.downto(0).each {|row|
-				break if @game.map_as_array[row][x].nil?
-				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map_as_array[row][x].chr)
-					@floor.display_at x, y
+				break if @game.map_as_array[row][x_coord].nil?
+				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map_as_array[row][x_coord].chr)
+					@images[:floor].display_at x_coord, y_coord
 					break
 				end
 			}
 		end
 		
-		def display_man_at x, y
+		def display_man_at x_coord, y_coord
 			case @last_move
-				when :up then @man_up.display_at x, y
-				when :down then @man_down.display_at x, y
-				when :left then @man_left.display_at x, y
+				when :up then @images[:man_up].display_at x_coord, y_coord
+				when :down then @images[:man_down].display_at x_coord, y_coord
+				when :left then @images[:man_left].display_at x_coord, y_coord
 				else
-					@man_right.display_at x, y
+					@images[:man_right].display_at x_coord, y_coord
 			end
 		end
 		
-		def display_man_on_storage_at x, y
+		def display_man_on_storage_at x_coord, y_coord
 			case @last_move
-				when :up then @man_store_up.display_at x, y
-				when :down then @man_store_down.display_at x, y
-				when :left then @man_store_left.display_at x, y
+				when :up then @images[:man_store_up].display_at x_coord, y_coord
+				when :down then @images[:man_store_down].display_at x_coord, y_coord
+				when :left then @images[:man_store_left].display_at x_coord, y_coord
 				else
-					@man_store_right.display_at x, y
+					@images[:man_store_right].display_at x_coord, y_coord
 			end
 		end
 		
 		def init_gui
 			init_root
-			init_menu
+			Menu.new(@tk_root, self)
 			init_labels
 			preload_images
 			init_map
@@ -179,31 +205,6 @@ module RSokoban::UI
 				minsize(400, 400)
 				resizable(false, false)
 			end
-		end
-		
-		def init_menu
-			TkOption.add '*tearOff', 0
-			menubar = TkMenu.new(@tk_root)
-			@tk_root['menu'] = menubar
-			
-			file = TkMenu.new(menubar)
-			helpm = TkMenu.new(menubar)
-			menubar.add :cascade, :menu => file, :label => 'File'
-			menubar.add :cascade, :menu => helpm, :label => 'Help'
-			
-			file.add :command, :label => 'Load level', :command => proc{load_level}, :accelerator => 'Ctrl+L'
-			file.add :command, :label => 'Load set', :command => proc{load_set}
-			file.add :separator
-			file.add :command, :label => 'Undo', :command => proc{undo}, :accelerator => 'Ctrl+Z'
-			file.add :command, :label => 'Redo', :command => proc{my_redo}, :accelerator => 'Ctrl+Y'
-			file.add :command, :label => 'Restart level', :command => proc{start_level}, :accelerator => 'Ctrl+R'
-			file.add :command, :label => 'Next level', :command => proc{next_level}, :accelerator => 'Ctrl+N'
-			file.add :separator
-			file.add :command, :label => 'Quit', :command => proc{exit}
-			
-			helpm.add :command, :label => 'Help', :command => proc{help}, :accelerator => 'F1'
-			helpm.add :separator
-			helpm.add :command, :label => 'About', :command => proc{about}
 		end
 		
 		def init_labels
@@ -252,11 +253,11 @@ module RSokoban::UI
 		end
 		
 		# Reset all the map with 'outside' tile.
-		# @todo little improvement : reload @outside image only if there is something else
+		# @todo little improvement : reload @images[:outside] image only if there is something else
 		#   in the current map.
 		def reset_map
-			@tk_map.each_index {|y|
-				@tk_map[y].each_index {|x| @outside.display_at(x, y) }
+			@tk_map.each_index {|y_coord|
+				@tk_map[y_coord].each_index {|x_coord| @images[:outside].display_at(x_coord, y_coord) }
 			}
 		end
 		
@@ -310,18 +311,6 @@ module RSokoban::UI
 			@tk_next_level_button.command { next_level }
 		end
 		
-		def undo
-			result = @game.undo
-			update_move_information
-			display_update_after_undo
-		end
-		
-		def my_redo
-			result = @game.redo
-			update_move_information
-			display_update_after_undo
-		end
-		
 		# Send the move to Level and process response.
 		# @param [:ip, :down, :left, :right]
 		def move symb
@@ -341,33 +330,53 @@ module RSokoban::UI
 		
 		def preload_images
 			dir = $RSOKOBAN_PATH + '/skins/default/'
-			@wall = TkBox.new(dir + 'wall.bmp', @tk_map)
-			@crate = TkBox.new(dir + 'crate.bmp', @tk_map)
-			@floor = TkBox.new(dir + 'floor.bmp', @tk_map)
-			@store = TkBox.new(dir + 'store.bmp', @tk_map)
-			@man_up = TkBox.new(dir + 'man_up.bmp', @tk_map)
-			@man_down = TkBox.new(dir + 'man_down.bmp', @tk_map)
-			@man_left = TkBox.new(dir + 'man_left.bmp', @tk_map)
-			@man_right = TkBox.new(dir + 'man_right.bmp', @tk_map)
-			@crate_store = TkBox.new(dir + 'crate_store.bmp', @tk_map)
-			@man_store_up = TkBox.new(dir + 'man_store_up.bmp', @tk_map)
-			@man_store_down = TkBox.new(dir + 'man_store_down.bmp', @tk_map)
-			@man_store_left = TkBox.new(dir + 'man_store_left.bmp', @tk_map)
-			@man_store_right = TkBox.new(dir + 'man_store_right.bmp', @tk_map)
-			@outside = TkBox.new(dir + 'outside.bmp', @tk_map)
+			@images[:wall] = TkBox.new(dir + 'wall.bmp', @tk_map)
+			@images[:crate] = TkBox.new(dir + 'crate.bmp', @tk_map)
+			@images[:floor] = TkBox.new(dir + 'floor.bmp', @tk_map)
+			@images[:store] = TkBox.new(dir + 'store.bmp', @tk_map)
+			@images[:man_up] = TkBox.new(dir + 'man_up.bmp', @tk_map)
+			@images[:man_down] = TkBox.new(dir + 'man_down.bmp', @tk_map)
+			@images[:man_left] = TkBox.new(dir + 'man_left.bmp', @tk_map)
+			@images[:man_right] = TkBox.new(dir + 'man_right.bmp', @tk_map)
+			@images[:crate_store] = TkBox.new(dir + 'crate_store.bmp', @tk_map)
+			@images[:man_store_up] = TkBox.new(dir + 'man_store_up.bmp', @tk_map)
+			@images[:man_store_down] = TkBox.new(dir + 'man_store_down.bmp', @tk_map)
+			@images[:man_store_left] = TkBox.new(dir + 'man_store_left.bmp', @tk_map)
+			@images[:man_store_right] = TkBox.new(dir + 'man_store_right.bmp', @tk_map)
+			@images[:outside] = TkBox.new(dir + 'outside.bmp', @tk_map)
 		end
 		
-		def help
-			HelpDialog.new(@tk_root, "RSokoban Help")
-		end
+	end
+	
+	# Menu bar attached to tk gui.
+	# @since 0.74.1
+	class Menu
 		
-		def about
-			text = "RSokoban #{File.read($RSOKOBAN_PATH + '/VERSION').strip} \n"
-			text += "This is free software !\n"
-			text += "Copyright 2011, Xavier Nayrac\n"
-			text += "Licensed under the GPL-3\n"
-			text += "Contact: xavier.nayrac@gmail.com"
-			Tk::messageBox :message => text, :title => 'About'
+		# @param [TkRoot] tk_root
+		# @param [TkUI] object_root
+		def initialize tk_root, object_root
+			TkOption.add '*tearOff', 0
+			menubar = TkMenu.new(tk_root)
+			tk_root['menu'] = menubar
+			
+			file = TkMenu.new(menubar)
+			helpm = TkMenu.new(menubar)
+			menubar.add :cascade, :menu => file, :label => 'File'
+			menubar.add :cascade, :menu => helpm, :label => 'Help'
+			
+			file.add :command, :label => 'Load level', :command => proc{object_root.load_level}, :accelerator => 'Ctrl+L'
+			file.add :command, :label => 'Load set', :command => proc{object_root.load_set}
+			file.add :separator
+			file.add :command, :label => 'Undo', :command => proc{object_root.undo}, :accelerator => 'Ctrl+Z'
+			file.add :command, :label => 'Redo', :command => proc{object_root.my_redo}, :accelerator => 'Ctrl+Y'
+			file.add :command, :label => 'Restart level', :command => proc{object_root.start_level}, :accelerator => 'Ctrl+R'
+			file.add :command, :label => 'Next level', :command => proc{object_root.next_level}, :accelerator => 'Ctrl+N'
+			file.add :separator
+			file.add :command, :label => 'Quit', :command => proc{exit}
+			
+			helpm.add :command, :label => 'Help', :command => proc{object_root.help}, :accelerator => 'F1'
+			helpm.add :separator
+			helpm.add :command, :label => 'About', :command => proc{object_root.about}
 		end
 		
 	end
