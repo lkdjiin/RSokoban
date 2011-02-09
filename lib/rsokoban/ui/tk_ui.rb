@@ -7,12 +7,18 @@ module RSokoban::UI
 	class TkUI
 		include RSokoban
 		
+		# Number of cells in a row
+		MAP_WIDTH = 19
+		# Number of cells in a column
+		MAP_HEIGHT = 16
+		# Cell size in pixels, a cell is a square
+		CELL_SIZE = 30
+		
 		# Build and initialize a GUI with the Tk tool kit.
 		# @param [Game] game Where we get the logic.
 		def initialize game
 			@game = game
 			@last_move = :up
-			@tk_map = []
 			@images = {}
 			
 			init_root
@@ -116,13 +122,13 @@ module RSokoban::UI
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
 				case @game.map_as_array[y][x].chr
-					when WALL then @images[:wall].display_at x, y
-					when FLOOR then @images[:floor].display_at x, y
-					when CRATE then @images[:crate].display_at x, y
-					when STORAGE then @images[:store].display_at x, y
+					when WALL then @container.copy(@images[:wall], :to => [x * CELL_SIZE, y * CELL_SIZE])
+					when FLOOR then @container.copy(@images[:floor], :to => [x * CELL_SIZE, y * CELL_SIZE])
+					when CRATE then @container.copy(@images[:crate], :to => [x * CELL_SIZE, y * CELL_SIZE])
+					when STORAGE then @container.copy(@images[:store], :to => [x * CELL_SIZE, y * CELL_SIZE])
 					when MAN then display_man_at x, y
 					when MAN_ON_STORAGE then display_man_on_storage_at x, y
-					when CRATE_ON_STORAGE then @images[:crate_store].display_at x, y
+					when CRATE_ON_STORAGE then @container.copy(@images[:crate_store], :to => [x * CELL_SIZE, y * CELL_SIZE])
 				end
 			end
 		end
@@ -155,13 +161,13 @@ module RSokoban::UI
 		
 		def display_cell_taking_care_of_outside char, x_coord, y_coord
 			case char
-				when WALL then @images[:wall].display_at x_coord, y_coord
+				when WALL then @container.copy(@images[:wall], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 				when FLOOR then display_floor_at x_coord, y_coord
-				when CRATE then @images[:crate].display_at x_coord, y_coord
-				when STORAGE then @images[:store].display_at x_coord, y_coord
+				when CRATE then @container.copy(@images[:crate], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when STORAGE then @container.copy(@images[:store], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 				when MAN then display_man_at x_coord, y_coord
 				when MAN_ON_STORAGE then display_man_on_storage_at x_coord, y_coord
-				when CRATE_ON_STORAGE then @images[:crate_store].display_at x_coord, y_coord
+				when CRATE_ON_STORAGE then @container.copy(@images[:crate_store], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 			end
 		end
 		
@@ -171,7 +177,7 @@ module RSokoban::UI
 			height.downto(0).each {|row|
 				break if @game.map_as_array[row][x_coord].nil?
 				if [WALL, FLOOR, CRATE, STORAGE].include?(@game.map_as_array[row][x_coord].chr)
-					@images[:floor].display_at x_coord, y_coord
+					@container.copy(@images[:floor], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 					break
 				end
 			}
@@ -179,21 +185,21 @@ module RSokoban::UI
 		
 		def display_man_at x_coord, y_coord
 			case @last_move
-				when :up then @images[:man_up].display_at x_coord, y_coord
-				when :down then @images[:man_down].display_at x_coord, y_coord
-				when :left then @images[:man_left].display_at x_coord, y_coord
+				when :up then @container.copy(@images[:man_up], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when :down then @container.copy(@images[:man_down], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when :left then @container.copy(@images[:man_left], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 				else
-					@images[:man_right].display_at x_coord, y_coord
+					@container.copy(@images[:man_right], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 			end
 		end
 		
 		def display_man_on_storage_at x_coord, y_coord
 			case @last_move
-				when :up then @images[:man_store_up].display_at x_coord, y_coord
-				when :down then @images[:man_store_down].display_at x_coord, y_coord
-				when :left then @images[:man_store_left].display_at x_coord, y_coord
+				when :up then @container.copy(@images[:man_store_up], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when :down then @container.copy(@images[:man_store_down], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
+				when :left then @container.copy(@images[:man_store_left], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 				else
-					@images[:man_store_right].display_at x_coord, y_coord
+					@container.copy(@images[:man_store_right], :to => [x_coord * CELL_SIZE, y_coord * CELL_SIZE])
 			end
 		end
 		
@@ -208,18 +214,13 @@ module RSokoban::UI
 		# Build the map of labels. TkBoxs of the game will be displayed on those labels.
 		def init_map
 			row_in_grid = 5
-			(0...16).each {|row_index|
-				row = []
-				(0...19).each {|col_index|
-					label = TkLabel.new(@tk_root) do
-					 	grid('row'=> row_in_grid, 'column'=> col_index, 'padx' => 0, 'pady' => 0, 'ipadx' => 0, 'ipady' => 0)
-					end
-					label['borderwidth'] = 0
-					row.push label
-				}
-				@tk_map.push row
-				row_in_grid += 1
-			}
+			
+			@tk_map_label = TkLabel.new(@tk_root) do
+				grid('row'=> row_in_grid, 'column'=> 0, 'padx' => 0, 'pady' => 0, 'ipadx' => 0, 'ipady' => 0)
+			end
+			@container = TkPhotoImage.new('height' => MAP_HEIGHT * CELL_SIZE, 'width' => MAP_WIDTH * CELL_SIZE)
+			@tk_map_label .configure('image' => @container)
+			
 			reset_map
 		end
 		
@@ -227,9 +228,12 @@ module RSokoban::UI
 		# @todo little improvement : reload @images[:outside] image only if there is something else
 		#   in the current map.
 		def reset_map
-			@tk_map.each_index {|y_coord|
-				@tk_map[y_coord].each_index {|x_coord| @images[:outside].display_at(x_coord, y_coord) }
-			}
+			#~ @tk_map.each_index {|y_coord|
+				#~ @tk_map[y_coord].each_index {|x_coord| @images[:outside].display_at(x_coord, y_coord) }
+			#~ }
+			width = MAP_WIDTH * CELL_SIZE - 1
+			height = MAP_HEIGHT * CELL_SIZE - 1
+			@container.copy(@images[:outside], :to => [0, 0, width, height])
 		end
 		
 		# Bind user's actions
@@ -273,7 +277,7 @@ module RSokoban::UI
 			images = [:wall, :crate, :floor, :store, :man_up, :man_down, :man_left, :man_right, :crate_store,
 			:man_store_up, :man_store_down, :man_store_left, :man_store_right, :outside]
 			images.each do |image|
-				@images[image] = TkBox.new(dir + image.to_s + '.bmp', @tk_map)
+				@images[image] =TkPhotoImage.new('file' => dir + image.to_s + '.bmp', 'height' => 0, 'width' => 0)
 			end
 		end
 		
