@@ -10,8 +10,7 @@ Gem::Specification.new do |s|
   s.summary = 'Clone of the Sokoban game.'
   s.homepage = 'https://github.com/lkdjiin/RSokoban/wiki'
   s.description = %q{RSokoban is a clone of the famous Sokoban game.
-I wrote this program just to improve my skills in Ruby. Currently, you can play only in a console window.
-Enjoy the game !}
+I wrote this program just to improve my skills in Ruby. Enjoy the game !}
 	
 	readmes = FileList.new('*') do |list|
 		list.exclude(/(^|[^.a-z])[a-z]+/)
