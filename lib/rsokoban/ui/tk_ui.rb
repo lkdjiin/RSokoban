@@ -283,10 +283,12 @@ module RSokoban::UI
 		def preload_images
 			dir = $RSOKOBAN_PATH + '/skins/default/'
 			images = [:wall, :crate, :floor, :store, :man_up, :man_down, :man_left, :man_right, :crate_store,
-			:man_store_up, :man_store_down, :man_store_left, :man_store_right, :outside]
+			:man_store_up, :man_store_down, :man_store_left, :man_store_right]
 			images.each do |image|
 				@images[image] =TkPhotoImage.new('file' => dir + image.to_s + '.bmp', 'height' => CELL_SIZE, 'width' => CELL_SIZE)
 			end
+			
+			@images[:outside] =TkPhotoImage.new('file' => dir + 'outside.bmp', 'height' => 0, 'width' => 0)
 		end
 		
 	end
