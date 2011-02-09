@@ -227,6 +227,8 @@ module RSokoban::UI
 			@tk_map_label = TkLabel.new(@tk_root) do
 				grid('row'=> row_in_grid, 'column'=> 0, 'padx' => 0, 'pady' => 0, 'ipadx' => 0, 'ipady' => 0)
 			end
+			@tk_map_label['height'] = MAP_HEIGHT * CELL_SIZE
+			@tk_map_label['width'] = MAP_WIDTH * CELL_SIZE
 			@container = TkPhotoImage.new('height' => MAP_HEIGHT * CELL_SIZE, 'width' => MAP_WIDTH * CELL_SIZE)
 			@tk_map_label .configure('image' => @container)
 			
@@ -283,7 +285,7 @@ module RSokoban::UI
 			images = [:wall, :crate, :floor, :store, :man_up, :man_down, :man_left, :man_right, :crate_store,
 			:man_store_up, :man_store_down, :man_store_left, :man_store_right, :outside]
 			images.each do |image|
-				@images[image] =TkPhotoImage.new('file' => dir + image.to_s + '.bmp', 'height' => 0, 'width' => 0)
+				@images[image] =TkPhotoImage.new('file' => dir + image.to_s + '.bmp', 'height' => CELL_SIZE, 'width' => CELL_SIZE)
 			end
 		end
 		
