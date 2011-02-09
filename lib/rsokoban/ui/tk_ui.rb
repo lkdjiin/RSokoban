@@ -14,7 +14,15 @@ module RSokoban::UI
 			@last_move = :up
 			@tk_map = []
 			@images = {}
-			init_gui
+			
+			init_root
+			Menu.new(@tk_root, self)
+			@tk_frame_label = FrameOfLabels.new @tk_root
+			preload_images
+			init_map
+			@tk_frame_button = FrameOfButtons.new @tk_root
+			make_binding
+			
 			start_level
 		end
 		
@@ -189,16 +197,6 @@ module RSokoban::UI
 			end
 		end
 		
-		def init_gui
-			init_root
-			Menu.new(@tk_root, self)
-			@tk_frame_label = FrameOfLabels.new @tk_root
-			preload_images
-			init_map
-			@tk_frame_button = FrameOfButtons.new @tk_root
-			make_binding
-		end
-		
 		def init_root
 			@tk_root = TkRoot.new do
 				title "RSokoban " + File.read($RSOKOBAN_PATH + '/VERSION').strip
@@ -272,20 +270,11 @@ module RSokoban::UI
 		
 		def preload_images
 			dir = $RSOKOBAN_PATH + '/skins/default/'
-			@images[:wall] = TkBox.new(dir + 'wall.bmp', @tk_map)
-			@images[:crate] = TkBox.new(dir + 'crate.bmp', @tk_map)
-			@images[:floor] = TkBox.new(dir + 'floor.bmp', @tk_map)
-			@images[:store] = TkBox.new(dir + 'store.bmp', @tk_map)
-			@images[:man_up] = TkBox.new(dir + 'man_up.bmp', @tk_map)
-			@images[:man_down] = TkBox.new(dir + 'man_down.bmp', @tk_map)
-			@images[:man_left] = TkBox.new(dir + 'man_left.bmp', @tk_map)
-			@images[:man_right] = TkBox.new(dir + 'man_right.bmp', @tk_map)
-			@images[:crate_store] = TkBox.new(dir + 'crate_store.bmp', @tk_map)
-			@images[:man_store_up] = TkBox.new(dir + 'man_store_up.bmp', @tk_map)
-			@images[:man_store_down] = TkBox.new(dir + 'man_store_down.bmp', @tk_map)
-			@images[:man_store_left] = TkBox.new(dir + 'man_store_left.bmp', @tk_map)
-			@images[:man_store_right] = TkBox.new(dir + 'man_store_right.bmp', @tk_map)
-			@images[:outside] = TkBox.new(dir + 'outside.bmp', @tk_map)
+			images = [:wall, :crate, :floor, :store, :man_up, :man_down, :man_left, :man_right, :crate_store,
+			:man_store_up, :man_store_down, :man_store_left, :man_store_right, :outside]
+			images.each do |image|
+				@images[image] = TkBox.new(dir + image.to_s + '.bmp', @tk_map)
+			end
 		end
 		
 	end
