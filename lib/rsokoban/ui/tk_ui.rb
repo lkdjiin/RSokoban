@@ -26,13 +26,13 @@ module RSokoban::UI
 		
 		def undo
 			result = @game.undo
-			update_move_information
+			@tk_frame_label.update_move_information @game
 			display_update_after_undo
 		end
 		
 		def my_redo
 			result = @game.redo
-			update_move_information
+			@tk_frame_label.update_move_information @game
 			display_update_after_undo
 		end
 		
@@ -94,7 +94,7 @@ module RSokoban::UI
 				Tk::messageBox :message => "Sorry, level '#{@game.level_title}' is too big to be displayed."
 				@game.restart_set
 			end
-			reset_labels
+			@tk_frame_label.reset_labels @game
 			reset_map
 			display_initial
 		end
@@ -192,7 +192,7 @@ module RSokoban::UI
 		def init_gui
 			init_root
 			Menu.new(@tk_root, self)
-			init_labels
+			@tk_frame_label = FrameOfLabels.new @tk_root
 			preload_images
 			init_map
 			init_buttons
@@ -205,33 +205,6 @@ module RSokoban::UI
 				minsize(400, 400)
 				resizable(false, false)
 			end
-		end
-		
-		def init_labels
-			@tk_frame_label = TkFrame.new(@tk_root) do
-				grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
-				padx 5
-				pady 5
-			end
-			@tk_label_set = TkLabel.new(@tk_frame_label) do
-			 	grid('row' => 0, 'column' => 0, 'sticky' => 'w')
-			end
-			@tk_label_level = TkLabel.new(@tk_frame_label) do
-				grid('row'=>1, 'column'=> 0, 'sticky' => 'w')
-			end
-			@tk_label_move = TkLabel.new(@tk_frame_label) do
-				grid('row'=>2, 'column'=>0, 'sticky' => 'w')
-			end
-		end
-		
-		def reset_labels
-			@tk_label_set.configure('text' => "Set: #{@game.set_title}")
-			@tk_label_level.configure('text' => "Level: #{@game.level_title} (#{@game.level_number}/#{@game.set_size})")
-			update_move_information
-		end
-		
-		def update_move_information
-			@tk_label_move.configure('text' => "Move: #{@game.move_number}")
 		end
 		
 		# Build the map of labels. TkBoxs of the game will be displayed on those labels.
@@ -317,7 +290,7 @@ module RSokoban::UI
 			@last_move = symb
 			result = @game.move symb
 			unless result.error?
-				update_move_information
+				@tk_frame_label.update_move_information @game
 				display_update
 			end
 			if result.win?
@@ -384,7 +357,34 @@ module RSokoban::UI
 	# I am a frame attached to tk gui. I display information through some labels.
 	# @since 0.74.1
 	class FrameOfLabels
-	
+		
+		def initialize tk_root
+			@frame = TkFrame.new(tk_root) do
+				grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+				padx 5
+				pady 5
+			end
+			@label_set = TkLabel.new(@frame) do
+			 	grid('row' => 0, 'column' => 0, 'sticky' => 'w')
+			end
+			@label_level = TkLabel.new(@frame) do
+				grid('row'=>1, 'column'=> 0, 'sticky' => 'w')
+			end
+			@label_move = TkLabel.new(@frame) do
+				grid('row'=>2, 'column'=>0, 'sticky' => 'w')
+			end
+		end
+		
+		def reset_labels game
+			@label_set.configure('text' => "Set: #{game.set_title}")
+			@label_level.configure('text' => "Level: #{game.level_title} (#{game.level_number}/#{game.set_size})")
+			update_move_information game
+		end
+		
+		def update_move_information game
+			@label_move.configure('text' => "Move: #{game.move_number}")
+		end
+		
 	end
 	
 end
