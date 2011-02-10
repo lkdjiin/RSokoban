@@ -1,6 +1,12 @@
 module RSokoban::UI
 	
 	# I am a GUI using tk library.
+	#
+	# The grid is:
+	# * a frame with some labels (game info)
+	# * a frame with some buttons (menu shortcuts)
+	# * a frame with the rendered map
+	#
 	# @note I need the tk-img extension library.
 	# @note This code is untestable and untested. In fact, I don't know HOW to test it !
 	# @since 0.73
@@ -137,7 +143,7 @@ module RSokoban::UI
 		end
 		
 		def display_cell image, x, y
-			@container.copy(@images[image], :to => [X_COORDS[x], Y_COORDS[y]])
+			@render.copy(@images[image], :to => [X_COORDS[x], Y_COORDS[y]])
 		end
 		
 		def display_update_after_undo
@@ -220,18 +226,11 @@ module RSokoban::UI
 			end
 		end
 		
-		# Build the map of labels. TkBoxs of the game will be displayed on those labels.
-		def init_map
-			row_in_grid = 5
-			
-			@tk_map_label = TkLabel.new(@tk_root) do
-				grid('row'=> row_in_grid, 'column'=> 0, 'padx' => 0, 'pady' => 0, 'ipadx' => 0, 'ipady' => 0)
-			end
-			@tk_map_label['height'] = MAP_HEIGHT * CELL_SIZE
-			@tk_map_label['width'] = MAP_WIDTH * CELL_SIZE
-			@container = TkPhotoImage.new('height' => MAP_HEIGHT * CELL_SIZE, 'width' => MAP_WIDTH * CELL_SIZE)
-			@tk_map_label .configure('image' => @container)
-			
+		# Build the image which will contained the rendered game and the label which will contained
+		# the image.
+		def init_map						
+			@tk_frame_render = FrameRender.new @tk_root
+			@render = @tk_frame_render.render
 			reset_map
 		end
 		
@@ -241,7 +240,7 @@ module RSokoban::UI
 		def reset_map
 			width = MAP_WIDTH * CELL_SIZE - 1
 			height = MAP_HEIGHT * CELL_SIZE - 1
-			@container.copy(@images[:outside], :to => [0, 0, width, height])
+			@render.copy(@images[:outside], :to => [0, 0, width, height])
 		end
 		
 		# Bind user's actions
@@ -326,24 +325,46 @@ module RSokoban::UI
 		
 	end
 	
+	# @since 0.75
+	class FrameRender
+		attr_reader :render
+		
+		def initialize tk_root
+			@frame = TkFrame.new(tk_root) do
+				grid(:row => 2, :column => 0, :sticky => 'w')
+				padx 5
+				pady 5
+			end
+			
+			render_label = TkLabel.new(@frame) do
+				grid(:row => 0, :column => 0, :padx => 0, :pady => 0, :ipadx => 0, :ipady => 0)
+			end
+			render_label[:height] = TkUI::MAP_HEIGHT * TkUI::CELL_SIZE
+			render_label[:width] = TkUI::MAP_WIDTH * TkUI::CELL_SIZE
+			@render = TkPhotoImage.new(:height => TkUI::MAP_HEIGHT * TkUI::CELL_SIZE, :width => TkUI::MAP_WIDTH * TkUI::CELL_SIZE)
+			render_label .configure(:image => @render)
+		end
+		
+	end
+	
 	# I am a frame attached to tk gui. I display information through some labels.
 	# @since 0.74.1
 	class FrameOfLabels
 		
 		def initialize tk_root
 			@frame = TkFrame.new(tk_root) do
-				grid('row' => 0, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+				grid(:row => 0, :column => 0, :sticky => 'w')
 				padx 5
 				pady 5
 			end
 			@label_set = TkLabel.new(@frame) do
-			 	grid('row' => 0, 'column' => 0, 'sticky' => 'w')
+			 	grid(:row => 0, :column => 0, :sticky => 'w')
 			end
 			@label_level = TkLabel.new(@frame) do
-				grid('row'=>1, 'column'=> 0, 'sticky' => 'w')
+				grid(:row => 1, :column => 0, :sticky => 'w')
 			end
 			@label_move = TkLabel.new(@frame) do
-				grid('row'=>2, 'column'=>0, 'sticky' => 'w')
+				grid(:row => 2, :column => 0, :sticky => 'w')
 			end
 		end
 		
@@ -365,32 +386,32 @@ module RSokoban::UI
 		
 		def initialize tk_root
 			@frame = TkFrame.new(tk_root) do
-				grid('row' => 1, 'column' => 0, 'columnspan' => 19, 'sticky' => 'w')
+				grid(:row => 1, :column => 0, :sticky => 'w')
 				padx 5
 				pady 5
 			end
 			@undo_button = TkButton.new(@frame) do
 				text 'Undo'
-				grid('row'=> 0, 'column'=> 0)
+				grid(:row => 0, :column => 0)
 			end
 			@redo_button = TkButton.new(@frame) do
 				text 'Redo'
-				grid('row'=> 0, 'column'=> 1)
+				grid(:row => 0, :column => 1)
 			end
 			
 			@retry_button = TkButton.new(@frame) do
 				text 'Retry'
-				grid('row'=> 0, 'column'=> 2)
+				grid(:row => 0, :column => 2)
 			end
 			
 			@level_button = TkButton.new(@frame) do
 				text 'Level'
-				grid('row'=> 0, 'column'=> 3)
+				grid(:row => 0, :column => 3)
 			end
 			
 			@next_level_button = TkButton.new(@frame) do
 				text 'Next'
-				grid('row'=> 0, 'column'=> 4)
+				grid(:row => 0, :column => 4)
 			end
 		end
 	end

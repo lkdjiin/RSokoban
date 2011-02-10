@@ -1,5 +1,11 @@
-
 * don't restrict map size
+  + tk
+	+ curses
+	+ text
+	+ display only part of the map
+	+ user can scroll (Ctrl+arrow ?)
+	+ automatic scrolling when man disappear from the viewport
+
 * gnome GUI (gtk only to be windows compatible ?)
 * give a try to rubygame ?
 * skining
@@ -8,6 +14,7 @@
 * scoring moves and pushes ?
 * level preview ?
 * solver (plugin ?)
+* zoom ?
 * format fichier niveau xml (.slc)
 * other GUI(s) ?
 * mouse support
