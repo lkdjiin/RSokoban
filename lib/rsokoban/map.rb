@@ -19,12 +19,11 @@ module RSokoban
 		def initialize rows = []
 			raise ArgumentError unless rows.instance_of?(Array)
 			@rows= rows
-			compute_width
+			transform
 		end
 		
 		def rows=(rows)
-			@rows = rows
-			compute_width
+			initialize rows
 		end
 		
 		def height
@@ -46,9 +45,21 @@ module RSokoban
 		
 		private
 		
+		def transform
+			compute_width
+			mark_outside
+		end
+		
 		def compute_width
 			@width = 0
 			@rows.each {|row| @width = row.size if row.size > @width }
+		end
+		
+		def mark_outside
+			(0...@rows.size).each do |row_num|
+				first_wall = @rows[row_num].index(WALL)
+				@rows[row_num][0, first_wall] = 'o' * first_wall
+			end
 		end
 		
 	end

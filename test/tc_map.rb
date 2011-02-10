@@ -14,6 +14,37 @@ class TC_Map < Test::Unit::TestCase
 		assert_equal ['###', '# #', '###'], @map.rows
 	end
 	
+Level_1 = [
+'    #####',
+'    #   #',
+'    #$  #',
+'  ###  $##',
+'  #  $ $ #',
+'### # ## #   ######',
+'#   # ## #####  ..#',
+'# $  $          ..#',
+'##### ### #@##  ..#',
+'    #     #########',
+'    #######']
+
+Level_1_after_transform = [
+'oooo#####oooooooooo',
+'oooo#   #oooooooooo',
+'oooo#$  #oooooooooo',
+'oo###  $##ooooooooo',
+'oo#  $ $ #ooooooooo',
+'### # ## #ooo######',
+'#   # ## #####  ..#',
+'# $  $          ..#',
+'##### ### #@##  ..#',
+'oooo#     #########',
+'oooo#######oooooooo']
+	
+	def test_map_should_tranform_the_array
+		map = Map.new(Level_1)
+		assert_equal Level_1_after_transform, map.rows
+	end
+	
 	def test_height
 		@map.rows = ['###', '# #', '###']
 		assert_equal 3, @map.height
