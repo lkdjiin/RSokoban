@@ -56,7 +56,10 @@ module RSokoban::UI
 		
 		def display_map map
 			puts ''
-			map.each {|line| puts line }
+			map.each {|line| 
+				line.gsub!(/o/, ' ')
+				puts line 
+			}
 			puts ''
 		end
 		
@@ -82,7 +85,7 @@ module RSokoban::UI
 		def ask_for_action
 			response = get_playerinput
 			if response.nil?
-				puts "Error : #{line}"
+				puts "Error !"
 			elsif response.instance_of?(Symbol) and response == :help
 				display_help
 			else

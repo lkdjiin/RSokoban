@@ -61,6 +61,7 @@ module RSokoban::UI
 		def display_map map
 			line_num = PICTURE_LINE
 			map.each {|line| 
+				line.gsub!(/o/, ' ')
 				write line_num, 0, line
 				line_num += 1
 			}
