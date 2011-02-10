@@ -1,3 +1,4 @@
+* I think all row in the map should have the same size and outside tiles should be mark with a special character.
 * don't restrict map size
   + tk
 	+ curses

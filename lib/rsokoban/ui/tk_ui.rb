@@ -184,12 +184,15 @@ module RSokoban::UI
 			end
 		end
 		
-		# @todo optimize: @game.map_as_array outside of the loop and see if (0..height) is faster than height.downto(0)
+		# @todo optimize: (0..height) is faster than height.downto(0) but due to nil? check, I can't use it.
+		#   I think all row in the map should have the same size and outside tiles should be mark with
+		#   a special character.
 		def display_floor_at x_coord, y_coord
 			return if y_coord == 0
 			height = y_coord - 1
+			map_array = @game.map_as_array
 			height.downto(0).each {|row|
-				cell = @game.map_as_array[row][x_coord]
+				cell = map_array[row][x_coord]
 				break if cell.nil?
 				if [WALL, FLOOR, CRATE, STORAGE].include?(cell.chr)
 					display_cell :floor, x_coord, y_coord
