@@ -153,17 +153,18 @@ class TC_Level < Test::Unit::TestCase
 		assert_equal 11, @original_1.height
 	end
 	
-	Level1_u = ['    #####',
-'    #   #',
-'    #$  #',
-'  ###  $##',
-'  #  $ $ #',
-'### # ## #   ######',
+	Level1_u = [
+'oooo#####oooooooooo',
+'oooo#   #oooooooooo',
+'oooo#$  #oooooooooo',
+'oo###  $##ooooooooo',
+'oo#  $ $ #ooooooooo',
+'### # ## #ooo######',
 '#   # ## #####  ..#',
 '# $  $     @    ..#',
 '##### ### # ##  ..#',
-'    #     #########',
-'    #######']
+'oooo#     #########',
+'oooo#######oooooooo']
 
 	def test_rawLevel_after_move_up
 		ins = @original_1

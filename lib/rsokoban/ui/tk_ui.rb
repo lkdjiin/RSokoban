@@ -131,18 +131,18 @@ module RSokoban::UI
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
 				case @game.map_as_array[y][x].chr
-					when WALL then display_cell :wall, x, y
-					when FLOOR then display_cell :floor, x, y
-					when CRATE then display_cell :crate, x, y
-					when STORAGE then display_cell :store, x, y
+					when WALL then render_cell :wall, x, y
+					when FLOOR then render_cell :floor, x, y
+					when CRATE then render_cell :crate, x, y
+					when STORAGE then render_cell :store, x, y
 					when MAN then display_man_at x, y
 					when MAN_ON_STORAGE then display_man_on_storage_at x, y
-					when CRATE_ON_STORAGE then display_cell :crate_store, x, y
+					when CRATE_ON_STORAGE then render_cell :crate_store, x, y
 				end
 			end
 		end
 		
-		def display_cell image, x, y
+		def render_cell image, x, y
 			@render.copy(@images[image], :to => [X_COORDS[x], Y_COORDS[y]])
 		end
 		
@@ -153,71 +153,50 @@ module RSokoban::UI
 			update_array.each do |x, y|
 				next if x < 0 or y < 0
 				next if @game.map_as_array[y].nil? or @game.map_as_array[y][x].nil?
-				display_cell_taking_care_of_outside @game.map_as_array[y][x].chr, x, y
+				display_cell_taking_care_of_content @game.map_as_array[y][x].chr, x, y
 			end
 		end
 		
 		# Display the initial map on screen.
 		def display_initial
-			y_coord = 0
-			@game.map_as_array.each do |row|
-				# find first wall
-				x_coord = row.index(RSokoban::WALL)
-				line = row.strip
-				line.each_char do |char|
-					display_cell_taking_care_of_outside char, x_coord, y_coord
+			@game.map_as_array.each_with_index do |row, y_coord|
+				x_coord = 0
+				row.each_char do |char|
+					display_cell_taking_care_of_content char, x_coord, y_coord
 					x_coord += 1
 				end
-				y_coord += 1
 			end
 		end
 		
-		def display_cell_taking_care_of_outside char, x_coord, y_coord
+		def display_cell_taking_care_of_content char, x_coord, y_coord
 			case char
-				when WALL then display_cell :wall, x_coord, y_coord
-				when FLOOR then display_floor_at x_coord, y_coord
-				when CRATE then display_cell :crate, x_coord, y_coord
-				when STORAGE then display_cell :store, x_coord, y_coord
+				when WALL then render_cell :wall, x_coord, y_coord
+				when FLOOR then render_cell :floor, x_coord, y_coord
+				when CRATE then render_cell :crate, x_coord, y_coord
+				when STORAGE then render_cell :store, x_coord, y_coord
 				when MAN then display_man_at x_coord, y_coord
 				when MAN_ON_STORAGE then display_man_on_storage_at x_coord, y_coord
-				when CRATE_ON_STORAGE then display_cell :crate_store, x_coord, y_coord
+				when CRATE_ON_STORAGE then render_cell :crate_store, x_coord, y_coord
 			end
-		end
-		
-		# @todo optimize: (0..height) is faster than height.downto(0) but due to nil? check, I can't use it.
-		#   I think all row in the map should have the same size and outside tiles should be mark with
-		#   a special character.
-		def display_floor_at x_coord, y_coord
-			return if y_coord == 0
-			height = y_coord - 1
-			map_array = @game.map_as_array
-			height.downto(0).each {|row|
-				cell = map_array[row][x_coord]
-				break if cell.nil?
-				if [WALL, FLOOR, CRATE, STORAGE].include?(cell.chr)
-					display_cell :floor, x_coord, y_coord
-					break
-				end
-			}
 		end
 		
 		def display_man_at x, y
 			case @last_move
-				when :up then display_cell :man_up, x, y
-				when :down then display_cell :man_down, x, y
-				when :left then display_cell :man_left, x, y
+				when :up then render_cell :man_up, x, y
+				when :down then render_cell :man_down, x, y
+				when :left then render_cell :man_left, x, y
 				else
-					display_cell :man_right, x, y
+					render_cell :man_right, x, y
 			end
 		end
 		
 		def display_man_on_storage_at x, y
 			case @last_move
-				when :up then display_cell :man_store_up, x, y
-				when :down then display_cell :man_store_down, x, y
-				when :left then display_cell :man_store_left, x, y
+				when :up then render_cell :man_store_up, x, y
+				when :down then render_cell :man_store_down, x, y
+				when :left then render_cell :man_store_left, x, y
 				else
-					display_cell :man_store_right, x, y
+					render_cell :man_store_right, x, y
 			end
 		end
 		

@@ -27,5 +27,6 @@ module RSokoban
 	WALL = '#'
 	MAN_ON_STORAGE = '+'
 	CRATE_ON_STORAGE = '*'
+	OUTSIDE = 'o'
 	
 end

@@ -67,11 +67,10 @@ Level_1_after_transform = [
 	
 	def test_each_row
 		@map.rows = ['#', '##', '###']
-		expected = '#'
-		@map.each {|row|
-			assert_equal expected, row
-			expected += '#'
-		}
+		assert_equal '#oo', @map.rows[0]
+		assert_equal '##o', @map.rows[1]
+		assert_equal '###', @map.rows[2]
+		assert_equal nil, @map.rows[3]
 	end
 	
 end
