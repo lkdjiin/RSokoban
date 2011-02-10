@@ -5,13 +5,8 @@
 * skining
   + load skin
   + several size of tiles or resizing ?)
-* Console UI should provide a way to know names of sets
-* save a game
-* reload a saved game
-* multi player support
-* save score
-* scoring moves and pushes
-* level preview
+* scoring moves and pushes ?
+* level preview ?
 * solver (plugin ?)
 * format fichier niveau xml (.slc)
 * other GUI(s) ?
