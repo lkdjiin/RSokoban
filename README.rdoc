@@ -20,14 +20,14 @@ Players can look at {the wiki}[https://github.com/lkdjiin/RSokoban/wiki].
 Developpers can look at Level, Game and TkUI.
 
 
-== Dependancies
+== Dependencies
 
 Ruby >= 1.8.7
 
 
 == Installing RSokoban
 
-*First method*
+<b>First method</b>
 To install RSokoban from the source, go to the RSokoban folder and build the gem:
 
  gem build rsokoban.gemspec
@@ -45,13 +45,13 @@ If you prefer using rake to build and install:
  rake build
  rake install
 
-*Second method*
+<b>Second method</b>
 Or install via RubyGem in one command (you need ruby 1.9 or higher).
 Note that I don't certify you will get the latest release:
 
  gem install RSokoban
 
-*Third method*
+<b>Third method</b>
 Or you can play without installing it. Go to the RSokoban/bin folder and type:
 
  ./rsokoban
