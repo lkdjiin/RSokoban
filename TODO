@@ -1,9 +1,3 @@
-* bug undo (redo?) when viewport is not 0,0
-* don't restrict map size in tk
-ok	+ display only part of the map
-ok	+ user can scroll (Ctrl+arrow ?)
-ok	+ automatic scrolling when man disappear from the viewport
-	+ add scroll commands to menu
 
 * gnome GUI (gtk only to be windows compatible ?)
 * give a try to rubygame ?

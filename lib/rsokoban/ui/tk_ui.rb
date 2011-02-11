@@ -108,6 +108,36 @@ module RSokoban::UI
 			init_level
 		end
 		
+		def scroll_right
+			@left_window += 10
+			if @left_window + MAP_WIDTH > @game.level_width
+				@left_window = @game.level_width - MAP_WIDTH 
+			end
+			@left_window = 0 if @left_window < 0
+			window_update
+		end
+		
+		def scroll_left
+			@left_window -= 10
+			@left_window = 0 if @left_window < 0
+			window_update
+		end
+		
+		def scroll_up
+			@top_window -= 10
+			@top_window = 0 if @top_window < 0
+			window_update
+		end
+		
+		def scroll_down
+			@top_window += 10
+			if @top_window + MAP_HEIGHT > @game.level_height
+				@top_window = @game.level_height - MAP_HEIGHT
+			end
+			@top_window = 0 if @top_window < 0
+			window_update
+		end
+		
 		private
 		
 		def init_level
@@ -134,26 +164,18 @@ module RSokoban::UI
 			update_array.each do |x, y|
 				next if y >= @top_window + MAP_HEIGHT
 				next if x >= @left_window + MAP_WIDTH
-				next if y < 0
-				next if x < 0
+				next if x < 0 or y < 0
 				# I think there should be something wrong with the tests above.
 				# Else I don't need the two following tests.
 				row = window[y]
 				next if row.nil?
 				cell = row[x]
 				next if cell.nil?
-				case cell.chr
-					when WALL then render_cell :wall, x, y
-					when FLOOR then render_cell :floor, x, y
-					when CRATE then render_cell :crate, x, y
-					when STORAGE then render_cell :store, x, y
-					when MAN then display_man_at x, y
-					when MAN_ON_STORAGE then display_man_on_storage_at x, y
-					when CRATE_ON_STORAGE then render_cell :crate_store, x, y
-				end
+				display_cell_taking_care_of_content cell.chr, x, y
 			end
 		end
 		
+		# @todo refactor (see display_update above !)
 		def display_update_after_undo
 			return if man_goes_offscreen?
 			
@@ -176,13 +198,13 @@ module RSokoban::UI
 		# @return [Boolean]
 		def man_goes_offscreen?
 			if @game.man_x < @left_window
-				window_to_left
+				scroll_left
 			elsif @game.man_x >= @left_window + MAP_WIDTH
-				window_to_right
+				scroll_right
 			elsif @game.man_y < @top_window
-				window_to_up
+				scroll_up
 			elsif @game.man_y >= @top_window + MAP_HEIGHT
-				window_to_down
+				scroll_down
 			else
 				return false
 			end
@@ -204,6 +226,9 @@ module RSokoban::UI
 			end
 		end
 		
+		# Get the game map through a window
+		# @todo refactor. All this stuff (#window, @top_window, MAP_WIDTH, etc) don't belong to this 
+		#   class. Maybe it belongs to Map or LayeredMap or a new class named Window ?
 		def window
 			ret = []
 			@game.map_as_array.each_with_index do |row, y|
@@ -212,36 +237,6 @@ module RSokoban::UI
 				end
 			end
 			ret
-		end
-		
-		def window_to_right
-			@left_window += 10
-			if @left_window + MAP_WIDTH > @game.level_width
-				@left_window = @game.level_width - MAP_WIDTH 
-			end
-			@left_window = 0 if @left_window < 0
-			window_update
-		end
-		
-		def window_to_left
-			@left_window -= 10
-			@left_window = 0 if @left_window < 0
-			window_update
-		end
-		
-		def window_to_up
-			@top_window -= 10
-			@top_window = 0 if @top_window < 0
-			window_update
-		end
-		
-		def window_to_down
-			@top_window += 10
-			if @top_window + MAP_HEIGHT > @game.level_height
-				@top_window = @game.level_height - MAP_HEIGHT
-			end
-			@top_window = 0 if @top_window < 0
-			window_update
 		end
 		
 		def window_update
@@ -308,10 +303,10 @@ module RSokoban::UI
 		
 		# Bind user's actions
 		def make_binding
-			@tk_root.bind('Control-Right') { window_to_right }
-			@tk_root.bind('Control-Left') { window_to_left }
-			@tk_root.bind('Control-Up') { window_to_up }
-			@tk_root.bind('Control-Down') { window_to_down }
+			@tk_root.bind('Control-Right') { scroll_right }
+			@tk_root.bind('Control-Left') { scroll_left }
+			@tk_root.bind('Control-Up') { scroll_up }
+			@tk_root.bind('Control-Down') { scroll_down }
 		
 			@tk_root.bind('Up') { move :up }
 			@tk_root.bind('Down') { move :down }
@@ -372,8 +367,10 @@ module RSokoban::UI
 			tk_root['menu'] = menubar
 			
 			file = TkMenu.new(menubar)
+			window = TkMenu.new(menubar)
 			helpm = TkMenu.new(menubar)
 			menubar.add :cascade, :menu => file, :label => 'File'
+			menubar.add :cascade, :menu => window, :label => 'Window'
 			menubar.add :cascade, :menu => helpm, :label => 'Help'
 			
 			file.add :command, :label => 'Load level', :command => proc{object_root.load_level}, :accelerator => 'Ctrl+L'
@@ -385,6 +382,11 @@ module RSokoban::UI
 			file.add :command, :label => 'Next level', :command => proc{object_root.next_level}, :accelerator => 'Ctrl+N'
 			file.add :separator
 			file.add :command, :label => 'Quit', :command => proc{exit}
+			
+			window.add :command, :label => 'Scroll left', :command => proc{object_root.scroll_left}, :accelerator => 'Ctrl+Left'
+			window.add :command, :label => 'Scroll right', :command => proc{object_root.scroll_right}, :accelerator => 'Ctrl+Right'
+			window.add :command, :label => 'Scroll up', :command => proc{object_root.scroll_up}, :accelerator => 'Ctrl+Up'
+			window.add :command, :label => 'Scroll down', :command => proc{object_root.scroll_down}, :accelerator => 'Ctrl+Down'
 			
 			helpm.add :command, :label => 'Help', :command => proc{object_root.help}, :accelerator => 'F1'
 			helpm.add :separator
