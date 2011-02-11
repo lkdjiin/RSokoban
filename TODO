@@ -1,4 +1,4 @@
-
+* bug undo (redo?) when viewport is not 0,0
 * don't restrict map size in tk
 ok	+ display only part of the map
 ok	+ user can scroll (Ctrl+arrow ?)

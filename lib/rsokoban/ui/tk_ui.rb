@@ -154,6 +154,25 @@ module RSokoban::UI
 			end
 		end
 		
+		def display_update_after_undo
+			return if man_goes_offscreen?
+			
+			x = @game.man_x - @left_window
+			y = @game.man_y - @top_window
+			update_array = [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
+			update_array.each do |x, y|
+				next if y >= @top_window + MAP_HEIGHT
+				next if x >= @left_window + MAP_WIDTH
+				next if x < 0 or y < 0
+				row = window[y]
+				next if row.nil?
+				cell = row[x]
+				next if cell.nil?
+				display_cell_taking_care_of_content cell.chr, x, y
+			end
+		end
+		
+		# If the man goes offscreen, do an autoscrolling.
 		# @return [Boolean]
 		def man_goes_offscreen?
 			if @game.man_x < @left_window
@@ -172,17 +191,6 @@ module RSokoban::UI
 		
 		def render_cell image, x, y
 			@render.copy(@images[image], :to => [@x_bounds[x], @y_bounds[y]])
-		end
-		
-		def display_update_after_undo
-			x = @game.man_x
-			y = @game.man_y
-			update_array = [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
-			update_array.each do |x, y|
-				next if x < 0 or y < 0
-				next if @game.map_as_array[y].nil? or @game.map_as_array[y][x].nil?
-				display_cell_taking_care_of_content @game.map_as_array[y][x].chr, x, y
-			end
 		end
 		
 		# Display the initial map on screen.
