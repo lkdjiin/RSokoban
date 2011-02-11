@@ -2,7 +2,7 @@
 * don't restrict map size in tk
 ok	+ display only part of the map
 ok	+ user can scroll (Ctrl+arrow ?)
-	+ automatic scrolling when man disappear from the viewport
+ok	+ automatic scrolling when man disappear from the viewport
 	+ add scroll commands to menu
 
 * gnome GUI (gtk only to be windows compatible ?)

@@ -126,8 +126,10 @@ module RSokoban::UI
 		# Update map rendering. We need only to update man's location and north, south, west
 		# and east of him.
 		def display_update
+			return if man_goes_offscreen?
+			
 			x = @game.man_x - @left_window
-			y = @game.man_y
+			y = @game.man_y - @top_window
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
 				next if y >= @top_window + MAP_HEIGHT
@@ -135,8 +137,10 @@ module RSokoban::UI
 				next if y < 0
 				next if x < 0
 				# I think there should be something wrong with the tests above.
-				# Else I don't need the following test.
-				cell = window[y][x]
+				# Else I don't need the two following tests.
+				row = window[y]
+				next if row.nil?
+				cell = row[x]
 				next if cell.nil?
 				case cell.chr
 					when WALL then render_cell :wall, x, y
@@ -148,6 +152,22 @@ module RSokoban::UI
 					when CRATE_ON_STORAGE then render_cell :crate_store, x, y
 				end
 			end
+		end
+		
+		# @return [Boolean]
+		def man_goes_offscreen?
+			if @game.man_x < @left_window
+				window_to_left
+			elsif @game.man_x >= @left_window + MAP_WIDTH
+				window_to_right
+			elsif @game.man_y < @top_window
+				window_to_up
+			elsif @game.man_y >= @top_window + MAP_HEIGHT
+				window_to_down
+			else
+				return false
+			end
+			true
 		end
 		
 		def render_cell image, x, y
