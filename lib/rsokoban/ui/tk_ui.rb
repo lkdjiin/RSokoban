@@ -13,15 +13,12 @@ module RSokoban::UI
 	class TkUI
 		include RSokoban
 		
-		# Number of cells in a row
+		# Number of maximum displayed cells in a row
 		MAP_WIDTH = 19
-		# Number of cells in a column
+		# Number of maximum displayed cells in a column
 		MAP_HEIGHT = 16
 		# Cell size in pixels, a cell is a square
 		CELL_SIZE = 30
-		
-		X_COORDS = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540]
-		Y_COORDS = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450]
 		
 		# Build and initialize a GUI with the Tk tool kit.
 		# @param [Game] game Where we get the logic.
@@ -29,6 +26,8 @@ module RSokoban::UI
 			@game = game
 			@last_move = :up
 			@images = {}
+			@x_bounds = []
+			@y_bounds = []
 			
 			init_root
 			Menu.new(@tk_root, self)
@@ -111,26 +110,31 @@ module RSokoban::UI
 		
 		private
 		
-		# For now, map size is restricted to 19x16 on screen.
 		def init_level
-			if @game.level_width > 19 or @game.level_height > 16
-				Tk::messageBox :message => "Sorry, level '#{@game.level_title}' is too big to be displayed."
-				@game.restart_set
-			end
+			@x_bounds = []
+			(0...MAP_WIDTH).each {|idx| @x_bounds.push idx * CELL_SIZE}
+			@y_bounds = []
+			(0...MAP_HEIGHT).each {|idx| @y_bounds.push idx * CELL_SIZE}
+			
+			@top_window = @left_window = 0
+			
 			@tk_frame_label.reset_labels @game
 			reset_map
 			display_initial
 		end
 		
 		# Update map rendering. We need only to update man's location and north, south, west
-		# and east of him. And because they are walls all around the map, there is no needs to check
-		# for limits.
+		# and east of him.
 		def display_update
-			x = @game.man_x
+			x = @game.man_x - @left_window
 			y = @game.man_y
 			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
 			update_array.each do |x, y|
-				case @game.map_as_array[y][x].chr
+				next if y >= @top_window + MAP_HEIGHT
+				next if x >= @left_window + MAP_WIDTH
+				next if y < 0
+				next if x < 0
+				case window[y][x].chr
 					when WALL then render_cell :wall, x, y
 					when FLOOR then render_cell :floor, x, y
 					when CRATE then render_cell :crate, x, y
@@ -143,7 +147,7 @@ module RSokoban::UI
 		end
 		
 		def render_cell image, x, y
-			@render.copy(@images[image], :to => [X_COORDS[x], Y_COORDS[y]])
+			@render.copy(@images[image], :to => [@x_bounds[x], @y_bounds[y]])
 		end
 		
 		def display_update_after_undo
@@ -159,13 +163,58 @@ module RSokoban::UI
 		
 		# Display the initial map on screen.
 		def display_initial
-			@game.map_as_array.each_with_index do |row, y_coord|
+			#@game.map_as_array.each_with_index do |row, y_coord|
+			window.each_with_index do |row, y_coord|
 				x_coord = 0
 				row.each_char do |char|
 					display_cell_taking_care_of_content char, x_coord, y_coord
 					x_coord += 1
 				end
 			end
+		end
+		
+		def window
+			ret = []
+			@game.map_as_array.each_with_index do |row, y|
+				if y >= @top_window and y < @top_window + MAP_HEIGHT
+					ret.push row[@left_window, MAP_WIDTH]
+				end
+			end
+			ret
+		end
+		
+		def window_to_right
+			@left_window += 10
+			if @left_window + MAP_WIDTH > @game.level_width
+				@left_window = @game.level_width - MAP_WIDTH - 1
+			end
+			@left_window = 0 if @left_window < 0
+			reset_map
+			display_initial
+		end
+		
+		def window_to_left
+			@left_window -= 10
+			@left_window = 0 if @left_window < 0
+			reset_map
+			display_initial
+		end
+		
+		def window_to_up
+			@top_window -= 10
+			@top_window = 0 if @top_window < 0
+			reset_map
+			display_initial
+		end
+		
+		def window_to_down
+			@top_window += 10
+			if @top_window + MAP_HEIGHT > @game.level_height
+				@top_window = @game.level_height - MAP_HEIGHT
+			end
+			@top_window = 0 if @top_window < 0
+			reset_map
+			display_initial
 		end
 		
 		def display_cell_taking_care_of_content char, x_coord, y_coord
@@ -227,6 +276,11 @@ module RSokoban::UI
 		
 		# Bind user's actions
 		def make_binding
+			@tk_root.bind('Control-Right') { window_to_right }
+			@tk_root.bind('Control-Left') { window_to_left }
+			@tk_root.bind('Control-Up') { window_to_up }
+			@tk_root.bind('Control-Down') { window_to_down }
+		
 			@tk_root.bind('Up') { move :up }
 			@tk_root.bind('Down') { move :down }
 			@tk_root.bind('Left') { move :left }
