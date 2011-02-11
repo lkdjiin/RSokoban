@@ -134,7 +134,11 @@ module RSokoban::UI
 				next if x >= @left_window + MAP_WIDTH
 				next if y < 0
 				next if x < 0
-				case window[y][x].chr
+				# I think there should be something wrong with the tests above.
+				# Else I don't need the following test.
+				cell = window[y][x]
+				next if cell.nil?
+				case cell.chr
 					when WALL then render_cell :wall, x, y
 					when FLOOR then render_cell :floor, x, y
 					when CRATE then render_cell :crate, x, y
@@ -163,7 +167,6 @@ module RSokoban::UI
 		
 		# Display the initial map on screen.
 		def display_initial
-			#@game.map_as_array.each_with_index do |row, y_coord|
 			window.each_with_index do |row, y_coord|
 				x_coord = 0
 				row.each_char do |char|
@@ -186,25 +189,22 @@ module RSokoban::UI
 		def window_to_right
 			@left_window += 10
 			if @left_window + MAP_WIDTH > @game.level_width
-				@left_window = @game.level_width - MAP_WIDTH - 1
+				@left_window = @game.level_width - MAP_WIDTH 
 			end
 			@left_window = 0 if @left_window < 0
-			reset_map
-			display_initial
+			window_update
 		end
 		
 		def window_to_left
 			@left_window -= 10
 			@left_window = 0 if @left_window < 0
-			reset_map
-			display_initial
+			window_update
 		end
 		
 		def window_to_up
 			@top_window -= 10
 			@top_window = 0 if @top_window < 0
-			reset_map
-			display_initial
+			window_update
 		end
 		
 		def window_to_down
@@ -213,6 +213,10 @@ module RSokoban::UI
 				@top_window = @game.level_height - MAP_HEIGHT
 			end
 			@top_window = 0 if @top_window < 0
+			window_update
+		end
+		
+		def window_update
 			reset_map
 			display_initial
 		end

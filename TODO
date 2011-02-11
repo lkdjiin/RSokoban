@@ -3,8 +3,8 @@
   + tk
 	+ curses
 	+ text
-	+ display only part of the map
-	+ user can scroll (Ctrl+arrow ?)
+ok	+ display only part of the map
+ok	+ user can scroll (Ctrl+arrow ?)
 	+ automatic scrolling when man disappear from the viewport
 
 * gnome GUI (gtk only to be windows compatible ?)
