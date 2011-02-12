@@ -105,6 +105,9 @@ module RSokoban
 				if row.include?(MAN)
 					x_coord = row.index(MAN)
 					break
+				elsif row.include?(MAN_ON_STORAGE)
+					x_coord = row.index(MAN_ON_STORAGE)
+					break
 				end
 				y_coord += 1
 			}
