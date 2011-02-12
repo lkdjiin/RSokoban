@@ -80,4 +80,26 @@ class TC_LayeredMap < Test::Unit::TestCase
 		assert_equal CRATE_ON_STORAGE, lay_map.what_is_on(1, 1)
 	end
 	
+	### BUGS #################################################
+	
+	MAP_BUG_9 = [
+	'####',
+	'#$+#',
+	'#  #',
+	'####']
+	
+	# Some levels crashes (like microban.xsb #101) because they contain man on storage in its map.
+	def test_bug_9_man_on_storage
+		map = Map.new MAP_BUG_9
+		lay_map = LayeredMap.new(map)
+		
+		man = lay_map.man
+		assert_equal 2, man.x
+		assert_equal 1, man.y
+		
+		assert_equal STORAGE, lay_map.what_is_on(2, 1)
+		
+		assert_equal CRATE, @lay_map.what_is_on(1, 1)
+	end
+	
 end
