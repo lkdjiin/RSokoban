@@ -283,8 +283,8 @@ module RSokoban::UI
 			end
 		end
 		
-		# Build the image which will contained the rendered game and the label which will contained
-		# the image.
+		# Let FrameRender build an image to render game in.
+		# @todo we don't need the @render member.
 		def init_map						
 			@tk_frame_render = FrameRender.new @tk_root
 			@render = @tk_frame_render.render
@@ -292,8 +292,6 @@ module RSokoban::UI
 		end
 		
 		# Reset all the map with 'outside' tile.
-		# @todo little improvement : reload @images[:outside] image only if there is something else
-		#   in the current map.
 		def reset_map
 			width = MAP_WIDTH * CELL_SIZE - 1
 			height = MAP_HEIGHT * CELL_SIZE - 1
@@ -306,7 +304,6 @@ module RSokoban::UI
 			@tk_root.bind('Control-Left') { scroll_left }
 			@tk_root.bind('Control-Up') { scroll_up }
 			@tk_root.bind('Control-Down') { scroll_down }
-		
 			@tk_root.bind('Up') { move :up }
 			@tk_root.bind('Down') { move :down }
 			@tk_root.bind('Left') { move :left }
