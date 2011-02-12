@@ -141,14 +141,20 @@ module RSokoban::UI
 		private
 		
 		def init_level
+			width = @game.level_width
+			width = MAP_WIDTH if width > MAP_WIDTH
+			height = @game.level_height
+			height = MAP_HEIGHT if height > MAP_HEIGHT
+			
 			@x_bounds = []
-			(0...MAP_WIDTH).each {|idx| @x_bounds.push idx * CELL_SIZE}
+			(0...width).each {|idx| @x_bounds.push idx * CELL_SIZE}
 			@y_bounds = []
-			(0...MAP_HEIGHT).each {|idx| @y_bounds.push idx * CELL_SIZE}
+			(0...height).each {|idx| @y_bounds.push idx * CELL_SIZE}
 			
 			@top_window = @left_window = 0
-			
 			@tk_frame_label.reset_labels @game
+			@tk_frame_render.geometry width, height
+			
 			reset_map
 			display_initial
 		end
@@ -279,7 +285,6 @@ module RSokoban::UI
 		def init_root
 			@tk_root = TkRoot.new do
 				title "RSokoban " + File.read($RSOKOBAN_PATH + '/VERSION').strip
-				minsize(400, 400)
 				resizable(false, false)
 			end
 		end
@@ -406,13 +411,20 @@ module RSokoban::UI
 				pady 5
 			end
 			
-			render_label = TkLabel.new(@frame) do
+			@render_label = TkLabel.new(@frame) do
 				grid(:row => 0, :column => 0, :padx => 0, :pady => 0, :ipadx => 0, :ipady => 0)
 			end
-			render_label[:height] = TkUI::MAP_HEIGHT * TkUI::CELL_SIZE
-			render_label[:width] = TkUI::MAP_WIDTH * TkUI::CELL_SIZE
+			@render_label[:height] = TkUI::MAP_HEIGHT * TkUI::CELL_SIZE
+			@render_label[:width] = TkUI::MAP_WIDTH * TkUI::CELL_SIZE
 			@render = TkPhotoImage.new(:height => TkUI::MAP_HEIGHT * TkUI::CELL_SIZE, :width => TkUI::MAP_WIDTH * TkUI::CELL_SIZE)
-			render_label .configure(:image => @render)
+			@render_label .configure(:image => @render)
+		end
+		
+		def geometry width_in_cells, height_in_cells
+			@render[:height] = height_in_cells * TkUI::CELL_SIZE
+			@render[:width] = width_in_cells * TkUI::CELL_SIZE
+			@render_label[:height] = height_in_cells * TkUI::CELL_SIZE
+			@render_label[:width] = width_in_cells * TkUI::CELL_SIZE
 		end
 		
 	end
