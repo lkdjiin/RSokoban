@@ -141,33 +141,32 @@ module RSokoban::UI
 		private
 		
 		def init_level
-			width = @game.level_width
-			width = MAP_WIDTH if width > MAP_WIDTH
-			height = @game.level_height
-			height = MAP_HEIGHT if height > MAP_HEIGHT
-			
-			@x_bounds = []
-			(0...width).each {|idx| @x_bounds.push idx * CELL_SIZE}
-			@y_bounds = []
-			(0...height).each {|idx| @y_bounds.push idx * CELL_SIZE}
-			
+			width, height = get_dimension_in_cells
+			compute_bounds width, height
 			@top_window = @left_window = 0
 			@tk_frame_label.reset_labels @game
 			@tk_frame_render.geometry width, height
-			
 			reset_map
 			display_initial
 		end
 		
-		# Update map rendering. We need only to update man's location and north, south, west
-		# and east of him.
-		def display_update
+		def get_dimension_in_cells			
+			width = @game.level_width > MAP_WIDTH ? MAP_WIDTH : @game.level_width
+			height = @game.level_height > MAP_HEIGHT ? MAP_HEIGHT : @game.level_height
+			[width, height]
+		end
+		
+		def compute_bounds width, height
+			@x_bounds = []
+			(0...width).each {|idx| @x_bounds.push idx * CELL_SIZE}
+			@y_bounds = []
+			(0...height).each {|idx| @y_bounds.push idx * CELL_SIZE}
+		end
+		
+		def display update_locations
 			return if man_goes_offscreen?
 			
-			x = @game.man_x - @left_window
-			y = @game.man_y - @top_window
-			update_array = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
-			update_array.each do |x, y|
+			update_locations.each do |x, y|
 				next if y >= @top_window + MAP_HEIGHT
 				next if x >= @left_window + MAP_WIDTH
 				next if x < 0 or y < 0
@@ -181,23 +180,18 @@ module RSokoban::UI
 			end
 		end
 		
-		# @todo refactor (see display_update above !)
-		def display_update_after_undo
-			return if man_goes_offscreen?
-			
+		# We need only to update man's location and north, south, west
+		# and east of him.
+		def display_update
 			x = @game.man_x - @left_window
 			y = @game.man_y - @top_window
-			update_array = [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
-			update_array.each do |x, y|
-				next if y >= @top_window + MAP_HEIGHT
-				next if x >= @left_window + MAP_WIDTH
-				next if x < 0 or y < 0
-				row = window[y]
-				next if row.nil?
-				cell = row[x]
-				next if cell.nil?
-				display_cell_taking_care_of_content cell.chr, x, y
-			end
+			display [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]]
+		end
+		
+		def display_update_after_undo
+			x = @game.man_x - @left_window
+			y = @game.man_y - @top_window
+			display [[x,y], [x+1,y], [x+2,y], [x-1,y], [x-2,y], [x,y+1], [x,y+2], [x,y-1], [x,y-2]]
 		end
 		
 		# If the man goes offscreen, do an autoscrolling.
