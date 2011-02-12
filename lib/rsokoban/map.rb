@@ -1,6 +1,38 @@
 module RSokoban
 
 	# I am the map of a level.
+	# I am constructed from an array of strings, taken from an xsb file. I transform
+	# this array to equalize the length of all strings and I put a speciam mark in all
+	# cells that are outside of the walls.
+	#
+	# @example the first map from the original levels
+	#		level_1 = [
+	#		'    #####',
+	#		'    #   #',
+	#		'    #$  #',
+	#		'  ###  $##',
+	#		'  #  $ $ #',
+	#		'### # ## #   ######',
+	#		'#   # ## #####  ..#',
+	#		'# $  $          ..#',
+	#		'##### ### #@##  ..#',
+	#		'    #     #########',
+	#		'    #######']
+	#
+	#		map = Map.new level_1
+	#		map.rows =>
+	#		[
+	#		'oooo#####oooooooooo',
+	#		'oooo#   #oooooooooo',
+	#		'oooo#$  #oooooooooo',
+	#		'oo###  $##ooooooooo',
+	#		'oo#  $ $ #ooooooooo',
+	#		'### # ## #ooo######',
+	#		'#   # ## #####  ..#',
+	#		'# $  $          ..#',
+	#		'##### ### #@##  ..#',
+	#		'oooo#     #########',
+	#		'oooo#######oooooooo']
 	# @since 0.73
 	class Map
 		# @param [Array<String>]
@@ -8,13 +40,6 @@ module RSokoban
 		
 		attr_reader :width
 	
-		# Construct a map from an array of strings.
-		# @example very simple maps
-		#   map1 = Map.new['###', '#@#', '###']
-		#
-		#   map2 = Map.new
-		#   map2.rows = ['###', '#@#', '###']
-		#
 		# @param [Array<String>]
 		def initialize rows = []
 			raise ArgumentError unless rows.instance_of?(Array)

@@ -1,9 +1,11 @@
 
 * gnome GUI (gtk only to be windows compatible ?)
 * give a try to rubygame ?
-* skining
+* skinning
   + load skin
   + several size of tiles or resizing ?)
+
+Think about:
 * scoring moves and pushes ?
 * level preview ?
 * solver (plugin ?)
