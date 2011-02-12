@@ -99,7 +99,7 @@ class TC_LayeredMap < Test::Unit::TestCase
 		
 		assert_equal STORAGE, lay_map.what_is_on(2, 1)
 		
-		assert_equal CRATE, @lay_map.what_is_on(1, 1)
+		assert_equal CRATE, lay_map.what_is_on(1, 1)
 	end
 	
 end

@@ -120,9 +120,11 @@ module RSokoban
 			@map.each do |line| 
 				count = 0
 				line.each_char do |char| 
-					@crates.push Crate.new(count, y_coord) if char == CRATE
-					@storages.push Storage.new(count, y_coord) if char == STORAGE
-					if char == CRATE_ON_STORAGE
+					if char == CRATE
+						@crates.push Crate.new(count, y_coord) 
+					elsif char == STORAGE or char == MAN_ON_STORAGE
+						@storages.push Storage.new(count, y_coord) 
+					elsif char == CRATE_ON_STORAGE
 						@crates.push Crate.new(count, y_coord)
 						@storages.push Storage.new(count, y_coord)
 					end
