@@ -1,9 +1,10 @@
-version 0.75  2011-02-12
+version 0.75.1  2011-02-12
 
   * Tk GUI
 	  + unlimited map size
     + auto scrolling
-		+ user scrolling
+    + user scrolling
+    + window size follows map size
 
   * fix 
 	  + bug#3
