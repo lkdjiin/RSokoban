@@ -1,10 +1,21 @@
 
-* gnome GUI (gtk only to be windows compatible ?)
-* skinning
-  + load skin
-  + several size of tiles or resizing ?)
+* save score as # of moves per set>level (one file/set in ~/.rsokoban/record)
+* display "new record" dialog when score is beaten
+* display record for current level in screen-header
+* create ~/.rsokoban/record at program starting if it doesn't exist
+* create ~/.rsokoban/record/set_name.yaml at set loading if it doesn't exist
 
+* skinning
+  + load skin as multiple files
+	+ load skin as one gig file
+	+ support for multiple wall images
+  + several size of tiles or resizing ?
+
+* Allow user to specify the max size of the map on screen in cells (default 19x16)
+
+-------------------------------------------------------
 Think about:
+* gnome GUI (gtk only to be windows compatible ?)
 * give a try to rubygame ?
 * scoring moves and pushes ?
 * level preview ?
