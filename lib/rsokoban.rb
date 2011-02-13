@@ -15,6 +15,7 @@ require "rsokoban/map"
 require "rsokoban/move_result"
 require "rsokoban/game"
 require "rsokoban/layered_map"
+require "rsokoban/record"
 
 # I am the main module of the game.
 module RSokoban	
