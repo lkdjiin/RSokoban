@@ -443,7 +443,7 @@ module RSokoban::UI
 		
 		def reset_labels game
 			@label_set.configure('text' => "Set: #{game.set_title}")
-			@label_level.configure('text' => "Level: #{game.level_title} (#{game.level_number}/#{game.set_size})")
+			@label_level.configure('text' => "Level: #{game.level_title} (#{game.level_number}/#{game.set_size}) Record: #{game.record}")
 			update_move_information game
 		end
 		

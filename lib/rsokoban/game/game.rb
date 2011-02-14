@@ -127,6 +127,11 @@ module RSokoban
 				@level = @level_loader.level(@level_number)
 		end
 		
+		# @since 0.76
+		def record
+			@level.record
+		end
+		
 	end
 	
 end

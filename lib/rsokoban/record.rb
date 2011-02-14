@@ -4,6 +4,7 @@ require 'yaml'
 module RSokoban
 
 	# I keep trace of your records !
+	# @since 0.76
 	class Record
 	
 		# Load the yaml file named <tt>filename</tt>, which keep trace of all records from a
