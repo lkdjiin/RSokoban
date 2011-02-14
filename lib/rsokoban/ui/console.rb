@@ -25,6 +25,7 @@ module RSokoban::UI
 				@set_title = hash[:set]
 				@level_number = hash[:number]
 				@set_total = hash[:total]
+				@record = hash[:record]
 			end
 		end
 		
@@ -42,7 +43,7 @@ module RSokoban::UI
 		
 		def display_header
 			puts "Set: #{@set_title}"
-			puts "Level: #{@level_title} (#{@level_number}/#{@set_total})"
+			puts "Level: #{@level_title} (#{@level_number}/#{@set_total}) Record: #{@record}"
 			puts "--------------------"
 		end
 		
