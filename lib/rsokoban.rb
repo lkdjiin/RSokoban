@@ -1,3 +1,5 @@
+require 'yaml'
+
 require "rsokoban/extensions"
 require "rsokoban/level"
 require "rsokoban/set_loader"
