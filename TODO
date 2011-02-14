@@ -1,9 +1,21 @@
 
 * save score as # of moves per set>level (one file/set in ~/.rsokoban/record)
+  + tk
+	+ curses
+	+ console
 * display "new record" dialog when score is beaten
+  + tk
+	+ curses
+	+ console
 * display record for current level in screen-header
-* create ~/.rsokoban/record at program starting if it doesn't exist
+  + tk
+	+ curses
+	+ console
+ok* create ~/.rsokoban/record at program starting if it doesn't exist
 * create ~/.rsokoban/record/set_name.yaml at set loading if it doesn't exist
+  + tk
+	+ curses
+	+ console
 
 * skinning
   + load skin as multiple files

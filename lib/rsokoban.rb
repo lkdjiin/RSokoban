@@ -32,5 +32,5 @@ module RSokoban
 	OUTSIDE = 'o'
 	
 	# Record files will go in this folder
-	RECORD_FOLDER = "~/.rsokoban/record"
+	RECORD_FOLDER = File.expand_path "~/.rsokoban/record"
 end

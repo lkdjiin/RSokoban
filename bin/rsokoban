@@ -24,6 +24,10 @@ $RSOKOBAN_DATA_PATH = File.expand_path(File.dirname(__FILE__) + '/../data')
 
 require 'rsokoban'
 
+unless File.exist? RSokoban::RECORD_FOLDER
+	RSokoban::Install.create_folder RSokoban::RECORD_FOLDER
+end
+
 tk_failed=<<EOS
 Sorry, failed to load tk or tkimg library.
 Please, be sure that libtcltk-ruby and libtk-img are correctly installed on
