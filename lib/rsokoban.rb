@@ -16,6 +16,7 @@ require "rsokoban/move_result"
 require "rsokoban/game"
 require "rsokoban/layered_map"
 require "rsokoban/record"
+require "rsokoban/install"
 
 # I am the main module of the game.
 module RSokoban	
@@ -30,4 +31,6 @@ module RSokoban
 	CRATE_ON_STORAGE = '*'
 	OUTSIDE = 'o'
 	
+	# Record files will go in this folder
+	RECORD_FOLDER = "~/.rsokoban/record"
 end
