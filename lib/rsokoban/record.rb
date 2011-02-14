@@ -9,6 +9,7 @@ module RSokoban
 		# Load the yaml file named <tt>filename</tt>, which keep trace of all records from a
 		# special set of levels. <tt>filename</tt> must have the same name that the xsb file but
 		# with the <tt>.yaml</tt> extension.
+		# @param [String] filename Full path of the yaml file
 		# @raise ArgumentError if <tt>filename</tt> doesn't exist.
 		def initialize filename
 			raise ArgumentError unless File.exist? filename

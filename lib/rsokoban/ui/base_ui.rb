@@ -22,6 +22,7 @@ module RSokoban::UI
 		# @option hash [Fixnum] :total Number of level in this set (requiered if type==:start)
 		# @option hash [Fixnum] :move The move's number (requiered when type is :display or :win)
 		# @option hash [String] :error An error message. Could happen when type is :display or :start
+		# @option hash [Fixnum] :record The record for this level
 		# @return [PlayerAction] the user's action
 		# @since 0.73
 		# @todo write some examples

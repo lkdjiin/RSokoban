@@ -35,6 +35,7 @@ module RSokoban::UI
 				@set_title = hash[:set]
 				@level_number = hash[:number]
 				@set_total = hash[:total]
+				@record = hash[:record]
 				Curses.clear
 			end
 		end
@@ -53,7 +54,7 @@ module RSokoban::UI
 		
 		def display_header move_number
 			write SET_LINE, 0, "Set: #{@set_title}"
-			write TITLE_LINE, 0, "Level: #{@level_title} (#{@level_number}/#{@set_total})"
+			write TITLE_LINE, 0, "Level: #{@level_title} (#{@level_number}/#{@set_total}) Record: #{@record}"
 			write MOVES_LINE, 0, "moves : #{move_number}   " unless move_number.nil?
 			write STATUS_LINE, 0, 'arrows=move (q)uit (r)etry (u)ndo (l)oad level/set'
 		end

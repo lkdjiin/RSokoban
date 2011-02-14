@@ -12,6 +12,8 @@ module RSokoban
 		# @return [Fixnum]
 		attr_reader :height
 		
+		attr_accessor :number
+		
 		# I build the level from a RawLevel object.
 		# @param [RawLevel] raw_level A RawLevel object, containing a title and a map.
 		def initialize raw_level
@@ -22,6 +24,19 @@ module RSokoban
 			@move = 0
 			@map = nil
 			@move_recorder = MoveRecorder.new
+		end
+		
+		def set_filename= filename
+			begin
+				full_path = File.join(RECORD_FOLDER, filename + '.yaml')
+				@record = Record.load_file full_path
+			rescue ArgumentError => e
+				@record = Record.create full_path
+			end
+		end
+		
+		def record
+			@record.record_of_level @number
 		end
 		
 		def storages

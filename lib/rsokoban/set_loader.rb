@@ -13,8 +13,9 @@ module RSokoban
 		# @raise [RSokoban::NoFileError] if filename doesn't exist
 		# @see LevelSet overview of .xsb file format
 		def initialize filename
+			@filename = filename
 			@set = LevelSet.new
-			@file = open_file filename
+			@file = open_file
 			get_title_of_the_set
 			get_description_of_the_set
 			get_levels_of_the_set
@@ -24,7 +25,10 @@ module RSokoban
 		# @return [Level]
 		def level num
 			raise LevelNumberTooHighError if num > @set.raw_levels.size
-			Level.new @set.raw_levels[num-1]
+			level = Level.new @set.raw_levels[num-1]
+			level.set_filename = File.basename @filename, '.xsb'
+			level.number = num
+			level
 		end
 		
 		# Get the description field from the loaded set of levels.
@@ -50,8 +54,8 @@ module RSokoban
 		# @param [String] filename an xsb file to be found in data/ folder
 		# @return [File]
 		# @raise NoFileError
-		def open_file filename
-			filename = "#{$RSOKOBAN_DATA_PATH}/" + filename
+		def open_file
+			filename = "#{$RSOKOBAN_DATA_PATH}/" + @filename
 			raise NoFileError unless File.exist?(filename)
 			open(filename)
 		end
