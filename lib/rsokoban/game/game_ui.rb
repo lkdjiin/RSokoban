@@ -53,8 +53,7 @@ module RSokoban
 		def start_level
 			begin
 				@level = @level_loader.level(@level_number)
-				@ui.get_action(:type=>:start, :map=>@level.map_as_array, :title=>@level.title, :set=>@level_loader.title,
-										:number=>@level_number, :total=>@level_loader.size, :record => @level.record)
+				@ui.get_action(get_hash_after_loading_set)
 			rescue LevelNumberTooHighError
 				@ui.get_action(:type=>:end_of_set, :map=>Map.new)
 			end

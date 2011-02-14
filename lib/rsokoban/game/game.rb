@@ -127,6 +127,7 @@ module RSokoban
 				@level = @level_loader.level(@level_number)
 		end
 		
+		# Get record for current level (in # of moves)
 		# @since 0.76
 		def record
 			@level.record
