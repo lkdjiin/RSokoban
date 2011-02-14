@@ -331,7 +331,13 @@ module RSokoban::UI
 				display_update
 			end
 			if result.win?
-				response = Tk::messageBox :type => 'yesno', :message => "Level completed !\nPlay next level ?", 
+				message = if @game.update_record
+					"Congratulations ! New record !\n"
+				else
+					"Level completed !\n"
+				end
+				# ask for continue ?
+				response = Tk::messageBox :type => 'yesno', :message => message + "Play next level ?", 
 	    						:icon => 'question', :title => 'You win !', :parent => @tk_root, :default => 'yes'
 	    	next_level if response == 'yes'
 	    	start_level if response == 'no'

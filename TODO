@@ -1,12 +1,5 @@
-
-* save score as # of moves per set>level (one file/set in ~/.rsokoban/record)
-  + tk
-	+ curses
-	+ console
-* display "new record" dialog when score is beaten
-  + tk
-	+ curses
-	+ console
+ok* save score as # of moves per set>level (one file/set in ~/.rsokoban/record)
+ok* Tk: display "new record" dialog when score is beaten
 ok* display record for current level in screen-header
 ok* create ~/.rsokoban/record at program starting if it doesn't exist
 

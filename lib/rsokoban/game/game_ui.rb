@@ -37,7 +37,9 @@ module RSokoban
 				
 				hash = {:map=>@level.map_as_array, :move=>result[:move_number]}
 				case result[:status]
-					when :win then player_action = @ui.get_action(hash.merge({:type=>:win}))
+					when :win
+						update_record
+						player_action = @ui.get_action(hash.merge({:type=>:win}))
 					when :ok then player_action = @ui.get_action(hash.merge({:type=>:display}))
 					else
 						player_action = @ui.get_action(:type=>:display, :map=>@level.map_as_array, :error=>result[:message])

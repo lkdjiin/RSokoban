@@ -132,6 +132,18 @@ module RSokoban
 			@level.record
 		end
 		
+		# Update record if needed.
+		# @return true if old record is beaten.
+		# @since 0.76
+		def update_record
+			if record.nil? or move_number < record
+				@level.update_record
+				true
+			else
+				false
+			end
+		end
+		
 	end
 	
 end

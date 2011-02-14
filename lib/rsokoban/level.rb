@@ -157,6 +157,11 @@ module RSokoban
 			@move
 		end
 		
+		# @since 0.76
+		def update_record
+			@record.add @number, @move
+		end
+		
 		private
 		
 		# @return true if all crates are on a storage location
