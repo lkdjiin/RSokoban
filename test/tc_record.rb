@@ -56,4 +56,45 @@ class TC_Record < Test::Unit::TestCase
 		end
 	end
 	
+	def test_save_a_new_record
+		record = Record.create RECORD_TEST
+		# level number, number of moves
+		record.add 1, 123
+		num = record.record_of_level(1)
+		assert_equal 123, num
+	ensure
+		FileUtils.remove_file(RECORD_TEST) if File.exist?(RECORD_TEST)
+	end
+	
+	def test_save_a_new_record_to_file
+		record = Record.create RECORD_TEST
+		record.add 1, 123
+		record = Record.load_file RECORD_TEST
+		num = record.record_of_level(1)
+		assert_equal 123, num
+	ensure
+		FileUtils.remove_file(RECORD_TEST) if File.exist?(RECORD_TEST)
+	end
+	
+	def test_update_a_record
+		record = Record.create RECORD_TEST
+		record.add 1, 123
+		record.add 1, 456
+		num = record.record_of_level(1)
+		assert_equal 456, num
+	ensure
+		FileUtils.remove_file(RECORD_TEST) if File.exist?(RECORD_TEST)
+	end
+	
+	def test_updtae_a_record_to_file
+		record = Record.create RECORD_TEST
+		record.add 1, 123
+		record.add 1, 456
+		record = Record.load_file RECORD_TEST
+		num = record.record_of_level(1)
+		assert_equal 456, num
+	ensure
+		FileUtils.remove_file(RECORD_TEST) if File.exist?(RECORD_TEST)
+	end
+	
 end
