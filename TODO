@@ -7,10 +7,7 @@
   + tk
 	+ curses
 	+ console
-* display record for current level in screen-header
-  + tk
-ok	+ curses
-ok	+ console
+ok* display record for current level in screen-header
 ok* create ~/.rsokoban/record at program starting if it doesn't exist
 
 
