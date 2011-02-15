@@ -148,7 +148,7 @@ module RSokoban::UI
 			@state = 'OK'
 			idx = @list.curselection
 			unless idx.empty?
-				@value = @skins[idx[0]]
+				@value = Skin.new.path_of_skin @skins[idx[0]]
 			end
 			destroy
 		end

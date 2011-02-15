@@ -32,7 +32,7 @@ module RSokoban::UI
 			init_root
 			Menu.new(@tk_root, self)
 			@tk_frame_label = FrameOfLabels.new @tk_root
-			preload_images
+			load_skin File.join($RSOKOBAN_PATH, 'skins', 'default')
 			init_map
 			@tk_frame_button = FrameOfButtons.new @tk_root
 			make_binding
@@ -139,11 +139,13 @@ module RSokoban::UI
 		end
 		
 		# @since 0.76
-		def change_skin
+		def select_skin
 			dial =  SkinDialog.new(@tk_root, "Change skin")
 			return unless dial.ok?
 			return if dial.value.nil?
-			puts dial.value
+			load_skin dial.value
+			reset_map
+			display_initial
 		end
 		
 		private
@@ -352,15 +354,14 @@ module RSokoban::UI
 			end
 		end
 		
-		def preload_images
-			dir = $RSOKOBAN_PATH + '/skins/default/'
+		def load_skin dir
 			images = [:wall, :crate, :floor, :store, :man_up, :man_down, :man_left, :man_right, :crate_store,
 			:man_store_up, :man_store_down, :man_store_left, :man_store_right]
 			images.each do |image|
-				@images[image] =TkPhotoImage.new('file' => dir + image.to_s + '.bmp', 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
 			end
 			
-			@images[:outside] =TkPhotoImage.new('file' => dir + 'outside.bmp', 'height' => 0, 'width' => 0)
+			@images[:outside] =TkPhotoImage.new('file' => File.join(dir, 'outside.bmp'), 'height' => 0, 'width' => 0)
 		end
 		
 	end
@@ -400,7 +401,7 @@ module RSokoban::UI
 			window.add :command, :label => 'Scroll up', :command => proc{object_root.scroll_up}, :accelerator => 'Ctrl+Up'
 			window.add :command, :label => 'Scroll down', :command => proc{object_root.scroll_down}, :accelerator => 'Ctrl+Down'
 			
-			options.add :command, :label => 'Change skin...', :command => proc{object_root.change_skin}
+			options.add :command, :label => 'Change skin...', :command => proc{object_root.select_skin}
 			
 			helpm.add :command, :label => 'Help', :command => proc{object_root.help}, :accelerator => 'F1'
 			helpm.add :separator

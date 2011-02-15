@@ -13,7 +13,9 @@ ok* create ~/.rsokoban/record at program starting if it doesn't exist
 	+ support for multiple wall images
   + several size of tiles or resizing ?
 
-* Allow user to specify the max size of the map on screen in cells (default 19x16)
+* Options to retain
+  + Allow user to specify the max size of the map on screen in cells (default 19x16)
+	+ skin
 
 * Give a try to Tk::Tile
 
