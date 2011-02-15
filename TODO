@@ -5,12 +5,17 @@ ok* create ~/.rsokoban/record at program starting if it doesn't exist
 
 
 * skinning
-  + load skin as multiple files
-	+ load skin as one gig file
+  + 2/3 skins shipped with the software
+  + deployment of new skins in ~/.rsokoban/skins
+	+ menu to load a skin that lists all available skins (shipped ones + added)
+  + skin as multiple files
+	+ skin as one big file
 	+ support for multiple wall images
   + several size of tiles or resizing ?
 
 * Allow user to specify the max size of the map on screen in cells (default 19x16)
+
+* Give a try to Tk::Tile
 
 -------------------------------------------------------
 Think about:
