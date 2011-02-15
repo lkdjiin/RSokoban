@@ -375,12 +375,17 @@ module RSokoban::UI
 		def initialize tk_root, object_root
 			TkOption.add '*tearOff', 0
 			menubar = TkMenu.new(tk_root)
+			menubar[:font] = 'TkMenuFont'
 			tk_root['menu'] = menubar
 			
 			file = TkMenu.new(menubar)
+			file[:font] = 'TkMenuFont'
 			window = TkMenu.new(menubar)
+			window[:font] = 'TkMenuFont'
 			options = TkMenu.new(menubar)
+			options[:font] = 'TkMenuFont'
 			helpm = TkMenu.new(menubar)
+			helpm[:font] = 'TkMenuFont'
 			menubar.add :cascade, :menu => file, :label => 'File'
 			menubar.add :cascade, :menu => window, :label => 'Window'
 			menubar.add :cascade, :menu => options, :label => 'Options'
@@ -415,17 +420,16 @@ module RSokoban::UI
 		attr_reader :render
 		
 		def initialize tk_root
-			@frame = TkFrame.new(tk_root) do
+			@frame = Tk::Tile::Frame.new(tk_root) do
 				grid(:row => 2, :column => 0, :sticky => 'w')
-				padx 5
-				pady 5
+				padding 5
 			end
 			
 			@render_label = TkLabel.new(@frame) do
 				grid(:row => 0, :column => 0, :padx => 0, :pady => 0, :ipadx => 0, :ipady => 0)
 			end
-			@render_label[:height] = TkUI::MAP_HEIGHT * TkUI::CELL_SIZE
-			@render_label[:width] = TkUI::MAP_WIDTH * TkUI::CELL_SIZE
+			#@render_label[:height] = TkUI::MAP_HEIGHT * TkUI::CELL_SIZE
+			#@render_label[:width] = TkUI::MAP_WIDTH * TkUI::CELL_SIZE
 			@render = TkPhotoImage.new(:height => TkUI::MAP_HEIGHT * TkUI::CELL_SIZE, :width => TkUI::MAP_WIDTH * TkUI::CELL_SIZE)
 			@render_label .configure(:image => @render)
 		end
@@ -433,8 +437,8 @@ module RSokoban::UI
 		def geometry width_in_cells, height_in_cells
 			@render[:height] = height_in_cells * TkUI::CELL_SIZE
 			@render[:width] = width_in_cells * TkUI::CELL_SIZE
-			@render_label[:height] = height_in_cells * TkUI::CELL_SIZE
-			@render_label[:width] = width_in_cells * TkUI::CELL_SIZE
+			#@render_label[:height] = height_in_cells * TkUI::CELL_SIZE
+			#@render_label[:width] = width_in_cells * TkUI::CELL_SIZE
 		end
 		
 	end
@@ -444,18 +448,17 @@ module RSokoban::UI
 	class FrameOfLabels
 		
 		def initialize tk_root
-			@frame = TkFrame.new(tk_root) do
+			@frame = Tk::Tile::Frame.new(tk_root) do
 				grid(:row => 0, :column => 0, :sticky => 'w')
-				padx 5
-				pady 5
+				padding 5
 			end
-			@label_set = TkLabel.new(@frame) do
+			@label_set = Tk::Tile::Label.new(@frame) do
 			 	grid(:row => 0, :column => 0, :sticky => 'w')
 			end
-			@label_level = TkLabel.new(@frame) do
+			@label_level = Tk::Tile::Label.new(@frame) do
 				grid(:row => 1, :column => 0, :sticky => 'w')
 			end
-			@label_move = TkLabel.new(@frame) do
+			@label_move = Tk::Tile::Label.new(@frame) do
 				grid(:row => 2, :column => 0, :sticky => 'w')
 			end
 		end
@@ -477,31 +480,30 @@ module RSokoban::UI
 		attr_reader :undo_button, :redo_button, :retry_button, :level_button, :next_level_button
 		
 		def initialize tk_root
-			@frame = TkFrame.new(tk_root) do
+			@frame = Tk::Tile::Frame.new(tk_root) do
 				grid(:row => 1, :column => 0, :sticky => 'w')
-				padx 5
-				pady 5
+				padding 5
 			end
-			@undo_button = TkButton.new(@frame) do
+			@undo_button = Tk::Tile::Button.new(@frame) do
 				text 'Undo'
 				grid(:row => 0, :column => 0)
 			end
-			@redo_button = TkButton.new(@frame) do
+			@redo_button = Tk::Tile::Button.new(@frame) do
 				text 'Redo'
 				grid(:row => 0, :column => 1)
 			end
 			
-			@retry_button = TkButton.new(@frame) do
+			@retry_button = Tk::Tile::Button.new(@frame) do
 				text 'Retry'
 				grid(:row => 0, :column => 2)
 			end
 			
-			@level_button = TkButton.new(@frame) do
+			@level_button = Tk::Tile::Button.new(@frame) do
 				text 'Level'
 				grid(:row => 0, :column => 3)
 			end
 			
-			@next_level_button = TkButton.new(@frame) do
+			@next_level_button = Tk::Tile::Button.new(@frame) do
 				text 'Next'
 				grid(:row => 0, :column => 4)
 			end

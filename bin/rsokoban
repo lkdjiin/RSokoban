@@ -55,6 +55,7 @@ if option[:ui] == :tk
 	begin
 		require 'tk'
 		require 'tkextlib/tkimg'
+		require 'tkextlib/tile'
 	rescue LoadError => e
 		puts tk_failed
 		option.interface = :curses

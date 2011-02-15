@@ -13,10 +13,9 @@ module RSokoban::UI
 			@state = :cancel
 			grab
 			
-			@frame_north = TkFrame.new(self) do
+			@frame_north = Tk::Tile::Frame.new(self) do
 				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
+				padding 10
 			end
 			
 			$spinval = TkVariable.new
@@ -30,14 +29,14 @@ module RSokoban::UI
 			@spin.focus
 			@spin.bind 'Key-Return', proc{ ok_on_clic }
 			
-			@ok = TkButton.new(self) do
+			@ok = Tk::Tile::Button.new(self) do
 				text 'OK'
 				grid(:row => 1, :column => 0)
 				default :active
 			end
 			@ok.command { ok_on_clic }
 			
-			@cancel = TkButton.new(self) do
+			@cancel = Tk::Tile::Button.new(self) do
 				text 'Cancel'
 				grid(:row => 1, :column => 1)
 			end
@@ -88,10 +87,9 @@ module RSokoban::UI
 			@value = @skins[0]
 			
 			# A frame for the listbox
-			@frame_north = TkFrame.new(self) do
+			@frame_north = Tk::Tile::Frame.new(self) do
 				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
+				padding 10
 			end
 			
 			@list = TkListbox.new(@frame_north) do
@@ -101,12 +99,11 @@ module RSokoban::UI
 			 	grid(:row => 0, :column => 0, :sticky => :we)
 			end
 			
-			#@list.bind '<ListboxSelect>', proc{ show_description }
 			@list.bind 'Double-1', proc{ ok_on_clic }
 			@list.bind 'Return', proc{ ok_on_clic }
 
 			
-			scroll = TkScrollbar.new(@frame_north) do
+			scroll = Tk::Tile::Scrollbar.new(@frame_north) do
 				orient 'vertical'
 				grid(:row => 0, :column => 1, :sticky => :ns)
 			end
@@ -115,14 +112,14 @@ module RSokoban::UI
 			scroll.command(proc { |*args| @list.yview(*args) })
 			
 			# The buttons
-			@ok = TkButton.new(self) do
+			@ok = Tk::Tile::Button.new(self) do
 				text 'OK'
 				grid(:row => 2, :column => 0)
 				default :active
 			end
 			@ok.command { ok_on_clic }
 			
-			@cancel = TkButton.new(self) do
+			@cancel = Tk::Tile::Button.new(self) do
 				text 'Cancel'
 				grid(:row => 2, :column => 1)
 			end
@@ -180,10 +177,9 @@ module RSokoban::UI
 			@value = @xsb[0]
 			
 			# A frame for the listbox
-			@frame_north = TkFrame.new(self) do
+			@frame_north = Tk::Tile::Frame.new(self) do
 				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
+				padding 10
 			end
 			
 			@list = TkListbox.new(@frame_north) do
@@ -198,7 +194,7 @@ module RSokoban::UI
 			@list.bind 'Return', proc{ ok_on_clic }
 
 			
-			scroll = TkScrollbar.new(@frame_north) do
+			scroll = Tk::Tile::Scrollbar.new(@frame_north) do
 				orient 'vertical'
 				grid(:row => 0, :column => 1, :sticky => :ns)
 			end
@@ -207,10 +203,9 @@ module RSokoban::UI
 			scroll.command(proc { |*args| @list.yview(*args) })
 			
 			# A frame for the set description
-			@frame_desc = TkFrame.new(self) do
+			@frame_desc = Tk::Tile::Frame.new(self) do
 				grid(:row => 1, :column => 0, :columnspan => 2, :sticky => :we)
-				padx 10
-				pady 10
+				padding 10
 			end
 			
 			@desc = TkText.new(@frame_desc) do
@@ -222,7 +217,7 @@ module RSokoban::UI
 			 	grid(:row => 0, :column => 0)
 			end
 			
-			scroll2 = TkScrollbar.new(@frame_desc) do
+			scroll2 = Tk::Tile::Scrollbar.new(@frame_desc) do
 				orient 'vertical'
 				grid(:row => 0, :column => 1, :sticky => :ns)
 			end
@@ -231,14 +226,14 @@ module RSokoban::UI
 			scroll2.command(proc { |*args| @desc.yview(*args) }) 
 			
 			# The buttons
-			@ok = TkButton.new(self) do
+			@ok = Tk::Tile::Button.new(self) do
 				text 'OK'
 				grid(:row => 2, :column => 0)
 				default :active
 			end
 			@ok.command { ok_on_clic }
 			
-			@cancel = TkButton.new(self) do
+			@cancel = Tk::Tile::Button.new(self) do
 				text 'Cancel'
 				grid(:row => 2, :column => 1)
 			end
@@ -302,7 +297,7 @@ module RSokoban::UI
 
 			text = TkText.new(self) do
 				borderwidth 1
-				font TkFont.new('times 12 bold')
+				font 'TkTextFont'
 				grid('row' => 0, 'column' => 0)
 			end
 			
@@ -316,7 +311,7 @@ EOS
 			
 			text.insert 'end', help
 
-			@ok = TkButton.new(self) do
+			@ok = Tk::Tile::Button.new(self) do
 				text 'OK'
 				grid('row'=>1, 'column'=>0)
 			end
