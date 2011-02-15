@@ -138,6 +138,14 @@ module RSokoban::UI
 			window_update
 		end
 		
+		# @since 0.76
+		def change_skin
+			dial =  SkinDialog.new(@tk_root, "Change skin")
+			return unless dial.ok?
+			return if dial.value.nil?
+			puts dial.value
+		end
+		
 		private
 		
 		def init_level
@@ -370,9 +378,11 @@ module RSokoban::UI
 			
 			file = TkMenu.new(menubar)
 			window = TkMenu.new(menubar)
+			options = TkMenu.new(menubar)
 			helpm = TkMenu.new(menubar)
 			menubar.add :cascade, :menu => file, :label => 'File'
 			menubar.add :cascade, :menu => window, :label => 'Window'
+			menubar.add :cascade, :menu => options, :label => 'Options'
 			menubar.add :cascade, :menu => helpm, :label => 'Help'
 			
 			file.add :command, :label => 'Load level', :command => proc{object_root.load_level}, :accelerator => 'Ctrl+L'
@@ -389,6 +399,8 @@ module RSokoban::UI
 			window.add :command, :label => 'Scroll right', :command => proc{object_root.scroll_right}, :accelerator => 'Ctrl+Right'
 			window.add :command, :label => 'Scroll up', :command => proc{object_root.scroll_up}, :accelerator => 'Ctrl+Up'
 			window.add :command, :label => 'Scroll down', :command => proc{object_root.scroll_down}, :accelerator => 'Ctrl+Down'
+			
+			options.add :command, :label => 'Change skin...', :command => proc{object_root.change_skin}
 			
 			helpm.add :command, :label => 'Help', :command => proc{object_root.help}, :accelerator => 'F1'
 			helpm.add :separator

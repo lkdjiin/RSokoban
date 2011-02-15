@@ -69,6 +69,97 @@ module RSokoban::UI
 		end
 	end
 	
+	# As dialog box, I allow the user to select a skin.
+	# @since 0.76
+	class SkinDialog < TkToplevel
+		include RSokoban
+		
+		def initialize(root, title)
+			super(root)
+			title(title)
+			width(300)
+			height(400)
+			@state = 'CANCEL'
+			grab
+			self['resizable'] = false, false
+			
+			@skins = Skin.new.list_skins
+			$listval = TkVariable.new(@skins)
+			@value = @skins[0]
+			
+			# A frame for the listbox
+			@frame_north = TkFrame.new(self) do
+				grid(:row => 0, :column => 0, :columnspan => 2, :sticky => :we)
+				padx 10
+				pady 10
+			end
+			
+			@list = TkListbox.new(@frame_north) do
+				width 40
+			 	height 8
+			 	listvariable $listval
+			 	grid(:row => 0, :column => 0, :sticky => :we)
+			end
+			
+			#@list.bind '<ListboxSelect>', proc{ show_description }
+			@list.bind 'Double-1', proc{ ok_on_clic }
+			@list.bind 'Return', proc{ ok_on_clic }
+
+			
+			scroll = TkScrollbar.new(@frame_north) do
+				orient 'vertical'
+				grid(:row => 0, :column => 1, :sticky => :ns)
+			end
+
+			@list.yscrollcommand(proc { |*args| scroll.set(*args) })
+			scroll.command(proc { |*args| @list.yview(*args) })
+			
+			# The buttons
+			@ok = TkButton.new(self) do
+				text 'OK'
+				grid(:row => 2, :column => 0)
+				default :active
+			end
+			@ok.command { ok_on_clic }
+			
+			@cancel = TkButton.new(self) do
+				text 'Cancel'
+				grid(:row => 2, :column => 1)
+			end
+			@cancel.command { cancel_on_clic }
+			
+			@list.focus
+			wait_destroy
+		end
+		
+		# @return true if user clicked the OK button
+		def ok?
+			@state == 'OK'
+		end
+		
+		# @return [String] the name of the set
+		def value
+			@value
+		end
+		
+		private
+		
+		def ok_on_clic
+			@state = 'OK'
+			idx = @list.curselection
+			unless idx.empty?
+				@value = @skins[idx[0]]
+			end
+			destroy
+		end
+		
+		def cancel_on_clic
+			@state = 'CANCEL'
+			destroy
+		end
+		
+	end
+	
 	# As dialog box, I allow the user to choose a set name.
 	class SetDialog < TkToplevel
 		include RSokoban
