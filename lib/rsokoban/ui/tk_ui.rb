@@ -355,13 +355,40 @@ module RSokoban::UI
 		end
 		
 		def load_skin dir
-			images = [:wall, :crate, :floor, :store, :man_up, :man_down, :man_left, :man_right, :crate_store,
-			:man_store_up, :man_store_down, :man_store_left, :man_store_right]
+			images = [:wall, :crate, :floor, :store, :crate_store]
 			images.each do |image|
 				@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
 			end
-			
 			@images[:outside] =TkPhotoImage.new('file' => File.join(dir, 'outside.bmp'), 'height' => 0, 'width' => 0)
+			
+			# The man
+			man_file = File.join(dir, 'man.bmp')
+			if File.exist?(man_file)
+				@images[:man_up] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_down] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_left] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_right] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+			else
+				images = [:man_up, :man_down, :man_left, :man_right]
+				images.each do |image|
+					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				end
+			end
+			
+			# The man on storage
+			man_file = File.join(dir, 'man_store.bmp')
+			if File.exist?(man_file)
+				@images[:man_store_up] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_store_down] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_store_left] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_store_right] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+			else
+				images = [:man_store_up, :man_store_down, :man_store_left, :man_store_right]
+				images.each do |image|
+					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				end
+			end
+			
 		end
 		
 	end

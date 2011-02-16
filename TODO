@@ -5,11 +5,10 @@ ok* create ~/.rsokoban/record at program starting if it doesn't exist
 
 
 * skinning
-  + 2/3 skins shipped with the software
-  + deployment of new skins in ~/.rsokoban/skins
-	+ menu to load a skin that lists all available skins (shipped ones + added)
-  + skin as multiple files
-	+ skin as one big file
+ok  + 2/3 skins shipped with the software
+ok  + deployment of new skins in ~/.rsokoban/skins
+ok	+ menu to load a skin that lists all available skins (shipped ones + added)
+ok  + skin as multiple files
 	+ support for multiple wall images
   + several size of tiles or resizing ?
 

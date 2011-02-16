@@ -6,9 +6,10 @@ class TC_Skin < Test::Unit::TestCase
 	end
 	
 	def test_list_all_skins
-		sk = UI::Skin.new
-		expected = ["AntiqueDesk", "default"]
-		assert_equal expected, sk.list_skins
+		list = UI::Skin.new.list_skins
+		["Sokodroid", "default"].each do |item|
+			assert list.include? item
+		end
 	end
 	
 	def test_get_path_of_a_skin_dir

@@ -5,6 +5,7 @@ module RSokoban::UI
 	
 		def initialize
 			@path = File.join($RSOKOBAN_PATH, 'skins/')
+			@path_home = File.expand_path("~/.rsokoban/skins/")
 		end
 	
 		def list_skins
@@ -14,11 +15,22 @@ module RSokoban::UI
 				next if ['.', '..'].include? item
 				ret.push item
 			end
+			
+			if File.exist? @path_home
+				dir = Dir.new @path_home
+				dir.each do |item|
+					next if ['.', '..'].include? item
+					ret.push item
+				end
+			end
+			
 			ret
 		end
 		
 		def path_of_skin dirname
 			ret = File.join(@path, dirname)
+			return ret if File.directory? ret
+			ret = File.join(@path_home, dirname)
 			raise ArgumentError unless File.directory? ret
 			ret
 		end
