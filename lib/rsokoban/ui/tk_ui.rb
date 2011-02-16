@@ -170,16 +170,18 @@ module RSokoban::UI
 			(0...height).each {|idx| @y_bounds.push idx * @cell_size}
 		end
 		
+		# @todo no needs to update wall tiles
 		def display update_locations
 			return if man_goes_offscreen?
-			
+			map = window
 			update_locations.each do |x, y|
 				next if y >= @top_window + MAP_HEIGHT
 				next if x >= @left_window + MAP_WIDTH
 				next if x < 0 or y < 0
 				# I think there should be something wrong with the tests above.
 				# Else I don't need the two following tests.
-				row = window[y]
+				#row = window[y]
+				row = map[y]
 				next if row.nil?
 				cell = row[x]
 				next if cell.nil?
@@ -253,7 +255,7 @@ module RSokoban::UI
 		
 		def display_cell_taking_care_of_content char, x_coord, y_coord
 			case char
-				when WALL then render_wall x_coord, y_coord #render_cell :wall, x_coord, y_coord
+				when WALL then render_wall x_coord, y_coord
 				when FLOOR then render_cell :floor, x_coord, y_coord
 				when CRATE then render_cell :crate, x_coord, y_coord
 				when STORAGE then render_cell :store, x_coord, y_coord
@@ -263,6 +265,8 @@ module RSokoban::UI
 			end
 		end
 		
+		# taking care of neighbors
+		# @todo this is truly a poorly design method
 		def render_wall x, y
 			up_down_left_right = []
 			near = [[x,y-1], [x,y+1], [x-1,y], [x+1,y]]
@@ -387,6 +391,7 @@ module RSokoban::UI
 			end
 		end
 		
+		# @todo Let the Skin class to give the list of image's names.
 		def load_skin dir
 			@cell_size = Skin.new.size_of dir
 			images = [:crate, :floor, :store, :crate_store]
