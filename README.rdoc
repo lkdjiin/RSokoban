@@ -47,14 +47,9 @@ If you prefer using rake to build and install:
 
 <b>Second method</b>
 Or install via RubyGem in one command (you need ruby 1.9 or higher).
-Note that I don't certify you will get the latest release:
+<em>Note that I don't certify you will get the latest release</em>:
 
  gem install RSokoban
-
-<b>Third method</b>
-Or you can play without installing it. Go to the RSokoban/bin folder and type:
-
- ./rsokoban
 
 
 == Questions and/or Comments
