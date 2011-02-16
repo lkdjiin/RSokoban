@@ -1,3 +1,5 @@
+require "yaml"
+
 module RSokoban::UI
 
 	# @since 0.76
@@ -33,6 +35,11 @@ module RSokoban::UI
 			ret = File.join(@path_home, dirname)
 			raise ArgumentError unless File.directory? ret
 			ret
+		end
+		
+		def size_of full_path_dir
+			conf = YAML.load_file File.join(full_path_dir, 'skin.conf')
+			conf['size']
 		end
 		
 	end

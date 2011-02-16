@@ -17,8 +17,6 @@ module RSokoban::UI
 		MAP_WIDTH = 19
 		# Number of maximum displayed cells in a column
 		MAP_HEIGHT = 16
-		# Cell size in pixels, a cell is a square
-		CELL_SIZE = 30
 		
 		# Build and initialize a GUI with the Tk tool kit.
 		# @param [Game] game Where we get the logic.
@@ -28,7 +26,7 @@ module RSokoban::UI
 			@images = {}
 			@x_bounds = []
 			@y_bounds = []
-			
+			@cell_size = 30
 			init_root
 			Menu.new(@tk_root, self)
 			@tk_frame_label = FrameOfLabels.new @tk_root
@@ -144,8 +142,7 @@ module RSokoban::UI
 			return unless dial.ok?
 			return if dial.value.nil?
 			load_skin dial.value
-			reset_map
-			display_initial
+			init_level
 		end
 		
 		private
@@ -155,7 +152,7 @@ module RSokoban::UI
 			compute_bounds width, height
 			@top_window = @left_window = 0
 			@tk_frame_label.reset_labels @game
-			@tk_frame_render.geometry width, height
+			@tk_frame_render.geometry width, height, @cell_size
 			reset_map
 			display_initial
 		end
@@ -168,9 +165,9 @@ module RSokoban::UI
 		
 		def compute_bounds width, height
 			@x_bounds = []
-			(0...width).each {|idx| @x_bounds.push idx * CELL_SIZE}
+			(0...width).each {|idx| @x_bounds.push idx * @cell_size}
 			@y_bounds = []
-			(0...height).each {|idx| @y_bounds.push idx * CELL_SIZE}
+			(0...height).each {|idx| @y_bounds.push idx * @cell_size}
 		end
 		
 		def display update_locations
@@ -296,15 +293,15 @@ module RSokoban::UI
 		# Let FrameRender build an image to render game in.
 		# @todo we don't need the @render member.
 		def init_map						
-			@tk_frame_render = FrameRender.new @tk_root
+			@tk_frame_render = FrameRender.new @tk_root, @cell_size
 			@render = @tk_frame_render.render
 			reset_map
 		end
 		
 		# Reset all the map with 'outside' tile.
 		def reset_map
-			width = MAP_WIDTH * CELL_SIZE - 1
-			height = MAP_HEIGHT * CELL_SIZE - 1
+			width = MAP_WIDTH * @cell_size - 1
+			height = MAP_HEIGHT * @cell_size - 1
 			@render.copy(@images[:outside], :to => [0, 0, width, height])
 		end
 		
@@ -355,37 +352,38 @@ module RSokoban::UI
 		end
 		
 		def load_skin dir
+			@cell_size = Skin.new.size_of dir
 			images = [:wall, :crate, :floor, :store, :crate_store]
 			images.each do |image|
-				@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
 			end
 			@images[:outside] =TkPhotoImage.new('file' => File.join(dir, 'outside.bmp'), 'height' => 0, 'width' => 0)
 			
 			# The man
 			man_file = File.join(dir, 'man.bmp')
 			if File.exist?(man_file)
-				@images[:man_up] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
-				@images[:man_down] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
-				@images[:man_left] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
-				@images[:man_right] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_up] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
+				@images[:man_down] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
+				@images[:man_left] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
+				@images[:man_right] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
 			else
 				images = [:man_up, :man_down, :man_left, :man_right]
 				images.each do |image|
-					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
 				end
 			end
 			
 			# The man on storage
 			man_file = File.join(dir, 'man_store.bmp')
 			if File.exist?(man_file)
-				@images[:man_store_up] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
-				@images[:man_store_down] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
-				@images[:man_store_left] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
-				@images[:man_store_right] =TkPhotoImage.new('file' => man_file, 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+				@images[:man_store_up] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
+				@images[:man_store_down] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
+				@images[:man_store_left] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
+				@images[:man_store_right] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
 			else
 				images = [:man_store_up, :man_store_down, :man_store_left, :man_store_right]
 				images.each do |image|
-					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => CELL_SIZE, 'width' => CELL_SIZE)
+					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
 				end
 			end
 			
@@ -446,7 +444,7 @@ module RSokoban::UI
 	class FrameRender
 		attr_reader :render
 		
-		def initialize tk_root
+		def initialize tk_root, cell_size
 			@frame = Tk::Tile::Frame.new(tk_root) do
 				grid(:row => 2, :column => 0, :sticky => 'w')
 				padding 5
@@ -455,17 +453,13 @@ module RSokoban::UI
 			@render_label = TkLabel.new(@frame) do
 				grid(:row => 0, :column => 0, :padx => 0, :pady => 0, :ipadx => 0, :ipady => 0)
 			end
-			#@render_label[:height] = TkUI::MAP_HEIGHT * TkUI::CELL_SIZE
-			#@render_label[:width] = TkUI::MAP_WIDTH * TkUI::CELL_SIZE
-			@render = TkPhotoImage.new(:height => TkUI::MAP_HEIGHT * TkUI::CELL_SIZE, :width => TkUI::MAP_WIDTH * TkUI::CELL_SIZE)
+			@render = TkPhotoImage.new(:height => TkUI::MAP_HEIGHT * cell_size, :width => TkUI::MAP_WIDTH * cell_size)
 			@render_label .configure(:image => @render)
 		end
 		
-		def geometry width_in_cells, height_in_cells
-			@render[:height] = height_in_cells * TkUI::CELL_SIZE
-			@render[:width] = width_in_cells * TkUI::CELL_SIZE
-			#@render_label[:height] = height_in_cells * TkUI::CELL_SIZE
-			#@render_label[:width] = width_in_cells * TkUI::CELL_SIZE
+		def geometry width_in_cells, height_in_cells, cell_size
+			@render[:height] = height_in_cells * cell_size
+			@render[:width] = width_in_cells * cell_size
 		end
 		
 	end

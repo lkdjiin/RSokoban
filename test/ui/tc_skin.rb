@@ -24,5 +24,11 @@ class TC_Skin < Test::Unit::TestCase
 			sk.path_of_skin('unknown')
 		end
 	end
+	
+	def test_size_of_a_skin
+		sk = UI::Skin.new
+		full_path_dir = File.join($RSOKOBAN_PATH, 'skins', 'default')
+		assert_equal 30, sk.size_of(full_path_dir)
+	end
 
 end

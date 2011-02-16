@@ -10,7 +10,8 @@ ok  + deployment of new skins in ~/.rsokoban/skins
 ok	+ menu to load a skin that lists all available skins (shipped ones + added)
 ok  + skin as multiple files
 	+ support for multiple wall images
-  + several size of tiles or resizing ?
+ok  + a skin contains only one size of tiles
+	+ sort the list of skins
 
 * Options to retain
   + Allow user to specify the max size of the map on screen in cells (default 19x16)
