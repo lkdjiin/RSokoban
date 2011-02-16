@@ -253,13 +253,49 @@ module RSokoban::UI
 		
 		def display_cell_taking_care_of_content char, x_coord, y_coord
 			case char
-				when WALL then render_cell :wall, x_coord, y_coord
+				when WALL then render_wall x_coord, y_coord #render_cell :wall, x_coord, y_coord
 				when FLOOR then render_cell :floor, x_coord, y_coord
 				when CRATE then render_cell :crate, x_coord, y_coord
 				when STORAGE then render_cell :store, x_coord, y_coord
 				when MAN then display_man_at x_coord, y_coord
 				when MAN_ON_STORAGE then display_man_on_storage_at x_coord, y_coord
 				when CRATE_ON_STORAGE then render_cell :crate_store, x_coord, y_coord
+			end
+		end
+		
+		def render_wall x, y
+			up_down_left_right = []
+			near = [[x,y-1], [x,y+1], [x-1,y], [x+1,y]]
+			map = window
+			near.each do |xx, yy|
+				if map[yy].nil? or yy < 0
+					up_down_left_right << false 
+				elsif map[yy][xx].nil? or xx < 0
+					up_down_left_right << false 
+				elsif map[yy][xx].chr == WALL
+					up_down_left_right << true 
+				else
+					up_down_left_right << false 
+				end
+			end
+			
+			case up_down_left_right
+				when [false, false, false, false] then render_cell :wall, x, y
+				when [true, false, false, false] then render_cell :wall_u, x, y
+				when [false, true, false, false] then render_cell :wall_d, x, y
+				when [false, false, true, false] then render_cell :wall_l, x, y
+				when [false, false, false, true] then render_cell :wall_r, x, y
+				when [true, true, false, false] then render_cell :wall_ud, x, y
+				when [true, false, true, false] then render_cell :wall_ul, x, y
+				when [true, false, false, true] then render_cell :wall_ur, x, y
+				when [false, true, true, false] then render_cell :wall_dl, x, y
+				when [false, true, false, true] then render_cell :wall_dr, x, y
+				when [false, false, true, true] then render_cell :wall_lr, x, y
+				when [true, true, true, false] then render_cell :wall_udl, x, y
+				when [true, true, false, true] then render_cell :wall_udr, x, y
+				when [true, false, true, true] then render_cell :wall_ulr, x, y
+				when [false, true, true, true] then render_cell :wall_dlr, x, y
+				when [true, true, true, true] then render_cell :wall_udlr, x, y
 			end
 		end
 		
@@ -353,7 +389,7 @@ module RSokoban::UI
 		
 		def load_skin dir
 			@cell_size = Skin.new.size_of dir
-			images = [:wall, :crate, :floor, :store, :crate_store]
+			images = [:crate, :floor, :store, :crate_store]
 			images.each do |image|
 				@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
 			end
@@ -387,6 +423,19 @@ module RSokoban::UI
 				end
 			end
 			
+			# The wall
+			wall_test_file = File.join(dir, 'wall_d.bmp')
+			images = [:wall, :wall_d, :wall_dl, :wall_dlr, :wall_dr, :wall_l, :wall_lr, :wall_r,
+				        :wall_u, :wall_ud, :wall_udl, :wall_udlr, :wall_udr, :wall_ul, :wall_ulr, :wall_ur]
+			if File.exist?(wall_test_file)
+				images.each do |image|
+					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
+				end
+			else
+				images.each do |image|
+					@images[image] =TkPhotoImage.new('file' => File.join(dir, 'wall.bmp'), 'height' => @cell_size, 'width' => @cell_size)
+				end
+			end
 		end
 		
 	end
