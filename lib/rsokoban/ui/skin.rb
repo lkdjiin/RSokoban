@@ -26,7 +26,7 @@ module RSokoban::UI
 				end
 			end
 			
-			ret
+			ret.sort
 		end
 		
 		def path_of_skin dirname
