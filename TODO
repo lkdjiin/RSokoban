@@ -15,10 +15,12 @@ ok	+ sort the list of skins
 
 * Options to retain
   + Allow user to specify the max size of the map on screen in cells (default 19x16)
-	+ skin
+ok	+ skin
 	+ set/level at program closing => start from here at opening
 
 ok* Give a try to Tk::Tile
+
+* set deployment
 
 -------------------------------------------------------
 Think about:

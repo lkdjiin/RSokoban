@@ -24,6 +24,10 @@ $RSOKOBAN_DATA_PATH = File.expand_path(File.dirname(__FILE__) + '/../data')
 
 require 'rsokoban'
 
+unless File.exist? File.join(RSokoban::CONFIG_FOLDER, RSokoban::CONFIG_FILE)
+	RSokoban::Install.create_config RSokoban::CONFIG_FOLDER
+end
+
 unless File.exist? RSokoban::RECORD_FOLDER
 	RSokoban::Install.create_folder RSokoban::RECORD_FOLDER
 end

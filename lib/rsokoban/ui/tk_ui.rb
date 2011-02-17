@@ -30,7 +30,12 @@ module RSokoban::UI
 			init_root
 			Menu.new(@tk_root, self)
 			@tk_frame_label = FrameOfLabels.new @tk_root
-			load_skin File.join($RSOKOBAN_PATH, 'skins', 'default')
+			
+			config = Config.new
+			skin_name = config['skin']
+			load_skin Skin.new.path_of_skin skin_name
+			
+			#load_skin File.join($RSOKOBAN_PATH, 'skins', 'default')
 			init_map
 			@tk_frame_button = FrameOfButtons.new @tk_root
 			make_binding
@@ -142,6 +147,8 @@ module RSokoban::UI
 			return unless dial.ok?
 			return if dial.value.nil?
 			load_skin dial.value
+			conf = Config.new
+			conf['skin'] = File.basename dial.value
 			init_level
 		end
 		

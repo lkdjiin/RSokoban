@@ -17,6 +17,7 @@ require "rsokoban/game"
 require "rsokoban/layered_map"
 require "rsokoban/record"
 require "rsokoban/install"
+require "rsokoban/config"
 
 # I am the main module of the game.
 module RSokoban	
@@ -30,6 +31,11 @@ module RSokoban
 	MAN_ON_STORAGE = '+'
 	CRATE_ON_STORAGE = '*'
 	OUTSIDE = 'o'
+	
+	# config files will go in this folder
+	CONFIG_FOLDER = File.expand_path "~/.rsokoban"
+	# primary config file
+	CONFIG_FILE = 'config'
 	
 	# Record files will go in this folder
 	RECORD_FOLDER = File.expand_path "~/.rsokoban/record"
