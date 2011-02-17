@@ -3,6 +3,13 @@ version 0.76  2011-
   * All UIs
     + save/display score
 
+  * Tk GUI
+    + you can change the skin
+    + 3 skins shipped with the software
+    + you can add your own skins
+    + skins are of any size
+    + better integration of Tk (new dependence: tk-tile library)
+
 
 version 0.75.1  2011-02-12
 
