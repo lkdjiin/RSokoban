@@ -5,14 +5,16 @@ module RSokoban
 	# @since 0.74.1
 	module Game
 		# @return [Fixnum]
-		attr_reader :level_number
+		attr_reader :level_number, :set_name
 
 		# Construct a new game that you can later run.
 		# @param [UI] the user interface associated to this game
 		# @param [String] setname The set of levels to begin with
 		def initialize ui, setname = 'microban.xsb'
+			@set_name = setname
 			@level_loader = SetLoader.new setname
-			@level_number = 1
+			conf = Config.new
+			@level_number = conf['level']
 			@ui = ui
 		end
 		
@@ -122,9 +124,10 @@ module RSokoban
 		# Load a new set of levels and start its first level.
 		# @param [String] setname the name of the set (with .xsb extension)
 		def load_a_new_set setname 
-				@level_loader = SetLoader.new setname
-				@level_number = 1
-				@level = @level_loader.level(@level_number)
+			@set_name = setname
+			@level_loader = SetLoader.new setname
+			@level_number = 1
+			@level = @level_loader.level(@level_number)
 		end
 		
 		# Get record for current level (in # of moves)

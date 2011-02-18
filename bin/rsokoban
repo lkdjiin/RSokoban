@@ -77,20 +77,30 @@ if option[:ui] == :curses
 	end
 end
 
+# Find last set
+conf = RSokoban::Config.new
+last_set = conf['set']
+conf = nil # to be GCed ?
+
 case option[:ui]
 	when :curses
 		require "rsokoban/ui/curses_console"
 		ui = RSokoban::UI::CursesConsole.new
-		game = RSokoban::GameFactory.create RSokoban::GameCurses, ui
+		game = RSokoban::GameFactory.create RSokoban::GameCurses, ui, last_set
 	when :portable
 		require "rsokoban/ui/console"
 		ui = RSokoban::UI::Console.new
-		game = RSokoban::GameFactory.create RSokoban::GamePortable, ui
+		game = RSokoban::GameFactory.create RSokoban::GamePortable, ui, last_set
 	when :tk
 		require "rsokoban/ui/tk_ui"
 		require "rsokoban/ui/tk_dialogs"
-		game = RSokoban::GameFactory.create RSokoban::GameTk, 'fake ui'
+		game = RSokoban::GameFactory.create RSokoban::GameTk, 'fake ui', last_set
 		game.ui = RSokoban::UI::TkUI.new(game)
+end
+
+at_exit do
+	conf = RSokoban::Config.new
+	conf.save_set_and_level game.set_name, game.level_number
 end
 
 game.run

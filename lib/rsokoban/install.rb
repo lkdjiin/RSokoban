@@ -11,7 +11,7 @@ module RSokoban
 		
 		def self.create_config path
 			self.create_folder path
-			config = {'skin' => 'BlueGranite'}
+			config = {'skin' => 'BlueGranite', 'set' => 'microban.xsb', 'level' => 1}
 			f = File.new(File.join(path, 'config'), "w")
 			f.write config.to_yaml
 			f.close
