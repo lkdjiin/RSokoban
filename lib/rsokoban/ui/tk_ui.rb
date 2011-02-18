@@ -400,53 +400,10 @@ module RSokoban::UI
 		
 		# @todo Let the Skin class to give the list of image's names.
 		def load_skin dir
-			@cell_size = Skin.new.size_of dir
-			images = [:crate, :floor, :store, :crate_store]
-			images.each do |image|
-				@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
-			end
-			@images[:outside] =TkPhotoImage.new('file' => File.join(dir, 'outside.bmp'), 'height' => 0, 'width' => 0)
-			
-			# The man
-			man_file = File.join(dir, 'man.bmp')
-			if File.exist?(man_file)
-				@images[:man_up] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-				@images[:man_down] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-				@images[:man_left] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-				@images[:man_right] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-			else
-				images = [:man_up, :man_down, :man_left, :man_right]
-				images.each do |image|
-					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
-				end
-			end
-			
-			# The man on storage
-			man_file = File.join(dir, 'man_store.bmp')
-			if File.exist?(man_file)
-				@images[:man_store_up] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-				@images[:man_store_down] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-				@images[:man_store_left] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-				@images[:man_store_right] =TkPhotoImage.new('file' => man_file, 'height' => @cell_size, 'width' => @cell_size)
-			else
-				images = [:man_store_up, :man_store_down, :man_store_left, :man_store_right]
-				images.each do |image|
-					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
-				end
-			end
-			
-			# The wall
-			wall_test_file = File.join(dir, 'wall_d.bmp')
-			images = [:wall, :wall_d, :wall_dl, :wall_dlr, :wall_dr, :wall_l, :wall_lr, :wall_r,
-				        :wall_u, :wall_ud, :wall_udl, :wall_udlr, :wall_udr, :wall_ul, :wall_ulr, :wall_ur]
-			if File.exist?(wall_test_file)
-				images.each do |image|
-					@images[image] =TkPhotoImage.new('file' => File.join(dir, image.to_s + '.bmp'), 'height' => @cell_size, 'width' => @cell_size)
-				end
-			else
-				images.each do |image|
-					@images[image] =TkPhotoImage.new('file' => File.join(dir, 'wall.bmp'), 'height' => @cell_size, 'width' => @cell_size)
-				end
+			skin = Skin.new
+			@cell_size = skin.size_of dir
+			skin.filenames(dir).each do |key, value|
+				@images[key] = TkPhotoImage.new('file' => value)
 			end
 		end
 		

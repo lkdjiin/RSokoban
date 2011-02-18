@@ -40,9 +40,10 @@ class TC_GameUI < Test::Unit::TestCase
 	
 	### Test module Game trough module GameUI ####################################
 	
-	def test_level_width
-		assert_equal 19, @game.level_width
-	end
+	# must create a fake config file to test this
+	#~ def test_level_width
+		#~ assert_equal 19, @game.level_width
+	#~ end
 	
 	# must create a fake config file to test this
 	#~ def test_level_height
