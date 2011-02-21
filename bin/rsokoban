@@ -34,8 +34,11 @@ end
 
 tk_failed=<<EOS
 Sorry, failed to load tk or tkimg library.
-Please, be sure that libtcltk-ruby and libtk-img are correctly installed on
-your system.
+Please, be sure that:
+  libtcltk-ruby
+  libtk-img
+  tk-tile
+are correctly installed on your system.
 Now trying to start with curses library:
   rsokoban --curses
 

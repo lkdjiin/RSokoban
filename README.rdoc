@@ -5,29 +5,38 @@ I wrote this program just to improve my skills in Ruby with GUI.
 
 *Features*
 * Graphical user interface with Tk
-* Two console user interfaces (curses and straight text mode)
+* Skinning
 * 200+ levels
 * Undo/redo
 * Use xsb file format to load sets of levels
+* Additional console user interfaces (curses and straight text mode)
 
 Enjoy the game.
 
 
 == Documentation
 
-Players can look at {the wiki}[https://github.com/lkdjiin/RSokoban/wiki].
-
-Developpers can look at Level, Game and TkUI.
+Look at {the wiki}[https://github.com/lkdjiin/RSokoban/wiki].
 
 
-== Dependencies
+== Installing
 
-Ruby >= 1.8.7
+=== Installing dependencies
+
+You need Ruby >= 1.8.7
+
+To play with the graphical user interface you need to be sre that the following
+packages are installed on your system:
+
+* libtcltk-ruby
+* libtk-img
+* tk-tile
 
 
-== Installing RSokoban
+=== Installing RSokoban
 
-<b>First method</b>
+<b>First method, install from the sources</b>
+This is the method I recommend.
 To install RSokoban from the source, go to the RSokoban folder and build the gem:
 
  gem build rsokoban.gemspec
@@ -51,6 +60,9 @@ Or install via RubyGem in one command (you need ruby 1.9 or higher).
 
  gem install RSokoban
 
+== Licence
+
+GPLv3
 
 == Questions and/or Comments
 
