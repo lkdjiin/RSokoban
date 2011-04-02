@@ -1,4 +1,5 @@
 .yardoc/
 reek.txt
 reek.sed
-profile.txt
+*.gem
+*.json

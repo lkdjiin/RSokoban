@@ -63,7 +63,7 @@ if option[:ui] == :tk
 		require 'tk'
 		require 'tkextlib/tkimg'
 		require 'tkextlib/tile'
-	rescue LoadError => e
+  rescue LoadError, RuntimeError
 		puts tk_failed
 		option.interface = :curses
 	end
@@ -74,7 +74,7 @@ end
 if option[:ui] == :curses
 	begin
 		require 'curses'
-	rescue LoadError => e
+	rescue LoadError, RuntimeError
 		puts curses_failed
 		exit
 	end
